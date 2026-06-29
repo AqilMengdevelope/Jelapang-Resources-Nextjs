@@ -107,6 +107,12 @@ export const MailIcon = (p: IconProps) => (
   </svg>
 );
 
+export const ChevronDown = (p: IconProps) => (
+  <svg {...base} {...p} width={16} height={16}>
+    <path d="M6 9l6 6 6-6" />
+  </svg>
+);
+
 export const ChevronLeft = (p: IconProps) => (
   <svg {...base} {...p} width={22} height={22}>
     <path d="M15 6l-6 6 6 6" />

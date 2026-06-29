@@ -15,9 +15,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Jelapang Resources — Defence, Rail & IT Engineering Solutions",
+  title: "Jelapang Resources — Military, Railway & IT Engineering Solutions",
   description:
-    "Jelapang Resources Sdn. Bhd. is a Malaysian Bumiputera-owned engineering and supply specialist delivering world-class technologies across Defence, Rail and IT for government and industry.",
+    "Jelapang Resources Sdn. Bhd. is a Malaysian Bumiputera-owned engineering and supply specialist delivering world-class technologies across Military, Railway and IT for government and industry.",
   keywords: [
     "Jelapang Resources",
     "defence supplier Malaysia",
@@ -27,9 +27,9 @@ export const metadata: Metadata = {
     "military equipment supply Malaysia",
   ],
   openGraph: {
-    title: "Jelapang Resources — Defence, Rail & IT Engineering Solutions",
+    title: "Jelapang Resources — Military, Railway & IT Engineering Solutions",
     description:
-      "World-class technologies and technical services across Defence, Rail and IT for Malaysia's government and industrial sectors.",
+      "World-class technologies and technical services across Military, Railway and IT for Malaysia's government and industrial sectors.",
     type: "website",
   },
 };

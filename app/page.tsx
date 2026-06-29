@@ -28,7 +28,7 @@ const capabilities = [
   {
     id: "defence",
     no: "01",
-    title: "Defence",
+    title: "Military",
     tag: "Defence & Security",
     image:
       "https://images.unsplash.com/photo-1579912437766-7896df6d3cd3?fm=jpg&q=80&w=1600&auto=format&fit=crop",
@@ -45,7 +45,7 @@ const capabilities = [
   {
     id: "rail",
     no: "02",
-    title: "Rail",
+    title: "Railway",
     tag: "Rolling Stock & Infrastructure",
     image:
       "https://images.unsplash.com/photo-1580442374555-3def8fb41738?fm=jpg&q=80&w=1600&auto=format&fit=crop",
@@ -313,7 +313,7 @@ export default function Home() {
             <div className="cta-inner">
               <Reveal>
                 <span className="kicker">Let&apos;s Talk</span>
-                <h2>Have a defence, rail or IT requirement?</h2>
+                <h2>Have a military, railway or IT requirement?</h2>
                 <p>
                   Tell us about your programme. Our technical team will respond
                   with a tailored capability briefing and the right global
@@ -350,15 +350,15 @@ export default function Home() {
                 </a>
                 <p>
                   A Malaysian Bumiputera-owned engineering and supply specialist
-                  delivering world-class technology across Defence, Rail and IT.
+                  delivering world-class technology across Military, Railway and IT.
                 </p>
               </div>
 
               <div>
                 <h4>Sectors</h4>
                 <ul>
-                  <li><a href="#defence">Defence</a></li>
-                  <li><a href="#rail">Rail</a></li>
+                  <li><a href="#defence">Military</a></li>
+                  <li><a href="#rail">Railway</a></li>
                   <li><a href="#it">IT</a></li>
                   <li><a href="#partners">Partners</a></li>
                 </ul>
@@ -402,7 +402,7 @@ export default function Home() {
                 © {new Date().getFullYear()} Jelapang Resources Sdn. Bhd.
                 (1405795-V). All rights reserved.
               </span>
-              <span>Defence · Rail · IT — Kuala Lumpur, Malaysia</span>
+              <span>Military · Railway · IT — Kuala Lumpur, Malaysia</span>
             </div>
           </div>
         </footer>

@@ -39,7 +39,7 @@ const slides: Slide[] = [
     tag: "A Strategic Partner",
     title: (
       <>
-        Trusted across <span className="hl">defence, rail &amp; IT</span>
+        Trusted across <span className="hl">military, railway &amp; IT</span>
       </>
     ),
     sub: "Engineering, supply and lifecycle support for mission-critical assets — backed by renowned global technology partners.",
