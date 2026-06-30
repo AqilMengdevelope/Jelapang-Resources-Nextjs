@@ -976,6 +976,7 @@ h4 {
   content: "";
   position: absolute;
   inset: 0;
+  pointer-events: none;
   background-image: linear-gradient(
       rgba(255, 255, 255, 0.035) 1px,
       transparent 1px
