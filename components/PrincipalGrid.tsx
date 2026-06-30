@@ -21,7 +21,7 @@ export default function PrincipalGrid({
           >
             <span className="pc-logo">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={principalLogo(p.slug)} alt={`${p.name} logo`} loading="lazy" />
+              <img src={p.logo ?? principalLogo(p.slug)} alt={`${p.name} logo`} loading="lazy" />
             </span>
             <span className="pc-origin">{p.origin}</span>
             <span className="pc-name">{p.name}</span>

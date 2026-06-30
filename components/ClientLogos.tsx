@@ -1,23 +1,24 @@
-const clients = [
-  { src: "/clients/army.png", name: "Malaysian Army" },
-  { src: "/clients/navy.png", name: "Royal Malaysian Navy" },
-  { src: "/clients/airforce.png", name: "Royal Malaysian Air Force" },
-  { src: "/clients/police.png", name: "Royal Malaysia Police" },
-  { src: "/clients/mmea.png", name: "Maritime Enforcement Agency" },
-];
+import { fallbackClients, type TrustedClient } from "@/data/clients";
 
-export default function ClientLogos() {
+type Props = {
+  clients?: TrustedClient[];
+};
+
+export default function ClientLogos({ clients = fallbackClients }: Props) {
   return (
     <div className="client-logos">
-      {clients.map((c) => (
-        <div className="client-logo" key={c.name} title={c.name}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={c.src} alt={c.name} />
-        </div>
-      ))}
-      <div className="client-badge" title="Eastern Sabah Security Command">
-        ESSCOM
-      </div>
+      {clients.map((client) =>
+        client.type === "badge" ? (
+          <div className="client-badge" key={client.slug} title={client.name}>
+            {client.badgeText ?? client.name}
+          </div>
+        ) : (
+          <div className="client-logo" key={client.slug} title={client.name}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={client.logo ?? `/clients/${client.slug}.png`} alt={client.name} />
+          </div>
+        )
+      )}
     </div>
   );
 }

@@ -5,6 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MenuIcon, CloseIcon, ChevronDown, ArrowRight } from "./icons";
 
+import { site as fallbackSite } from "@/data/site";
+
 type NavItem = {
   href?: string;
   label: string;
@@ -26,7 +28,13 @@ const links: NavItem[] = [
   { href: "/contact", label: "Contact Us" },
 ];
 
-export default function Header() {
+export default function Header({
+  phoneDisplay = fallbackSite.phoneDisplay,
+  phoneHref = fallbackSite.phoneHref,
+}: {
+  phoneDisplay?: string;
+  phoneHref?: string;
+}) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
@@ -194,8 +202,8 @@ export default function Header() {
           <Link href="/contact" className="btn btn-primary" onClick={close}>
             Request a Briefing <ArrowRight width={18} height={18} />
           </Link>
-          <a href="tel:+601139552624" className="drawer-phone">
-            +60 11-3955 2624
+          <a href={phoneHref} className="drawer-phone">
+            {phoneDisplay}
           </a>
         </div>
       </aside>

@@ -9,6 +9,7 @@ export type Principal = {
   description: string;
   products: string[];
   website: string;
+  logo?: string;
 };
 
 /** Logo path for a principal (stored in /public/principals). */
