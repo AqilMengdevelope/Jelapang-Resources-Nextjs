@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Header from "@/components/Header";
+import SiteHeader from "@/components/SiteHeader";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
 import PrincipalGrid from "@/components/PrincipalGrid";
 import ClientLogos from "@/components/ClientLogos";
-import { militaryPrincipals } from "@/data/principals";
+import { getPrincipals, getSiteInfo, getClients } from "@/lib/wordpress";
 import { ArrowRight, CheckIcon } from "@/components/icons";
+import { briefingHref } from "@/data/site";
 
 export const metadata: Metadata = {
   title: "Military & Defence — Jelapang Resources",
@@ -26,10 +27,16 @@ const points = [
   "Tactical runflats & vehicle mobility systems",
 ];
 
-export default function MilitaryPage() {
+export default async function MilitaryPage() {
+  const [militaryPrincipals, site, { clients }] = await Promise.all([
+    getPrincipals("military"),
+    getSiteInfo(),
+    getClients(),
+  ]);
+
   return (
     <>
-      <Header />
+      <SiteHeader />
       <main>
         <PageHero
           kicker="Our Services"
@@ -103,7 +110,7 @@ export default function MilitaryPage() {
                 enforcement community.
               </p>
             </Reveal>
-            <ClientLogos />
+            <ClientLogos clients={clients} />
           </div>
         </section>
 
@@ -120,11 +127,11 @@ export default function MilitaryPage() {
                 </p>
               </Reveal>
               <Reveal className="cta-actions" delay={120}>
-                <Link href="/contact" className="btn btn-primary">
+                <Link href={briefingHref} className="btn btn-primary">
                   Request a Briefing <ArrowRight width={18} height={18} />
                 </Link>
-                <a href="tel:+601139552624" className="btn btn-outline">
-                  +60 11-3955 2624
+                <a href={site.phoneHref} className="btn btn-outline">
+                  {site.phoneDisplay}
                 </a>
               </Reveal>
             </div>

@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Header from "@/components/Header";
+import SiteHeader from "@/components/SiteHeader";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
 import PrincipalGrid from "@/components/PrincipalGrid";
-import { railwayPrincipals } from "@/data/principals";
+import { getPrincipals, getSiteInfo } from "@/lib/wordpress";
 import { ArrowRight, CheckIcon } from "@/components/icons";
+import { briefingHref } from "@/data/site";
 
 export const metadata: Metadata = {
   title: "Railway — Jelapang Resources",
@@ -25,10 +26,15 @@ const points = [
   "Scheduled preventive servicing & MRO",
 ];
 
-export default function RailwayPage() {
+export default async function RailwayPage() {
+  const [railwayPrincipals, site] = await Promise.all([
+    getPrincipals("railway"),
+    getSiteInfo(),
+  ]);
+
   return (
     <>
-      <Header />
+      <SiteHeader />
       <main>
         <PageHero
           kicker="Our Services"
@@ -100,11 +106,11 @@ export default function RailwayPage() {
                 </p>
               </Reveal>
               <Reveal className="cta-actions" delay={120}>
-                <Link href="/contact" className="btn btn-primary">
+                <Link href={briefingHref} className="btn btn-primary">
                   Request a Briefing <ArrowRight width={18} height={18} />
                 </Link>
-                <a href="tel:+601139552624" className="btn btn-outline">
-                  +60 11-3955 2624
+                <a href={site.phoneHref} className="btn btn-outline">
+                  {site.phoneDisplay}
                 </a>
               </Reveal>
             </div>

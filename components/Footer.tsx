@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { PinIcon, PhoneIcon, MailIcon } from "./icons";
-import { site } from "@/data/site";
+import { getSiteInfo } from "@/lib/wordpress";
 
-export default function Footer() {
+export default async function Footer() {
+  const site = await getSiteInfo();
+
   return (
     <footer className="footer">
       <div className="container">

@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import Header from "@/components/Header";
+import SiteHeader from "@/components/SiteHeader";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
 import ContactForm from "@/components/ContactForm";
 import { PinIcon, PhoneIcon, MailIcon, LayersIcon, CheckIcon } from "@/components/icons";
-import { site } from "@/data/site";
+import { getSiteInfo } from "@/lib/wordpress";
 
 export const metadata: Metadata = {
   title: "Contact Us — Jelapang Resources",
@@ -13,10 +13,12 @@ export const metadata: Metadata = {
     "Get in touch with Jelapang Resources Sdn. Bhd. — Kuala Lumpur, Malaysia. Email info@jelapangresources.com or call +60 11-3955 2624.",
 };
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const site = await getSiteInfo();
+
   return (
     <>
-      <Header />
+      <SiteHeader />
       <main>
         <PageHero
           kicker="Contact Us"
@@ -81,8 +83,7 @@ export default function ContactPage() {
           </div>
         </section>
 
-        {/* Enquiry Form */}
-        <section className="section cf-section">
+        <section className="section cf-section" id="briefing">
           <div className="container">
             <div className="cf-wrap">
               <Reveal className="cf-aside">

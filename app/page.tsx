@@ -1,11 +1,11 @@
 import Link from "next/link";
-import Header from "@/components/Header";
+import SiteHeader from "@/components/SiteHeader";
 import HeroCarousel from "@/components/HeroCarousel";
 import Reveal from "@/components/Reveal";
 import Footer from "@/components/Footer";
-import ClientLogos from "@/components/ClientLogos";
+import ClientLogosSection from "@/components/ClientLogosSection";
 import PrincipalGrid from "@/components/PrincipalGrid";
-import { principals } from "@/data/principals";
+import { getHomeStats, getPrincipals, getSiteInfo } from "@/lib/wordpress";
 import {
   ShieldIcon,
   GlobeIcon,
@@ -16,15 +16,9 @@ import {
   ArrowRight,
   CheckIcon,
 } from "@/components/icons";
+import { briefingHref } from "@/data/site";
 
 /* ---------------- Data ---------------- */
-
-const stats = [
-  { n: "2021", l: "Established" },
-  { n: "100%", l: "Bumiputera-Owned" },
-  { n: "21+", l: "Global Principals" },
-  { n: "3", l: "Core Sectors" },
-];
 
 const capabilities = [
   {
@@ -116,14 +110,21 @@ const whyUs = [
   },
 ];
 
-const featuredPrincipals = principals.slice(0, 8);
+const featuredCount = 8;
 
 /* ---------------- Page ---------------- */
 
-export default function Home() {
+export default async function Home() {
+  const [stats, allPrincipals, site] = await Promise.all([
+    getHomeStats(),
+    getPrincipals(),
+    getSiteInfo(),
+  ]);
+  const featuredPrincipals = allPrincipals.slice(0, featuredCount);
+
   return (
     <>
-      <Header />
+      <SiteHeader />
       <main>
         <HeroCarousel />
 
@@ -288,15 +289,7 @@ export default function Home() {
               </Link>
             </div>
 
-            <Reveal style={{ marginTop: 64 }}>
-              <p
-                className="section-lead on-dark"
-                style={{ textAlign: "center", margin: "0 auto" }}
-              >
-                Trusted by Malaysia&apos;s defence &amp; enforcement community
-              </p>
-              <ClientLogos />
-            </Reveal>
+            <ClientLogosSection style={{ marginTop: 64 }} />
           </div>
         </section>
 
@@ -314,11 +307,11 @@ export default function Home() {
                 </p>
               </Reveal>
               <Reveal className="cta-actions" delay={120}>
-                <Link href="/contact" className="btn btn-primary">
+                <Link href={briefingHref} className="btn btn-primary">
                   Request a Briefing <ArrowRight width={18} height={18} />
                 </Link>
-                <a href="tel:+601139552624" className="btn btn-outline">
-                  +60 11-3955 2624
+                <a href={site.phoneHref} className="btn btn-outline">
+                  {site.phoneDisplay}
                 </a>
               </Reveal>
             </div>

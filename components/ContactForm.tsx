@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { submitContactEnquiry } from "@/lib/contact";
 import { ArrowRight, CheckIcon } from "./icons";
 
 type Field = {
@@ -25,18 +26,32 @@ export default function ContactForm() {
   const [fields, setFields] = useState<Field>(empty);
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const set = (k: keyof Field) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
     setFields((f) => ({ ...f, [k]: e.target.value }));
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError("");
     setLoading(true);
-    // Dummy submission — simulate a short delay then show thank-you
-    setTimeout(() => {
-      setLoading(false);
+
+    const formData = new FormData(e.currentTarget);
+    const website = String(formData.get("website") ?? "");
+
+    const result = await submitContactEnquiry({
+      ...fields,
+      ...(website ? { website } : {}),
+    });
+
+    setLoading(false);
+
+    if (result.ok) {
       setSent(true);
-    }, 900);
+      return;
+    }
+
+    setError(result.error);
   };
 
   if (sent) {
@@ -59,6 +74,17 @@ export default function ContactForm() {
 
   return (
     <form className="cf" onSubmit={handleSubmit} noValidate>
+      <input
+        type="text"
+        name="website"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden
+        style={{ position: "absolute", left: "-9999px", opacity: 0 }}
+      />
+
+      {error ? <p className="cf-error" role="alert">{error}</p> : null}
+
       <div className="cf-row">
         <div className="cf-field">
           <label htmlFor="cf-name">Full Name <span aria-hidden>*</span></label>

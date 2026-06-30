@@ -1,3 +1,5 @@
+export const briefingHref = "/contact#briefing";
+
 export const site = {
   name: "Jelapang Resources Sdn. Bhd.",
   regNo: "1405795-V",

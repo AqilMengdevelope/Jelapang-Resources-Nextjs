@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Header from "@/components/Header";
+import SiteHeader from "@/components/SiteHeader";
+import { getSiteInfo } from "@/lib/wordpress";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
@@ -33,10 +34,12 @@ const values = [
   "Commitment to national development",
 ];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const site = await getSiteInfo();
+
   return (
     <>
-      <Header />
+      <SiteHeader />
       <main>
         <PageHero
           kicker="About Us"
@@ -172,8 +175,8 @@ export default function AboutPage() {
                 <Link href="/contact" className="btn btn-primary">
                   Contact Us <ArrowRight width={18} height={18} />
                 </Link>
-                <a href="tel:+601139552624" className="btn btn-outline">
-                  +60 11-3955 2624
+                <a href={site.phoneHref} className="btn btn-outline">
+                  {site.phoneDisplay}
                 </a>
               </Reveal>
             </div>

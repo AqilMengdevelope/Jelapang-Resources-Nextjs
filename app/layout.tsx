@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Oswald, Inter } from "next/font/google";
 import "./globals.css";
 import "./pages.css";
+import HashScroll from "@/components/HashScroll";
 import Preloader from "@/components/Preloader";
 
 const oswald = Oswald({
@@ -44,6 +45,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${oswald.variable} ${inter.variable}`}>
       <body>
+        <HashScroll />
         <Preloader />
         {children}
       </body>

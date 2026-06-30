@@ -1,0 +1,201 @@
+import {
+  principals as fallbackPrincipals,
+  militaryPrincipals as fallbackMilitary,
+  railwayPrincipals as fallbackRailway,
+  principalLogo,
+  type Field,
+  type Principal,
+} from "@/data/principals";
+import { site as fallbackSite } from "@/data/site";
+import {
+  clientLogo,
+  clientsSectionHeading,
+  fallbackClients,
+  type TrustedClient,
+} from "@/data/clients";
+import { getServerWordPressApiUrl } from "@/lib/config";
+
+export type { Field, Principal, TrustedClient };
+
+export type ClientsSection = {
+  heading: string;
+  clients: TrustedClient[];
+};
+
+export type SiteInfo = {
+  name: string;
+  regNo: string;
+  email: string;
+  phoneDisplay: string;
+  phoneHref: string;
+  address: string;
+  workshop: string;
+  tagline?: string;
+  hours?: string;
+};
+
+export type HomeStat = { n: string; l: string };
+
+export interface WpPage {
+  id: number;
+  title: string;
+  slug: string;
+  content: string;
+  excerpt: string;
+}
+
+interface WpPrincipal {
+  id: number;
+  name: string;
+  slug: string;
+  description: string;
+  website: string;
+  order: number;
+  logo: string;
+  origin: string;
+  tagline: string;
+  products: string[];
+  field: string;
+}
+
+interface WpClient {
+  id: number;
+  name: string;
+  slug: string;
+  logo: string;
+  order: number;
+  type: "logo" | "badge";
+  badgeText: string;
+}
+
+interface WpClientsResponse {
+  heading: string;
+  clients: WpClient[];
+}
+
+interface WpSettings {
+  company: {
+    name?: string;
+    regNo?: string;
+    tagline?: string;
+    phone?: string;
+    phoneDisplay?: string;
+    phoneHref?: string;
+    email?: string;
+    address?: string;
+    workshop?: string;
+    hours?: string;
+  };
+  stats?: HomeStat[];
+}
+
+const WP_API_URL = getServerWordPressApiUrl();
+
+async function wpFetch<T>(path: string, revalidate = 60): Promise<T | null> {
+  try {
+    const response = await fetch(`${WP_API_URL}${path}`, {
+      next: { revalidate },
+    });
+
+    if (!response.ok) {
+      return null;
+    }
+
+    return (await response.json()) as T;
+  } catch {
+    return null;
+  }
+}
+
+function mapPrincipal(partner: WpPrincipal): Principal {
+  return {
+    slug: partner.slug,
+    name: partner.name,
+    field: (partner.field === "Railway" ? "Railway" : "Military") as Field,
+    origin: partner.origin,
+    tagline: partner.tagline,
+    description: partner.description,
+    products: partner.products ?? [],
+    website: partner.website || "#",
+    logo: partner.logo || principalLogo(partner.slug),
+  };
+}
+
+function mapClient(client: WpClient): TrustedClient {
+  return {
+    slug: client.slug,
+    name: client.name,
+    type: client.type === "badge" ? "badge" : "logo",
+    badgeText: client.badgeText || undefined,
+    logo: client.logo || (client.type === "logo" ? clientLogo(client.slug) : undefined),
+  };
+}
+
+export async function getClients(): Promise<ClientsSection> {
+  const data = await wpFetch<WpClientsResponse>("/jelapang/v1/clients");
+
+  if (data?.clients?.length) {
+    return {
+      heading: data.heading || clientsSectionHeading,
+      clients: data.clients.map(mapClient),
+    };
+  }
+
+  return {
+    heading: clientsSectionHeading,
+    clients: fallbackClients,
+  };
+}
+
+export async function getSiteInfo(): Promise<SiteInfo> {
+  const data = await wpFetch<WpSettings>("/jelapang/v1/settings");
+  const company = data?.company;
+
+  if (!company?.name) {
+    return fallbackSite;
+  }
+
+  return {
+    name: company.name,
+    regNo: company.regNo ?? fallbackSite.regNo,
+    email: company.email ?? fallbackSite.email,
+    phoneDisplay: company.phoneDisplay ?? company.phone ?? fallbackSite.phoneDisplay,
+    phoneHref: company.phoneHref ?? fallbackSite.phoneHref,
+    address: company.address ?? fallbackSite.address,
+    workshop: company.workshop ?? fallbackSite.workshop,
+    tagline: company.tagline,
+    hours: company.hours,
+  };
+}
+
+export async function getHomeStats(): Promise<HomeStat[]> {
+  const data = await wpFetch<WpSettings>("/jelapang/v1/settings");
+  return data?.stats?.length ? data.stats : [
+    { n: "2021", l: "Established" },
+    { n: "100%", l: "Bumiputera-Owned" },
+    { n: "21+", l: "Global Principals" },
+    { n: "3", l: "Core Sectors" },
+  ];
+}
+
+export async function getPrincipals(sector?: string): Promise<Principal[]> {
+  const path = sector
+    ? `/jelapang/v1/principals?sector=${encodeURIComponent(sector)}`
+    : "/jelapang/v1/principals";
+
+  const data = await wpFetch<{ principals: WpPrincipal[] }>(path);
+
+  if (data?.principals?.length) {
+    return data.principals.map(mapPrincipal);
+  }
+
+  if (sector === "military") return fallbackMilitary;
+  if (sector === "railway") return fallbackRailway;
+  return fallbackPrincipals;
+}
+
+export async function getPageBySlug(slug: string): Promise<WpPage | null> {
+  return wpFetch<WpPage>(`/jelapang/v1/pages/${slug}`);
+}
+
+export { principalLogo };
