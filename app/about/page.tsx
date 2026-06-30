@@ -42,7 +42,7 @@ export default function AboutPage() {
           kicker="About Us"
           title="A Strategic Partner for the Nation"
           subtitle="Bringing world-class technologies and technical services into Malaysia across Military, Railway and IT."
-          image="https://images.unsplash.com/photo-1664575602554-2087b04935a5?fm=jpg&q=80&w=2000&auto=format&fit=crop"
+          image="https://images.unsplash.com/photo-1739298061740-5ed03045b280?fm=jpg&q=80&w=2000&auto=format&fit=crop"
           crumbs={[{ label: "About Us" }]}
         />
 
