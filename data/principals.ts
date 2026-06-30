@@ -8,12 +8,17 @@ export type Principal = {
   tagline: string;
   description: string;
   products: string[];
+  website: string;
 };
+
+/** Logo path for a principal (stored in /public/principals). */
+export const principalLogo = (slug: string) => `/principals/${slug}.png`;
 
 export const principals: Principal[] = [
   /* ----------------------- MILITARY ----------------------- */
   {
     slug: "swiss-p",
+    website: "https://swiss-p.com",
     name: "Swiss P",
     field: "Military",
     origin: "Switzerland",
@@ -29,6 +34,7 @@ export const principals: Principal[] = [
   },
   {
     slug: "mfs",
+    website: "https://mfs-ammunition.com",
     name: "MFS",
     field: "Military",
     origin: "Hungary",
@@ -44,6 +50,7 @@ export const principals: Principal[] = [
   },
   {
     slug: "mehler",
+    website: "https://mehler-systems.com",
     name: "Mehler Protection",
     field: "Military",
     origin: "Germany",
@@ -59,6 +66,7 @@ export const principals: Principal[] = [
   },
   {
     slug: "eickhorn",
+    website: "https://eickhorn-solingen.de",
     name: "Eickhorn-Solingen",
     field: "Military",
     origin: "Germany",
@@ -74,6 +82,7 @@ export const principals: Principal[] = [
   },
   {
     slug: "blucher",
+    website: "https://www.bluecher.com",
     name: "Blücher · SARATOGA",
     field: "Military",
     origin: "Germany",
@@ -89,6 +98,7 @@ export const principals: Principal[] = [
   },
   {
     slug: "karcher-futuretech",
+    website: "https://www.kaercher-futuretech.com",
     name: "Kärcher Futuretech",
     field: "Military",
     origin: "Germany",
@@ -104,6 +114,7 @@ export const principals: Principal[] = [
   },
   {
     slug: "saes",
+    website: "https://www.electronica-submarina.com",
     name: "SAES",
     field: "Military",
     origin: "Spain",
@@ -119,6 +130,7 @@ export const principals: Principal[] = [
   },
   {
     slug: "bruker",
+    website: "https://www.bruker.com",
     name: "Bruker",
     field: "Military",
     origin: "Germany",
@@ -134,6 +146,7 @@ export const principals: Principal[] = [
   },
   {
     slug: "bruhn-newtech",
+    website: "https://www.bruhn-newtech.com",
     name: "Bruhn NewTech",
     field: "Military",
     origin: "Denmark",
@@ -149,6 +162,7 @@ export const principals: Principal[] = [
   },
   {
     slug: "hutchinson",
+    website: "https://www.hutchinson.com",
     name: "Hutchinson",
     field: "Military",
     origin: "France",
@@ -164,6 +178,7 @@ export const principals: Principal[] = [
   },
   {
     slug: "argo",
+    website: "https://argoxtv.com",
     name: "ARGO",
     field: "Military",
     origin: "Canada",
@@ -179,6 +194,7 @@ export const principals: Principal[] = [
   },
   {
     slug: "cts",
+    website: "https://www.combinedsystems.com",
     name: "Combined Tactical Systems",
     field: "Military",
     origin: "USA",
@@ -194,6 +210,7 @@ export const principals: Principal[] = [
   },
   {
     slug: "airboss-defense",
+    website: "https://www.adg.com",
     name: "AirBoss Defense",
     field: "Military",
     origin: "Canada",
@@ -209,6 +226,7 @@ export const principals: Principal[] = [
   },
   {
     slug: "kent-periscopes",
+    website: "https://www.kentperiscopes.co.uk",
     name: "Kent Periscopes",
     field: "Military",
     origin: "United Kingdom",
@@ -226,6 +244,7 @@ export const principals: Principal[] = [
   /* ----------------------- RAILWAY ----------------------- */
   {
     slug: "nencki",
+    website: "https://www.nencki-railway.ch",
     name: "Nencki",
     field: "Railway",
     origin: "Switzerland",
@@ -241,6 +260,7 @@ export const principals: Principal[] = [
   },
   {
     slug: "aquafrisch",
+    website: "https://www.aquafrisch.com",
     name: "Aquafrisch",
     field: "Railway",
     origin: "Spain",
@@ -256,6 +276,7 @@ export const principals: Principal[] = [
   },
   {
     slug: "niteq",
+    website: "https://niteq.nl",
     name: "NiTEQ",
     field: "Railway",
     origin: "Netherlands",
@@ -271,6 +292,7 @@ export const principals: Principal[] = [
   },
   {
     slug: "robel",
+    website: "https://www.robel.com",
     name: "ROBEL",
     field: "Railway",
     origin: "Germany",
@@ -286,6 +308,7 @@ export const principals: Principal[] = [
   },
   {
     slug: "holmatro",
+    website: "https://www.holmatro.com",
     name: "Holmatro",
     field: "Railway",
     origin: "Netherlands",
@@ -301,6 +324,7 @@ export const principals: Principal[] = [
   },
   {
     slug: "cenzin-pgz",
+    website: "https://www.cenzin.com.pl",
     name: "CENZIN (PGZ)",
     field: "Railway",
     origin: "Poland",
@@ -316,6 +340,7 @@ export const principals: Principal[] = [
   },
   {
     slug: "wintec",
+    website: "https://wintec-process.de",
     name: "Wintec",
     field: "Railway",
     origin: "Germany",

@@ -4,6 +4,7 @@ import HeroCarousel from "@/components/HeroCarousel";
 import Reveal from "@/components/Reveal";
 import Footer from "@/components/Footer";
 import ClientLogos from "@/components/ClientLogos";
+import PrincipalGrid from "@/components/PrincipalGrid";
 import { principals } from "@/data/principals";
 import {
   ShieldIcon,
@@ -279,29 +280,11 @@ export default function Home() {
               </p>
             </Reveal>
 
-            <div className="principals-grid on-dark">
-              {featuredPrincipals.map((p, idx) => (
-                <Reveal
-                  key={p.slug}
-                  delay={(idx % 4) * 70}
-                  className="principal-card"
-                  as="article"
-                >
-                  <Link href={`/principals/${p.slug}`} style={{ display: "flex", flexDirection: "column", height: "100%" }}>
-                    <span className="pc-origin">{p.origin}</span>
-                    <span className="pc-name">{p.name}</span>
-                    <span className="pc-tag">{p.tagline}</span>
-                    <span className="pc-more">
-                      View Principal <ArrowRight width={15} height={15} />
-                    </span>
-                  </Link>
-                </Reveal>
-              ))}
-            </div>
+            <PrincipalGrid items={featuredPrincipals} dark />
 
             <div style={{ textAlign: "center", marginTop: 36 }}>
               <Link href="/military" className="btn btn-primary">
-                View All Principals <ArrowRight width={18} height={18} />
+                Explore Our Services <ArrowRight width={18} height={18} />
               </Link>
             </div>
 
