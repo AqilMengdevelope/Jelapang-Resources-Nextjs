@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import Link from "next/link";
 import { ArrowRight, ChevronLeft, ChevronRight } from "./icons";
 
 type Slide = {
@@ -78,12 +79,12 @@ export default function HeroCarousel() {
         <h1>{slides[i].title}</h1>
         <p className="hero-sub">{slides[i].sub}</p>
         <div className="hero-actions">
-          <a href="#capabilities" className="btn btn-primary">
-            Our Capabilities <ArrowRight width={18} height={18} />
-          </a>
-          <a href="#contact" className="btn btn-outline">
+          <Link href="/services" className="btn btn-primary">
+            Explore Our Services <ArrowRight width={18} height={18} />
+          </Link>
+          <Link href="/contact" className="btn btn-outline">
             Contact Us
-          </a>
+          </Link>
         </div>
       </div>
 
