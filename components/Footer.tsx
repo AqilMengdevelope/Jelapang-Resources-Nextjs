@@ -23,7 +23,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4>Our Services</h4>
+            <h4><Link href="/services">Our Services</Link></h4>
             <ul>
               <li><Link href="/military">Military</Link></li>
               <li><Link href="/railway">Railway</Link></li>

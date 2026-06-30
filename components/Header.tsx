@@ -15,6 +15,7 @@ const links: NavItem[] = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About Us" },
   {
+    href: "/services",
     label: "Our Services",
     children: [
       { href: "/military", label: "Military" },
@@ -33,7 +34,7 @@ export default function Header() {
   const isActive = (href?: string) =>
     href ? (href === "/" ? pathname === "/" : pathname.startsWith(href)) : false;
   const groupActive = (item: NavItem) =>
-    item.children?.some((c) => isActive(c.href)) ?? false;
+    isActive(item.href) || (item.children?.some((c) => isActive(c.href)) ?? false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -85,10 +86,10 @@ export default function Header() {
                   groupActive(l) ? "active" : ""
                 }`}
               >
-                <button className="nav-trigger" type="button">
+                <Link href={l.href!} className="nav-trigger">
                   {l.label}
                   <ChevronDown width={15} height={15} />
-                </button>
+                </Link>
                 <div className="dropdown">
                   {l.children.map((c) => (
                     <Link
@@ -160,7 +161,13 @@ export default function Header() {
                 className="drawer-group"
                 style={{ ["--d" as string]: `${i * 55}ms` }}
               >
-                <span className="drawer-group-label">{l.label}</span>
+                <Link
+                  href={l.href!}
+                  className="drawer-group-label"
+                  onClick={close}
+                >
+                  {l.label}
+                </Link>
                 <div className="drawer-sublist">
                   {l.children.map((c) => (
                     <Link key={c.href} href={c.href} onClick={close}>

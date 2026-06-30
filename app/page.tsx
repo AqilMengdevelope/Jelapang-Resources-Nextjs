@@ -283,7 +283,7 @@ export default function Home() {
             <PrincipalGrid items={featuredPrincipals} dark />
 
             <div style={{ textAlign: "center", marginTop: 36 }}>
-              <Link href="/military" className="btn btn-primary">
+              <Link href="/services" className="btn btn-primary">
                 Explore Our Services <ArrowRight width={18} height={18} />
               </Link>
             </div>
