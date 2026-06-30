@@ -997,6 +997,9 @@ h4 {
   border: 1px solid var(--line);
   margin-top: 56px;
 }
+.milestones-grid {
+  grid-template-columns: repeat(4, 1fr);
+}
 .why-item {
   background: #fff;
   padding: 38px 34px;
@@ -1257,11 +1260,32 @@ h4 {
   .why-grid {
     grid-template-columns: 1fr 1fr;
   }
+  .milestones-grid {
+    grid-template-columns: 1fr 1fr;
+  }
   .partners-grid {
     grid-template-columns: 1fr 1fr;
   }
   .footer-top {
     gap: 36px;
+  }
+  /* Mobile header: always show a dark background so hamburger is visible over any hero image */
+  .header {
+    background: rgba(10, 23, 45, 0.72);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  .header.scrolled {
+    background: #fff;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  /* Keep logo-on-dark visible since header background is always dark on mobile */
+  .header.scrolled .logo-on-dark {
+    display: none;
+  }
+  .header.scrolled .logo-on-light {
+    display: block;
   }
 }
 @media (max-width: 600px) {
@@ -1270,6 +1294,7 @@ h4 {
   }
   .cap-points,
   .why-grid,
+  .milestones-grid,
   .partners-grid {
     grid-template-columns: 1fr;
   }

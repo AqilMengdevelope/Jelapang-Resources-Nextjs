@@ -105,7 +105,7 @@ export default function AboutPage() {
         {/* Milestones */}
         <section className="section" style={{ paddingTop: 0 }}>
           <div className="container">
-            <div className="why-grid" style={{ gridTemplateColumns: "repeat(4, 1fr)" }}>
+            <div className="why-grid milestones-grid">
               {milestones.map((m, idx) => (
                 <Reveal key={m.title} className="why-item" delay={(idx % 4) * 80}>
                   <span className="ic">
