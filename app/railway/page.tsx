@@ -1,0 +1,118 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import PageHero from "@/components/PageHero";
+import Reveal from "@/components/Reveal";
+import PrincipalGrid from "@/components/PrincipalGrid";
+import { railwayPrincipals } from "@/data/principals";
+import { ArrowRight, CheckIcon } from "@/components/icons";
+
+export const metadata: Metadata = {
+  title: "Railway — Jelapang Resources",
+  description:
+    "Engineering, supply and maintenance that keep rail networks safe and moving — rolling stock components, depot equipment, track maintenance and re-railing solutions.",
+};
+
+const points = [
+  "Rolling stock spare parts & components",
+  "Bogie & wheelset maintenance systems",
+  "Track maintenance machines & power tools",
+  "Train washing & water-treatment plants",
+  "Hydraulic re-railing & rescue equipment",
+  "Traction energy & fast-charging systems",
+  "Steel structure fabrication & erection",
+  "Scheduled preventive servicing & MRO",
+];
+
+export default function RailwayPage() {
+  return (
+    <>
+      <Header />
+      <main>
+        <PageHero
+          kicker="Our Services"
+          title="Railway"
+          subtitle="Engineering, supply and maintenance solutions that keep rail networks safe, reliable and moving."
+          image="https://images.unsplash.com/photo-1580442374555-3def8fb41738?fm=jpg&q=80&w=2000&auto=format&fit=crop"
+          crumbs={[{ label: "Our Services" }, { label: "Railway" }]}
+        />
+
+        <section className="section">
+          <div className="container">
+            <div className="service-intro">
+              <Reveal className="lead-block">
+                <span className="kicker">Capabilities</span>
+                <h2 className="section-title">
+                  Keeping the network moving
+                </h2>
+                <p style={{ color: "var(--ink-2)", fontSize: 17, marginTop: 18 }}>
+                  Jelapang Resources supplies and supports the systems that keep
+                  rail operations safe and efficient — from rolling stock spare
+                  parts and depot maintenance equipment to track-maintenance
+                  machinery and re-railing solutions.
+                </p>
+                <p style={{ color: "var(--ink-2)", fontSize: 17, marginTop: 16 }}>
+                  Working with specialised European principals, we deliver
+                  proven railway technology together with engineering,
+                  fabrication and lifecycle maintenance services.
+                </p>
+              </Reveal>
+              <Reveal delay={120}>
+                <ul className="service-points">
+                  {points.map((p) => (
+                    <li key={p}>
+                      <CheckIcon />
+                      {p}
+                    </li>
+                  ))}
+                </ul>
+              </Reveal>
+            </div>
+          </div>
+        </section>
+
+        <section className="section caps">
+          <div className="container">
+            <div className="center-head">
+              <Reveal>
+                <span className="kicker center">Our Principals</span>
+                <h2 className="section-title">Railway Technology Partners</h2>
+                <p className="section-lead">
+                  The specialised manufacturers we represent across the railway
+                  sector.
+                </p>
+              </Reveal>
+            </div>
+            <PrincipalGrid items={railwayPrincipals} />
+          </div>
+        </section>
+
+        <section className="section cta">
+          <div className="container">
+            <div className="cta-inner">
+              <Reveal>
+                <span className="kicker">Let&apos;s Talk</span>
+                <h2>Have a railway requirement?</h2>
+                <p>
+                  From rolling stock to depot systems, tell us what you need and
+                  we will match you with the right principal.
+                </p>
+              </Reveal>
+              <Reveal className="cta-actions" delay={120}>
+                <Link href="/contact" className="btn btn-primary">
+                  Request a Briefing <ArrowRight width={18} height={18} />
+                </Link>
+                <a href="tel:+601139552624" className="btn btn-outline">
+                  +60 11-3955 2624
+                </a>
+              </Reveal>
+            </div>
+          </div>
+        </section>
+
+        <Footer />
+      </main>
+    </>
+  );
+}

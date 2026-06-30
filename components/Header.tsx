@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { MenuIcon, CloseIcon, ChevronDown, ArrowRight } from "./icons";
 
 type NavItem = {
@@ -10,22 +12,28 @@ type NavItem = {
 };
 
 const links: NavItem[] = [
-  { href: "#top", label: "Home" },
-  { href: "#about", label: "About Us" },
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About Us" },
   {
     label: "Our Services",
     children: [
-      { href: "#defence", label: "Military" },
-      { href: "#rail", label: "Railway" },
-      { href: "#it", label: "IT" },
+      { href: "/military", label: "Military" },
+      { href: "/railway", label: "Railway" },
+      { href: "/it", label: "IT" },
     ],
   },
-  { href: "#contact", label: "Contact Us" },
+  { href: "/contact", label: "Contact Us" },
 ];
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+
+  const isActive = (href?: string) =>
+    href ? (href === "/" ? pathname === "/" : pathname.startsWith(href)) : false;
+  const groupActive = (item: NavItem) =>
+    item.children?.some((c) => isActive(c.href)) ?? false;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -34,7 +42,6 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Lock body scroll + close on Escape while the drawer is open
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
@@ -54,7 +61,7 @@ export default function Header() {
       }`}
     >
       <div className="container header-inner">
-        <a href="#top" className="brand" aria-label="Jelapang Resources home">
+        <Link href="/" className="brand" aria-label="Jelapang Resources home">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/jelapang-logo-light.png"
@@ -67,36 +74,49 @@ export default function Header() {
             alt="Jelapang Resources Sdn. Bhd."
             className="brand-logo logo-on-light"
           />
-        </a>
+        </Link>
 
         <nav className="nav">
           {links.map((l) =>
             l.children ? (
-              <div key={l.label} className="nav-item has-dropdown">
+              <div
+                key={l.label}
+                className={`nav-item has-dropdown ${
+                  groupActive(l) ? "active" : ""
+                }`}
+              >
                 <button className="nav-trigger" type="button">
                   {l.label}
                   <ChevronDown width={15} height={15} />
                 </button>
                 <div className="dropdown">
                   {l.children.map((c) => (
-                    <a key={c.href} href={c.href}>
+                    <Link
+                      key={c.href}
+                      href={c.href}
+                      className={isActive(c.href) ? "active" : ""}
+                    >
                       {c.label}
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </div>
             ) : (
-              <a key={l.href} href={l.href}>
+              <Link
+                key={l.href}
+                href={l.href!}
+                className={isActive(l.href) ? "active" : ""}
+              >
                 {l.label}
-              </a>
+              </Link>
             )
           )}
         </nav>
 
         <div className="header-cta">
-          <a href="#contact" className="btn btn-primary">
+          <Link href="/contact" className="btn btn-primary">
             Request a Briefing
-          </a>
+          </Link>
           <button
             className="menu-btn"
             aria-label="Open menu"
@@ -143,32 +163,32 @@ export default function Header() {
                 <span className="drawer-group-label">{l.label}</span>
                 <div className="drawer-sublist">
                   {l.children.map((c) => (
-                    <a key={c.href} href={c.href} onClick={close}>
+                    <Link key={c.href} href={c.href} onClick={close}>
                       {c.label}
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </div>
             ) : (
-              <a
+              <Link
                 key={l.href}
-                href={l.href}
+                href={l.href!}
                 className="drawer-link"
                 onClick={close}
                 style={{ ["--d" as string]: `${i * 55}ms` }}
               >
                 {l.label}
-              </a>
+              </Link>
             )
           )}
         </nav>
 
         <div className="drawer-foot">
-          <a href="#contact" className="btn btn-primary" onClick={close}>
+          <Link href="/contact" className="btn btn-primary" onClick={close}>
             Request a Briefing <ArrowRight width={18} height={18} />
-          </a>
-          <a href="tel:+60327048591" className="drawer-phone">
-            +603-2704 8591
+          </Link>
+          <a href="tel:+601139552624" className="drawer-phone">
+            +60 11-3955 2624
           </a>
         </div>
       </aside>

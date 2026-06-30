@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Oswald, Inter } from "next/font/google";
 import "./globals.css";
+import "./pages.css";
 
 const oswald = Oswald({
   variable: "--font-display",

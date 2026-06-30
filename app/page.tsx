@@ -1,6 +1,10 @@
+import Link from "next/link";
 import Header from "@/components/Header";
 import HeroCarousel from "@/components/HeroCarousel";
 import Reveal from "@/components/Reveal";
+import Footer from "@/components/Footer";
+import ClientLogos from "@/components/ClientLogos";
+import { principals } from "@/data/principals";
 import {
   ShieldIcon,
   GlobeIcon,
@@ -10,9 +14,6 @@ import {
   BoltIcon,
   ArrowRight,
   CheckIcon,
-  PinIcon,
-  PhoneIcon,
-  MailIcon,
 } from "@/components/icons";
 
 /* ---------------- Data ---------------- */
@@ -20,13 +21,14 @@ import {
 const stats = [
   { n: "2021", l: "Established" },
   { n: "100%", l: "Bumiputera-Owned" },
-  { n: "13+", l: "Global OEM Partners" },
+  { n: "21+", l: "Global Principals" },
   { n: "3", l: "Core Sectors" },
 ];
 
 const capabilities = [
   {
     id: "defence",
+    href: "/military",
     no: "01",
     title: "Military",
     tag: "Defence & Security",
@@ -44,6 +46,7 @@ const capabilities = [
   },
   {
     id: "rail",
+    href: "/railway",
     no: "02",
     title: "Railway",
     tag: "Rolling Stock & Infrastructure",
@@ -61,6 +64,7 @@ const capabilities = [
   },
   {
     id: "it",
+    href: "/it",
     no: "03",
     title: "IT",
     tag: "Systems & Electronics",
@@ -111,20 +115,7 @@ const whyUs = [
   },
 ];
 
-const partners = [
-  { name: "EOTECH", origin: "USA", desc: "Holographic weapon sights with brilliant accuracy and fast target acquisition." },
-  { name: "Combined Systems", origin: "USA", desc: "Less-lethal munitions & launching systems for tactical and riot-control units." },
-  { name: "SNT Motiv", origin: "South Korea", desc: "Advanced firearms and defence components with exceptional reliability." },
-  { name: "Bruker", origin: "Germany", desc: "Mobile GC/MS, ion-mobility and radiological CBRNE detection instrumentation." },
-  { name: "Blücher · SARATOGA", origin: "Germany", desc: "CBRN protective clothing trusted by military, civil defence and the OPCW." },
-  { name: "MDH Defence", origin: "UK", desc: "CBRN collective protection, filtration and crew cooling for military platforms." },
-  { name: "Hutchinson", origin: "France", desc: "Tactical runflat systems ensuring mobility in all-terrain and combat situations." },
-  { name: "Kent Periscopes", origin: "UK", desc: "Electro-optical periscopes for strategic and upgraded vehicle programmes." },
-  { name: "Kärcher Futuretech", origin: "Germany", desc: "Mobile CBRN protection, water supply and field-camp systems." },
-  { name: "Mehler Protection", origin: "Germany", desc: "Ballistic body armour, helmets, shields and platform protection." },
-  { name: "Eickhorn-Solingen", origin: "Germany", desc: "Military knives and bayonets from 150+ years of Solingen craftsmanship." },
-  { name: "ARGO", origin: "Canada", desc: "Amphibious and extreme-terrain vehicles for rescue, utility and defence." },
-];
+const featuredPrincipals = principals.slice(0, 8);
 
 /* ---------------- Page ---------------- */
 
@@ -154,16 +145,16 @@ export default function Home() {
                 <p className="section-lead" style={{ marginTop: 16 }}>
                   We combine the experience of our leaders with renowned global
                   technology partners to meet the growing needs of corporate,
-                  industrial and government sectors for advanced,
-                  specialised solutions.
+                  industrial and government sectors for advanced, specialised
+                  solutions.
                 </p>
                 <div className="about-actions">
-                  <a href="#capabilities" className="btn btn-green">
-                    Explore Capabilities <ArrowRight width={18} height={18} />
-                  </a>
-                  <a href="#contact" className="btn btn-outline-dark">
+                  <Link href="/about" className="btn btn-green">
+                    More About Us <ArrowRight width={18} height={18} />
+                  </Link>
+                  <Link href="/contact" className="btn btn-outline-dark">
                     Get in Touch
-                  </a>
+                  </Link>
                 </div>
               </Reveal>
 
@@ -209,7 +200,7 @@ export default function Home() {
           <div className="container">
             <div className="caps-head">
               <Reveal>
-                <span className="kicker">Capabilities</span>
+                <span className="kicker">Our Services</span>
                 <h2 className="section-title">Products &amp; Services</h2>
               </Reveal>
               <Reveal delay={120}>
@@ -241,10 +232,9 @@ export default function Home() {
                       </li>
                     ))}
                   </ul>
-                  <a href="#contact" className="cap-link">
-                    Discuss a {cap.title} requirement{" "}
-                    <ArrowRight width={16} height={16} />
-                  </a>
+                  <Link href={cap.href} className="cap-link">
+                    Explore {cap.title} <ArrowRight width={16} height={16} />
+                  </Link>
                 </div>
               </Reveal>
             ))}
@@ -274,41 +264,61 @@ export default function Home() {
           </div>
         </section>
 
-        {/* PARTNERS — replaces track record */}
+        {/* PRINCIPALS + CLIENTS */}
         <section className="section partners" id="partners">
           <div className="container">
             <Reveal className="partners-head">
               <span className="kicker center">Strength Through Partnership</span>
               <h2 className="section-title on-dark">
-                Our Global Technology Partners
+                Our Global Principals
               </h2>
               <p className="section-lead on-dark" style={{ margin: "20px auto 0" }}>
                 We bring the world&apos;s leading defence and engineering
-                manufacturers to Malaysia — delivering proven, certified
-                technology trusted by armed forces worldwide.
+                manufacturers to Malaysia — proven, certified technology trusted
+                by armed forces worldwide.
               </p>
             </Reveal>
 
-            <div className="partners-grid">
-              {partners.map((p, idx) => (
-                <Reveal key={p.name} className="partner" delay={(idx % 4) * 70}>
-                  <div className="pname">{p.name}</div>
-                  <div className="porigin">{p.origin}</div>
-                  <p className="pdesc">{p.desc}</p>
+            <div className="principals-grid on-dark">
+              {featuredPrincipals.map((p, idx) => (
+                <Reveal
+                  key={p.slug}
+                  delay={(idx % 4) * 70}
+                  className="principal-card"
+                  as="article"
+                >
+                  <Link href={`/principals/${p.slug}`} style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+                    <span className="pc-origin">{p.origin}</span>
+                    <span className="pc-name">{p.name}</span>
+                    <span className="pc-tag">{p.tagline}</span>
+                    <span className="pc-more">
+                      View Principal <ArrowRight width={15} height={15} />
+                    </span>
+                  </Link>
                 </Reveal>
               ))}
             </div>
 
-            <p className="partners-note">
-              Serving the Malaysian Army · Royal Malaysian Navy · Royal Malaysian
-              Air Force · Royal Malaysian Police · ESSCOM · Maritime Enforcement
-              Agency
-            </p>
+            <div style={{ textAlign: "center", marginTop: 36 }}>
+              <Link href="/military" className="btn btn-primary">
+                View All Principals <ArrowRight width={18} height={18} />
+              </Link>
+            </div>
+
+            <Reveal style={{ marginTop: 64 }}>
+              <p
+                className="section-lead on-dark"
+                style={{ textAlign: "center", margin: "0 auto" }}
+              >
+                Trusted by Malaysia&apos;s defence &amp; enforcement community
+              </p>
+              <ClientLogos />
+            </Reveal>
           </div>
         </section>
 
         {/* CTA */}
-        <section className="section cta" id="contact">
+        <section className="section cta">
           <div className="container">
             <div className="cta-inner">
               <Reveal>
@@ -317,95 +327,22 @@ export default function Home() {
                 <p>
                   Tell us about your programme. Our technical team will respond
                   with a tailored capability briefing and the right global
-                  partner for the job.
+                  principal for the job.
                 </p>
               </Reveal>
               <Reveal className="cta-actions" delay={120}>
-                <a
-                  href="mailto:info@jelapangresources.com"
-                  className="btn btn-primary"
-                >
+                <Link href="/contact" className="btn btn-primary">
                   Request a Briefing <ArrowRight width={18} height={18} />
-                </a>
-                <a href="tel:+60327048591" className="btn btn-outline">
-                  +603-2704 8591
+                </Link>
+                <a href="tel:+601139552624" className="btn btn-outline">
+                  +60 11-3955 2624
                 </a>
               </Reveal>
             </div>
           </div>
         </section>
 
-        {/* FOOTER */}
-        <footer className="footer">
-          <div className="container">
-            <div className="footer-top">
-              <div className="footer-brand">
-                <a href="#top" className="brand">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src="/jelapang-logo-light.png"
-                    alt="Jelapang Resources Sdn. Bhd."
-                    className="brand-logo"
-                  />
-                </a>
-                <p>
-                  A Malaysian Bumiputera-owned engineering and supply specialist
-                  delivering world-class technology across Military, Railway and IT.
-                </p>
-              </div>
-
-              <div>
-                <h4>Sectors</h4>
-                <ul>
-                  <li><a href="#defence">Military</a></li>
-                  <li><a href="#rail">Railway</a></li>
-                  <li><a href="#it">IT</a></li>
-                  <li><a href="#partners">Partners</a></li>
-                </ul>
-              </div>
-
-              <div>
-                <h4>Company</h4>
-                <ul>
-                  <li><a href="#about">About Us</a></li>
-                  <li><a href="#why">Why Us</a></li>
-                  <li><a href="#contact">Contact</a></li>
-                </ul>
-              </div>
-
-              <div>
-                <h4>Contact</h4>
-                <ul>
-                  <li className="contact-line">
-                    <PinIcon />
-                    <span>
-                      T2A-17-06, 3 Towers, No. 296 Jalan Ampang, 50450 Kuala
-                      Lumpur, Malaysia
-                    </span>
-                  </li>
-                  <li className="contact-line">
-                    <PhoneIcon />
-                    <span>03-2704 8591 / 8592</span>
-                  </li>
-                  <li className="contact-line">
-                    <MailIcon />
-                    <a href="mailto:info@jelapangresources.com">
-                      info@jelapangresources.com
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <div className="footer-bottom">
-              <span>
-                © {new Date().getFullYear()} Jelapang Resources Sdn. Bhd.
-                (1405795-V). All rights reserved.
-              </span>
-              <span>Military · Railway · IT — Kuala Lumpur, Malaysia</span>
-            </div>
-          </div>
-        </footer>
+        <Footer />
       </main>
     </>
   );
