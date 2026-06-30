@@ -3,7 +3,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
-import { PinIcon, PhoneIcon, MailIcon, LayersIcon } from "@/components/icons";
+import ContactForm from "@/components/ContactForm";
+import { PinIcon, PhoneIcon, MailIcon, LayersIcon, CheckIcon } from "@/components/icons";
 import { site } from "@/data/site";
 
 export const metadata: Metadata = {
@@ -77,6 +78,33 @@ export default function ContactPage() {
                 src="https://www.google.com/maps?q=3%20Towers%20Jalan%20Ampang%20Kuala%20Lumpur&output=embed"
               />
             </Reveal>
+          </div>
+        </section>
+
+        {/* Enquiry Form */}
+        <section className="section cf-section">
+          <div className="container">
+            <div className="cf-wrap">
+              <Reveal className="cf-aside">
+                <span className="kicker">Request a Briefing</span>
+                <h2>Tell us about your requirement</h2>
+                <p>
+                  Fill in the form and one of our technical team members will
+                  get back to you within 2 business days with a tailored
+                  capability briefing.
+                </p>
+                <ul className="cf-aside-points">
+                  <li><CheckIcon width={16} height={16} /> Military &amp; defence systems</li>
+                  <li><CheckIcon width={16} height={16} /> Railway rolling stock &amp; infrastructure</li>
+                  <li><CheckIcon width={16} height={16} /> IT hardware, electronics &amp; systems</li>
+                  <li><CheckIcon width={16} height={16} /> General partnerships &amp; enquiries</li>
+                </ul>
+              </Reveal>
+
+              <Reveal delay={120}>
+                <ContactForm />
+              </Reveal>
+            </div>
           </div>
         </section>
 

@@ -420,6 +420,160 @@
   filter: grayscale(0.2);
 }
 
+/* ---------- Contact Form ---------- */
+.cf-section {
+  background: var(--bg-soft);
+  border-top: 1px solid var(--line);
+}
+.cf-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 64px;
+  align-items: start;
+}
+.cf-aside h2 {
+  font-size: clamp(26px, 3vw, 36px);
+  color: var(--green-deep);
+  margin-bottom: 16px;
+}
+.cf-aside p {
+  color: var(--ink-2);
+  font-size: 16px;
+  line-height: 1.7;
+  margin-bottom: 32px;
+}
+.cf-aside-points {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.cf-aside-points li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  color: var(--ink-2);
+}
+.cf-aside-points li svg {
+  color: var(--green);
+  flex-shrink: 0;
+}
+.cf {
+  background: #fff;
+  border: 1px solid var(--line);
+  padding: 40px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.cf-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.cf-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.cf-field label {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.cf-field label span {
+  color: var(--brass);
+}
+.cf-field input,
+.cf-field select,
+.cf-field textarea {
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--ink);
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  padding: 12px 14px;
+  outline: none;
+  transition: border-color 0.2s ease, background 0.2s ease;
+  width: 100%;
+}
+.cf-field input::placeholder,
+.cf-field textarea::placeholder {
+  color: var(--ink-3);
+}
+.cf-field input:focus,
+.cf-field select:focus,
+.cf-field textarea:focus {
+  border-color: var(--green);
+  background: #fff;
+}
+.cf-field select {
+  appearance: none;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234f5d57' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+}
+.cf-field textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+.cf-submit {
+  align-self: flex-start;
+  margin-top: 4px;
+}
+.cf-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+.cf-thankyou {
+  background: #fff;
+  border: 1px solid var(--line);
+  padding: 56px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+.cf-check {
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  background: var(--green);
+  color: #fff;
+  border-radius: 50%;
+}
+.cf-thankyou h3 {
+  font-size: 24px;
+  color: var(--green-deep);
+}
+.cf-thankyou p {
+  color: var(--ink-2);
+  font-size: 16px;
+  line-height: 1.7;
+  max-width: 44ch;
+}
+
+@media (max-width: 860px) {
+  .cf-wrap {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .cf-row {
+    grid-template-columns: 1fr;
+  }
+  .cf {
+    padding: 30px 22px;
+  }
+}
+
 /* ---------- Section helpers ---------- */
 .center-head {
   text-align: center;
