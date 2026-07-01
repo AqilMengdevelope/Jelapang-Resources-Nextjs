@@ -2,16 +2,15 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 /**
- * Maintenance-mode switch.
+ * Optional site-wide maintenance switch (dormant / OFF by default).
  *
- * ON by default — every visitor is served the maintenance page with a 503
- * status. To bring the full site back online, set the environment variable
- * `MAINTENANCE_MODE=false` in your hosting dashboard and redeploy / restart
- * (or revert this commit). Any other value — including unset — keeps the
- * site in maintenance mode.
+ * The home page itself now renders the maintenance screen directly (see
+ * `app/page.tsx`), so no hosting configuration is required to show it. This
+ * proxy is kept only as an optional way to take EVERY route into maintenance
+ * at once: set `MAINTENANCE_MODE=true` in your hosting dashboard to enable it.
  */
 export function proxy(request: NextRequest) {
-  const maintenance = process.env.MAINTENANCE_MODE !== "false";
+  const maintenance = process.env.MAINTENANCE_MODE === "true";
   const { pathname } = request.nextUrl;
 
   // Let everything through when maintenance is off, or when the request is
