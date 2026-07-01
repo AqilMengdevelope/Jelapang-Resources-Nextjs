@@ -4,6 +4,7 @@ const clients = [
   { src: "/clients/airforce.png", name: "Royal Malaysian Air Force" },
   { src: "/clients/police.png", name: "Royal Malaysia Police" },
   { src: "/clients/mmea.png", name: "Maritime Enforcement Agency" },
+  { src: "/clients/esscom.png", name: "Eastern Sabah Security Command (ESSCOM)" },
 ];
 
 export default function ClientLogos() {
@@ -15,9 +16,6 @@ export default function ClientLogos() {
           <img src={c.src} alt={c.name} />
         </div>
       ))}
-      <div className="client-badge" title="Eastern Sabah Security Command">
-        ESSCOM
-      </div>
     </div>
   );
 }
