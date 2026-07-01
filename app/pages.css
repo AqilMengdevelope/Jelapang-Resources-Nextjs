@@ -574,6 +574,153 @@
   }
 }
 
+/* ---------- Railway Customers ---------- */
+.rail-customers {
+  background: var(--bg-darker);
+  position: relative;
+  overflow: hidden;
+}
+.rail-customers::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+.rail-customers-head {
+  position: relative;
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 56px;
+}
+.rail-customers-head .kicker { color: var(--brass-bright); }
+.rail-customers-head h2 { color: #fff; }
+.rail-customers-head p { color: var(--on-dark-2); margin-top: 14px; font-size: 16.5px; }
+
+/* Featured Prasarana card */
+.rail-featured {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(179,137,61,0.3);
+  padding: 36px 40px;
+  margin-bottom: 28px;
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+.rail-featured:hover {
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(207,165,82,0.6);
+}
+.rail-featured-logo {
+  width: 180px;
+  height: 100px;
+  flex-shrink: 0;
+  background: #fff;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: 12px;
+}
+.rail-featured-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.rail-featured-body { flex: 1; }
+.rail-featured-body h3 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 6px;
+}
+.rail-featured-body p {
+  color: var(--on-dark-2);
+  font-size: 15px;
+  line-height: 1.6;
+  max-width: 54ch;
+}
+.rail-featured-tag {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--brass-bright);
+  margin-bottom: 8px;
+  display: block;
+}
+
+/* Customer grid */
+.rail-cust-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+}
+.rail-cust-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 28px 20px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-decoration: none;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+.rail-cust-card:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(207,165,82,0.5);
+  transform: translateY(-4px);
+}
+.rail-cust-logo {
+  width: 100%;
+  height: 110px;
+  background: #fff;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: 16px;
+}
+.rail-cust-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.rail-cust-name {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fff;
+  text-align: center;
+  line-height: 1.35;
+}
+.rail-cust-type {
+  font-size: 11.5px;
+  color: var(--on-dark-2);
+  text-align: center;
+  line-height: 1.4;
+}
+
+@media (max-width: 900px) {
+  .rail-featured { flex-direction: column; align-items: flex-start; gap: 24px; }
+  .rail-cust-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 600px) {
+  .rail-cust-grid { grid-template-columns: repeat(2, 1fr); }
+  .rail-featured { padding: 28px 24px; }
+}
+
 /* ---------- Section helpers ---------- */
 .center-head {
   text-align: center;
