@@ -2,6 +2,7 @@ import {
   principals as fallbackPrincipals,
   militaryPrincipals as fallbackMilitary,
   railwayPrincipals as fallbackRailway,
+  itPrincipals as fallbackIT,
   principalLogo,
   type Field,
   type Principal,
@@ -111,7 +112,11 @@ function mapPrincipal(partner: WpPrincipal): Principal {
   return {
     slug: partner.slug,
     name: partner.name,
-    field: (partner.field === "Railway" ? "Railway" : "Military") as Field,
+    field: (partner.field === "Railway"
+      ? "Railway"
+      : partner.field === "IT"
+        ? "IT"
+        : "Military") as Field,
     origin: partner.origin,
     tagline: partner.tagline,
     description: partner.description,
@@ -194,7 +199,9 @@ export async function getPrincipals(sector?: string): Promise<Principal[]> {
       ? fallbackMilitary
       : sector === "railway"
         ? fallbackRailway
-        : fallbackPrincipals;
+        : sector === "it"
+          ? fallbackIT
+          : fallbackPrincipals;
 
   const data = await wpFetch<{ principals: WpPrincipal[] }>(path);
 

@@ -4,7 +4,8 @@ import SiteHeader from "@/components/SiteHeader";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
-import { getSiteInfo } from "@/lib/wordpress";
+import PrincipalGrid from "@/components/PrincipalGrid";
+import { getPrincipals, getSiteInfo } from "@/lib/wordpress";
 import { ArrowRight, CheckIcon } from "@/components/icons";
 import { briefingHref } from "@/data/site";
 
@@ -24,7 +25,10 @@ const points = [
 ];
 
 export default async function ITPage() {
-  const site = await getSiteInfo();
+  const [site, itPrincipals] = await Promise.all([
+    getSiteInfo(),
+    getPrincipals("it"),
+  ]);
 
   return (
     <>
@@ -70,6 +74,23 @@ export default async function ITPage() {
                 </ul>
               </Reveal>
             </div>
+          </div>
+        </section>
+
+        {/* Principals */}
+        <section className="section caps">
+          <div className="container">
+            <div className="center-head">
+              <Reveal>
+                <span className="kicker center">Our Principals</span>
+                <h2 className="section-title">Technology Partners</h2>
+                <p className="section-lead">
+                  The specialised manufacturers and solution providers we
+                  represent across the IT and electronics sector.
+                </p>
+              </Reveal>
+            </div>
+            <PrincipalGrid items={itPrincipals} />
           </div>
         </section>
 

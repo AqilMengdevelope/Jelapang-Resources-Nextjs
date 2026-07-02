@@ -1,4 +1,4 @@
-export type Field = "Military" | "Railway";
+export type Field = "Military" | "Railway" | "IT";
 
 export type Principal = {
   slug: string;
@@ -371,10 +371,29 @@ export const principals: Principal[] = [
       "Technical support",
     ],
   },
+
+  /* ------------------------- IT ------------------------- */
+  {
+    slug: "oconnors",
+    website: "https://www.oconnors.com.my/",
+    name: "O'Connor's",
+    field: "IT",
+    origin: "Malaysia",
+    tagline: "Test, measurement & ICT solutions",
+    description:
+      "O'Connor's is a leading Malaysian provider of test and measurement, ICT, communications and industrial technology solutions, delivering trusted equipment, integration and technical support across enterprise and government sectors.",
+    products: [
+      "Test & measurement instruments",
+      "ICT & communications systems",
+      "Industrial & analytical equipment",
+      "Integration & technical support",
+    ],
+  },
 ];
 
 export const militaryPrincipals = principals.filter((p) => p.field === "Military");
 export const railwayPrincipals = principals.filter((p) => p.field === "Railway");
+export const itPrincipals = principals.filter((p) => p.field === "IT");
 
 export const getPrincipal = (slug: string) =>
   principals.find((p) => p.slug === slug);
