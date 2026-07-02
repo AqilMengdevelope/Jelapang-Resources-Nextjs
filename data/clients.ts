@@ -18,4 +18,5 @@ export const fallbackClients: TrustedClient[] = [
   { slug: "police", name: "Royal Malaysia Police", type: "logo" },
   { slug: "mmea", name: "Maritime Enforcement Agency", type: "logo" },
   { slug: "esscom", name: "Eastern Sabah Security Command", type: "logo" },
+  { slug: "atn", name: "Angkatan Tentera Malaysia", type: "logo" },
 ];

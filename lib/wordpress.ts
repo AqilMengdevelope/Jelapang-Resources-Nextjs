@@ -135,9 +135,14 @@ export async function getClients(): Promise<ClientsSection> {
   const data = await wpFetch<WpClientsResponse>("/jelapang/v1/clients");
 
   if (data?.clients?.length) {
+    const fromCms = data.clients.map(mapClient);
+    const cmsSlugs = new Set(fromCms.map((c) => c.slug));
+    // Append clients defined in code that the CMS doesn't return yet,
+    // so new additions appear without needing a CMS update.
+    const codeOnly = fallbackClients.filter((c) => !cmsSlugs.has(c.slug));
     return {
       heading: data.heading || clientsSectionHeading,
-      clients: data.clients.map(mapClient),
+      clients: [...fromCms, ...codeOnly],
     };
   }
 
