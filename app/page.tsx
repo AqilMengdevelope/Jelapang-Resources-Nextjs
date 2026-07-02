@@ -5,7 +5,12 @@ import Reveal from "@/components/Reveal";
 import Footer from "@/components/Footer";
 import ClientLogosSection from "@/components/ClientLogosSection";
 import PrincipalGrid from "@/components/PrincipalGrid";
-import { getHomeStats, getPrincipals, getSiteInfo } from "@/lib/wordpress";
+import {
+  getHeroSlides,
+  getHomeStats,
+  getPrincipals,
+  getSiteInfo,
+} from "@/lib/wordpress";
 import {
   ShieldIcon,
   GlobeIcon,
@@ -115,10 +120,11 @@ const featuredCount = 8;
 /* ---------------- Page ---------------- */
 
 export default async function Home() {
-  const [stats, allPrincipals, site] = await Promise.all([
+  const [stats, allPrincipals, site, heroSlides] = await Promise.all([
     getHomeStats(),
     getPrincipals(),
     getSiteInfo(),
+    getHeroSlides(),
   ]);
   // Always feature MDH Bioquell on the home page; fill the rest in order.
   const mdh = allPrincipals.find((p) => p.slug === "mdh-bioquell");
@@ -133,7 +139,7 @@ export default async function Home() {
     <>
       <SiteHeader />
       <main>
-        <HeroCarousel />
+        <HeroCarousel slides={heroSlides} />
 
         {/* ABOUT / WELCOME */}
         <section className="section about" id="about">

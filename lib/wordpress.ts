@@ -8,6 +8,7 @@ import {
   type Principal,
 } from "@/data/principals";
 import { site as fallbackSite } from "@/data/site";
+import { defaultHeroSlides, type HeroSlide } from "@/data/hero";
 import {
   clientLogo,
   clientsSectionHeading,
@@ -215,6 +216,30 @@ export async function getPrincipals(sector?: string): Promise<Principal[]> {
   }
 
   return localFallback;
+}
+
+interface WpHeroSlide {
+  image?: string;
+  tag?: string;
+  title?: string;
+  titleHighlight?: string;
+  sub?: string;
+}
+
+export async function getHeroSlides(): Promise<HeroSlide[]> {
+  const data = await wpFetch<{ slides: WpHeroSlide[] }>("/jelapang/v1/hero");
+
+  const slides = (data?.slides ?? [])
+    .filter((s) => s.image) // an image is required for a usable slide
+    .map((s) => ({
+      image: s.image as string,
+      tag: s.tag ?? "",
+      title: s.title ?? "",
+      titleHighlight: s.titleHighlight || undefined,
+      sub: s.sub ?? "",
+    }));
+
+  return slides.length ? slides : defaultHeroSlides;
 }
 
 export async function getPageBySlug(slug: string): Promise<WpPage | null> {
