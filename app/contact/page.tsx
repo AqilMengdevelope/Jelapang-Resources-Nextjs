@@ -10,7 +10,7 @@ import { getSiteInfo } from "@/lib/wordpress";
 export const metadata: Metadata = {
   title: "Contact Us — Jelapang Resources",
   description:
-    "Get in touch with Jelapang Resources Sdn. Bhd. — Kuala Lumpur, Malaysia. Email info@jelapangresources.com or call +60 11-3955 2624.",
+    "Get in touch with Jelapang Resources Sdn. Bhd. — Kuala Lumpur, Malaysia. Email info@jelapangresources.com or call +603-2704 8591 or +603-2704 8592.",
 };
 
 export default async function ContactPage() {
