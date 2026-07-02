@@ -37,11 +37,12 @@ Open **http://localhost:3000**
 Copy `.env.local.example` to `.env.local`:
 
 ```env
-WORDPRESS_API_URL=http://localhost:8080/wp-json
-NEXT_PUBLIC_WORDPRESS_API_URL=http://localhost:8080/wp-json
+WORDPRESS_API_URL=https://cms.jelapangresources.com/wp-json
+NEXT_PUBLIC_WORDPRESS_API_URL=https://cms.jelapangresources.com/wp-json
 ```
 
-Point these at your backend URL in production.
+These default to the live CMS at `cms.jelapangresources.com`. For a local
+WordPress instance, override them with `http://localhost:8080/wp-json`.
 
 ## Pages
 

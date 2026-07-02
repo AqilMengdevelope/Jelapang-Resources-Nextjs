@@ -1,4 +1,5 @@
-export const DEFAULT_WORDPRESS_API_URL = "http://localhost:8080/wp-json";
+export const DEFAULT_WORDPRESS_API_URL =
+  "https://cms.jelapangresources.com/wp-json";
 
 export function getServerWordPressApiUrl(): string {
   return process.env.WORDPRESS_API_URL ?? DEFAULT_WORDPRESS_API_URL;
