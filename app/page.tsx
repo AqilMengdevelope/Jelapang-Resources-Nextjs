@@ -120,7 +120,14 @@ export default async function Home() {
     getPrincipals(),
     getSiteInfo(),
   ]);
-  const featuredPrincipals = allPrincipals.slice(0, featuredCount);
+  // Always feature MDH Bioquell on the home page; fill the rest in order.
+  const mdh = allPrincipals.find((p) => p.slug === "mdh-bioquell");
+  const featuredPrincipals = [
+    ...allPrincipals
+      .filter((p) => p.slug !== "mdh-bioquell")
+      .slice(0, mdh ? featuredCount - 1 : featuredCount),
+    ...(mdh ? [mdh] : []),
+  ];
 
   return (
     <>
