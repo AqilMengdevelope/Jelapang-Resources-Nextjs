@@ -241,6 +241,22 @@ export const principals: Principal[] = [
       "Repair & refurbishment",
     ],
   },
+  {
+    slug: "mdh-bioquell",
+    website: "https://www.bioquell.com",
+    name: "MDH Bioquell",
+    field: "Military",
+    origin: "United Kingdom",
+    tagline: "Bio-decontamination & CBRN containment",
+    description:
+      "MDH Bioquell specialises in hydrogen-peroxide-vapour bio-decontamination and containment systems. Its solutions eliminate biological and CBRN contamination across medical, defence and high-containment environments, protecting personnel and critical facilities.",
+    products: [
+      "Hydrogen peroxide vapour systems",
+      "Bio-decontamination chambers",
+      "CBRN containment solutions",
+      "Facility & equipment sterilisation",
+    ],
+  },
 
   /* ----------------------- RAILWAY ----------------------- */
   {

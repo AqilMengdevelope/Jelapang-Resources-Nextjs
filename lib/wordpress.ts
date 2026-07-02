@@ -184,15 +184,25 @@ export async function getPrincipals(sector?: string): Promise<Principal[]> {
     ? `/jelapang/v1/principals?sector=${encodeURIComponent(sector)}`
     : "/jelapang/v1/principals";
 
+  const localFallback =
+    sector === "military"
+      ? fallbackMilitary
+      : sector === "railway"
+        ? fallbackRailway
+        : fallbackPrincipals;
+
   const data = await wpFetch<{ principals: WpPrincipal[] }>(path);
 
   if (data?.principals?.length) {
-    return data.principals.map(mapPrincipal);
+    const fromCms = data.principals.map(mapPrincipal);
+    const cmsSlugs = new Set(fromCms.map((p) => p.slug));
+    // Append principals defined in code that the CMS doesn't return yet,
+    // so new additions appear without needing a CMS update.
+    const codeOnly = localFallback.filter((p) => !cmsSlugs.has(p.slug));
+    return [...fromCms, ...codeOnly];
   }
 
-  if (sector === "military") return fallbackMilitary;
-  if (sector === "railway") return fallbackRailway;
-  return fallbackPrincipals;
+  return localFallback;
 }
 
 export async function getPageBySlug(slug: string): Promise<WpPage | null> {

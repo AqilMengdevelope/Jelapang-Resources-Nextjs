@@ -164,26 +164,26 @@
   box-shadow: 0 18px 40px -24px rgba(15, 30, 50, 0.45);
 }
 .principal-card .pc-logo {
-  height: 46px;
+  height: 68px;
   display: flex;
   align-items: center;
-  margin-bottom: 18px;
+  margin-bottom: 22px;
 }
 .principal-card .pc-logo img {
-  max-height: 42px;
-  max-width: 120px;
+  max-height: 62px;
+  max-width: 170px;
   width: auto;
   object-fit: contain;
 }
 .principals-grid.on-dark .pc-logo {
   background: #fff;
   align-self: flex-start;
-  padding: 8px 12px;
-  border-radius: 8px;
+  padding: 14px 18px;
+  border-radius: 10px;
   height: auto;
 }
 .principals-grid.on-dark .pc-logo img {
-  max-height: 30px;
+  max-height: 48px;
 }
 .principal-card .pc-origin {
   font-family: var(--font-display);
