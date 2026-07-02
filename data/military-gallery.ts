@@ -35,4 +35,24 @@ export const militaryGallery: GallerySlide[] = [
       "https://cms.jelapangresources.com/wp-content/uploads/2026/07/IMG_8546.jpeg",
     alt: "Armoured column with dismounted troops during a combined exercise",
   },
+  {
+    image:
+      "https://cms.jelapangresources.com/wp-content/uploads/2026/07/IMG_8528.jpeg",
+    alt: "8x8 armoured fighting vehicle in digital camouflage advancing through dust",
+  },
+  {
+    image:
+      "https://cms.jelapangresources.com/wp-content/uploads/2026/07/IMG_8531.jpeg",
+    alt: "Camouflaged light helicopter banking low over the exercise area",
+  },
+  {
+    image:
+      "https://cms.jelapangresources.com/wp-content/uploads/2026/07/IMG_8545.jpeg",
+    alt: "Armoured vehicle gunner manning a mounted machine gun with helicopters overhead",
+  },
+  {
+    image:
+      "https://cms.jelapangresources.com/wp-content/uploads/2026/07/IMG_8551.jpeg",
+    alt: "Infantry section advancing alongside armoured vehicles under helicopter cover",
+  },
 ];
