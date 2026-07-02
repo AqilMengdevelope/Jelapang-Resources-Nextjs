@@ -15,7 +15,7 @@ export type HeroSlide = {
 export const defaultHeroSlides: HeroSlide[] = [
   {
     image:
-      "https://images.unsplash.com/photo-1588450248442-1c8357368dba?fm=jpg&q=80&w=2400&auto=format&fit=crop",
+      "https://cms.jelapangresources.com/wp-content/uploads/2026/07/IMG_8513.jpeg",
     tag: "Land · Sea · Air",
     title: "Ready to serve",
     titleHighlight: "the nation",
