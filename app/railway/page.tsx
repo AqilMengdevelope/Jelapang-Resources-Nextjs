@@ -90,7 +90,7 @@ export default async function RailwayPage() {
                 </p>
               </Reveal>
             </div>
-            <PrincipalGrid items={railwayPrincipals} />
+            <PrincipalGrid items={railwayPrincipals} layout="page" />
           </div>
         </section>
 

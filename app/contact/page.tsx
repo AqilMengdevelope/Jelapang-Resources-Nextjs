@@ -1,20 +1,24 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
 import ContactForm from "@/components/ContactForm";
 import { PinIcon, PhoneIcon, MailIcon, LayersIcon, CheckIcon } from "@/components/icons";
-import { getSiteInfo } from "@/lib/wordpress";
+import { getContactSpotlightActivity, getSiteInfo } from "@/lib/wordpress";
 
 export const metadata: Metadata = {
   title: "Contact Us — Jelapang Resources",
   description:
-    "Get in touch with Jelapang Resources Sdn. Bhd. — Kuala Lumpur, Malaysia. Email info@jelapangresources.com or call +60 11-3955 2624.",
+    "Get in touch with Jelapang Resources Sdn. Bhd. — Kuala Lumpur, Malaysia. Email info@jelapangresources.com or call +603-2704 8591 or +603-2704 8592.",
 };
 
 export default async function ContactPage() {
-  const site = await getSiteInfo();
+  const [site, spotlight] = await Promise.all([
+    getSiteInfo(),
+    getContactSpotlightActivity(),
+  ]);
 
   return (
     <>
@@ -28,48 +32,105 @@ export default async function ContactPage() {
           crumbs={[{ label: "Contact Us" }]}
         />
 
-        <section className="section">
+        <section className="section contact-section">
           <div className="container">
-            <div className="contact-grid">
-              <Reveal className="contact-card">
-                <span className="ic">
-                  <MailIcon width={22} height={22} />
-                </span>
-                <div>
-                  <h3>Email</h3>
-                  <a href={`mailto:${site.email}`}>{site.email}</a>
-                </div>
-              </Reveal>
+            <Reveal className="contact-section-head">
+              <span className="kicker">Get in Touch</span>
+              <h2 className="section-title">Reach our technical team</h2>
+              <p className="section-lead">
+                Project enquiries, capability briefings and partnership discussions —
+                connect with us in Kuala Lumpur or Shah Alam.
+              </p>
+            </Reveal>
 
-              <Reveal className="contact-card" delay={80}>
-                <span className="ic">
-                  <PhoneIcon width={22} height={22} />
-                </span>
-                <div>
-                  <h3>Phone</h3>
-                  <a href={site.phoneHref}>{site.phoneDisplay}</a>
-                </div>
-              </Reveal>
+            <div className="contact-split">
+              {spotlight?.featuredImage && (
+                <Reveal className="contact-spotlight">
+                  <Link href={`/activities/${spotlight.slug}`} className="contact-spotlight-link">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={spotlight.featuredImage}
+                      alt={spotlight.title}
+                      loading="eager"
+                    />
+                    <span className="contact-spotlight-caption">
+                      <span className="kicker">Latest Activity</span>
+                      <strong>{spotlight.title}</strong>
+                    </span>
+                  </Link>
+                </Reveal>
+              )}
 
-              <Reveal className="contact-card" delay={160}>
-                <span className="ic">
-                  <PinIcon width={22} height={22} />
-                </span>
-                <div>
-                  <h3>Head Office</h3>
-                  <p>{site.address}</p>
-                </div>
-              </Reveal>
+              <div className="contact-details">
+                <ul className="contact-list">
+                  <Reveal as="li" className="contact-item" delay={60}>
+                    <span className="contact-item-icon" aria-hidden>
+                      <MailIcon width={20} height={20} />
+                    </span>
+                    <div className="contact-item-body">
+                      <span className="contact-item-label">Email</span>
+                      <a href={`mailto:${site.email}`} className="contact-item-value contact-item-value--link">
+                        {site.email}
+                      </a>
+                    </div>
+                  </Reveal>
 
-              <Reveal className="contact-card" delay={240}>
-                <span className="ic">
-                  <LayersIcon width={22} height={22} />
-                </span>
-                <div>
-                  <h3>Workshop</h3>
-                  <p>{site.workshop}</p>
-                </div>
-              </Reveal>
+                  <Reveal as="li" className="contact-item" delay={100}>
+                    <span className="contact-item-icon" aria-hidden>
+                      <PhoneIcon width={20} height={20} />
+                    </span>
+                    <div className="contact-item-body">
+                      <span className="contact-item-label">Phone</span>
+                      <div className="contact-item-phones">
+                        {site.phoneDisplay.split(" / ").map((line) => {
+                          const href = `tel:${line.replace(/[^\d+]/g, "")}`;
+                          return (
+                            <a key={line} href={href} className="contact-item-value contact-item-value--link">
+                              {line.trim()}
+                            </a>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </Reveal>
+
+                  <Reveal as="li" className="contact-item" delay={140}>
+                    <span className="contact-item-icon" aria-hidden>
+                      <PinIcon width={20} height={20} />
+                    </span>
+                    <div className="contact-item-body">
+                      <span className="contact-item-label">Head Office</span>
+                      <p className="contact-item-value">{site.address}</p>
+                      <a
+                        href="https://www.google.com/maps?q=3+Towers+Jalan+Ampang+Kuala+Lumpur"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="contact-item-action"
+                      >
+                        Get directions
+                      </a>
+                    </div>
+                  </Reveal>
+
+                  <Reveal as="li" className="contact-item" delay={180}>
+                    <span className="contact-item-icon" aria-hidden>
+                      <LayersIcon width={20} height={20} />
+                    </span>
+                    <div className="contact-item-body">
+                      <span className="contact-item-label">Workshop</span>
+                      <p className="contact-item-value">{site.workshop}</p>
+                      <a
+                        href="https://www.google.com/maps?q=Jalan+Astaka+U8/88A+Bukit+Jelutong+Shah+Alam"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="contact-item-action"
+                      >
+                        Get directions
+                      </a>
+                    </div>
+                  </Reveal>
+                </ul>
+              </div>
             </div>
 
             <Reveal className="contact-map" delay={120}>

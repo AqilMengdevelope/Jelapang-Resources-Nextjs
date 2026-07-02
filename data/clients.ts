@@ -17,10 +17,7 @@ export const fallbackClients: TrustedClient[] = [
   { slug: "airforce", name: "Royal Malaysian Air Force", type: "logo" },
   { slug: "police", name: "Royal Malaysia Police", type: "logo" },
   { slug: "mmea", name: "Maritime Enforcement Agency", type: "logo" },
-  {
-    slug: "esscom",
-    name: "Eastern Sabah Security Command",
-    type: "badge",
-    badgeText: "ESSCOM",
-  },
+  { slug: "esscom", name: "Eastern Sabah Security Command", type: "logo" },
+  { slug: "atn", name: "Angkatan Tentera Malaysia", type: "logo" },
+  { slug: "bomba", name: "Fire and Rescue Department of Malaysia", type: "logo" },
 ];

@@ -98,18 +98,17 @@
 /* ---------- Client logos ---------- */
 .client-logos {
   margin-top: 36px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 18px;
+  width: 100%;
 }
 .client-logo {
   background: #fff;
   border-radius: 12px;
   padding: 16px 20px;
   height: 104px;
-  width: 150px;
+  width: 100%;
   display: grid;
   place-items: center;
   box-shadow: 0 12px 30px -18px rgba(0, 0, 0, 0.5);
@@ -129,7 +128,7 @@
   border: 1px solid var(--line-dark);
   border-radius: 12px;
   height: 104px;
-  width: 150px;
+  width: 100%;
   display: grid;
   place-items: center;
   text-align: center;
@@ -164,26 +163,66 @@
   box-shadow: 0 18px 40px -24px rgba(15, 30, 50, 0.45);
 }
 .principal-card .pc-logo {
-  height: 46px;
+  height: 68px;
   display: flex;
   align-items: center;
-  margin-bottom: 18px;
+  margin-bottom: 22px;
 }
 .principal-card .pc-logo img {
-  max-height: 42px;
-  max-width: 120px;
+  max-height: 62px;
+  max-width: 170px;
   width: auto;
-  object-fit: contain;
-}
-.principals-grid.on-dark .pc-logo {
-  background: #fff;
-  align-self: flex-start;
-  padding: 8px 12px;
-  border-radius: 8px;
   height: auto;
+  object-fit: contain;
+  display: block;
 }
-.principals-grid.on-dark .pc-logo img {
-  max-height: 30px;
+/* Service pages (/military, etc.) — same logo slot as home #partners */
+.principals-grid--page {
+  align-items: stretch;
+}
+.principals-grid--page .principal-card > a {
+  height: 100%;
+}
+.principals-grid.on-dark .pc-logo,
+.principals-grid--page .pc-logo {
+  background: #fff;
+  align-self: stretch;
+  width: 100%;
+  height: 88px;
+  min-height: 88px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  margin-bottom: 22px;
+}
+.principals-grid.on-dark .pc-logo img,
+.principals-grid--page .pc-logo img {
+  display: block;
+  max-height: 68px;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  object-position: center center;
+  margin-inline: auto;
+}
+.principals-grid--page .principal-card {
+  height: 100%;
+  padding: 20px 18px 18px;
+}
+.principals-grid--page .pc-tag {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  min-height: calc(1.5em * 3);
+  line-height: 1.5;
+}
+.principals-grid--page .pc-more {
+  margin-top: auto;
+  padding-top: 18px;
 }
 .principal-card .pc-origin {
   font-family: var(--font-display);
@@ -237,6 +276,87 @@
 }
 .principals-grid.on-dark .pc-more {
   color: var(--brass-bright);
+}
+
+/* ---------- Photo slider (service-page galleries) ---------- */
+.pslider-frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  max-height: 640px;
+  width: 100%;
+  overflow: hidden;
+  background: var(--green-deep);
+}
+.pslider-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+.pslider-slide.active {
+  opacity: 1;
+}
+.pslider-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.pslider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 23, 45, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #fff;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.pslider-arrow:hover {
+  background: var(--brass);
+  border-color: var(--brass);
+}
+.pslider-arrow.prev {
+  left: 18px;
+}
+.pslider-arrow.next {
+  right: 18px;
+}
+.pslider-count {
+  position: absolute;
+  right: 18px;
+  bottom: 14px;
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(10, 23, 45, 0.45);
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+.pslider-dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 18px;
+}
+.pslider-dots button {
+  width: 34px;
+  height: 3px;
+  border: 0;
+  padding: 0;
+  background: var(--line);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.pslider-dots button.on {
+  background: var(--brass);
 }
 
 /* ---------- Generic content ---------- */
@@ -368,47 +488,161 @@
 }
 
 /* ---------- Contact page ---------- */
-.contact-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
+.contact-section-head {
+  max-width: 720px;
+  margin-bottom: 36px;
 }
-.contact-card {
+.contact-section-head .section-lead {
+  margin-top: 14px;
+}
+.contact-split {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  border: 1px solid var(--line);
+  background: #fff;
+  overflow: hidden;
+  min-height: 480px;
+}
+.contact-split:not(:has(.contact-spotlight)) {
+  grid-template-columns: 1fr;
+}
+.contact-spotlight {
+  position: relative;
+  min-height: 280px;
+}
+.contact-spotlight-link {
+  display: block;
+  position: relative;
+  height: 100%;
+  min-height: 500px;
+  overflow: hidden;
+  color: inherit;
+}
+.contact-spotlight-link img {
+  width: 100%;
+  height: 100%;
+  min-height: 500px;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 0.45s ease;
+}
+.contact-spotlight-link:hover img {
+  transform: scale(1.03);
+}
+.contact-spotlight-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 22px 24px;
+  background: linear-gradient(transparent, rgba(8, 28, 18, 0.9));
+  color: #fff;
+}
+.contact-spotlight-caption strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 18px;
+  letter-spacing: 0.04em;
+}
+.contact-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 28px 32px;
+  background:
+    linear-gradient(165deg, rgba(20, 78, 45, 0.05) 0%, rgba(255, 255, 255, 0) 48%),
+    var(--bg-soft);
+  border-left: 1px solid var(--line);
+}
+.contact-split:not(:has(.contact-spotlight)) .contact-details {
+  border-left: 0;
+}
+.contact-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 18px 20px;
   background: #fff;
   border: 1px solid var(--line);
-  padding: 32px 30px;
-  display: flex;
-  gap: 18px;
-  align-items: flex-start;
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
 }
-.contact-card .ic {
-  width: 50px;
-  height: 50px;
+.contact-item:hover {
+  border-color: rgba(20, 78, 45, 0.24);
+  box-shadow: 0 10px 28px rgba(8, 28, 18, 0.07);
+  transform: translateY(-1px);
+}
+.contact-item-icon {
+  width: 46px;
+  height: 46px;
   flex-shrink: 0;
   display: grid;
   place-items: center;
-  background: var(--green);
+  background: linear-gradient(160deg, var(--green) 0%, var(--green-deep) 100%);
   color: var(--brass-bright);
   clip-path: polygon(0 0, 100% 0, 100% 78%, 50% 100%, 0 78%);
+  box-shadow: 0 6px 14px rgba(20, 78, 45, 0.18);
 }
-.contact-card h3 {
-  font-size: 16px;
-  letter-spacing: 0.08em;
-  color: var(--green-deep);
+.contact-item-body {
+  flex: 1;
+  min-width: 0;
+  padding-top: 1px;
 }
-.contact-card p,
-.contact-card a {
-  color: var(--ink-2);
-  font-size: 15.5px;
-  margin-top: 6px;
+.contact-item-label {
   display: block;
-  line-height: 1.6;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 6px;
 }
-.contact-card a:hover {
+.contact-item-value {
+  display: block;
+  color: var(--ink-2);
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 0;
+}
+.contact-item-value--link {
+  color: var(--green-deep);
+  font-weight: 600;
+  word-break: break-word;
+}
+.contact-item-value--link:hover {
+  color: var(--brass);
+}
+.contact-item-phones {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.contact-item-action {
+  display: inline-flex;
+  margin-top: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--green);
+}
+.contact-item-action:hover {
   color: var(--brass);
 }
 .contact-map {
-  margin-top: 24px;
+  margin-top: 28px;
   border: 1px solid var(--line);
   overflow: hidden;
   line-height: 0;
@@ -418,6 +652,80 @@
   height: 380px;
   border: 0;
   filter: grayscale(0.2);
+}
+
+/* ---------- Activities ---------- */
+.activities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 28px;
+}
+.activity-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: inherit;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.activity-card:hover {
+  border-color: rgba(20, 78, 45, 0.35);
+  box-shadow: 0 12px 32px rgba(8, 28, 18, 0.08);
+}
+.activity-card-media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--bg-soft);
+}
+.activity-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.45s ease;
+}
+.activity-card:hover .activity-card-media img {
+  transform: scale(1.04);
+}
+.activity-card-body {
+  padding: 24px 26px 28px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.activity-card-body h3 {
+  font-size: 22px;
+  color: var(--green-deep);
+  margin-bottom: 10px;
+}
+.activity-card-body p {
+  color: var(--ink-2);
+  font-size: 15.5px;
+  line-height: 1.65;
+  flex: 1;
+}
+.activity-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  color: var(--green);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.activity-content {
+  margin-top: 48px;
+  max-width: 760px;
+  color: var(--ink-2);
+  font-size: 17px;
+  line-height: 1.75;
+}
+.activity-content p + p {
+  margin-top: 16px;
 }
 
 /* ---------- Contact Form ---------- */
@@ -691,9 +999,13 @@
   padding: 16px;
 }
 .rail-cust-logo img {
-  width: 100%;
-  height: 100%;
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
   object-fit: contain;
+  object-position: center center;
 }
 .rail-cust-name {
   font-family: var(--font-display);
@@ -737,11 +1049,23 @@
   .principals-grid {
     grid-template-columns: 1fr 1fr;
   }
+  .client-logos {
+    grid-template-columns: repeat(2, 1fr);
+  }
   .service-intro,
   .detail-grid,
-  .contact-grid {
+  .contact-split {
     grid-template-columns: 1fr;
-    gap: 32px;
+    min-height: 0;
+  }
+  .contact-spotlight-link,
+  .contact-spotlight-link img {
+    min-height: 320px;
+  }
+  .contact-details {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+    padding: 24px 20px;
   }
   .detail-aside {
     position: static;
@@ -758,9 +1082,12 @@
   .detail-products {
     grid-template-columns: 1fr;
   }
+  .client-logos {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
   .client-logo,
   .client-badge {
-    width: 132px;
     height: 92px;
   }
 }
