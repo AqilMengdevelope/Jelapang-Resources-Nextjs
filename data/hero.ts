@@ -23,18 +23,18 @@ export const defaultHeroSlides: HeroSlide[] = [
   },
   {
     image:
-      "https://images.unsplash.com/photo-1545631757-8b75025a310e?fm=jpg&q=80&w=2400&auto=format&fit=crop",
-    tag: "Strength · Mobility · Protection",
-    title: "Strength in",
-    titleHighlight: "every mission",
-    sub: "From small arms ammunition to armoured vehicle systems — proven, certified technology delivered on specification and on time.",
+      "https://images.unsplash.com/photo-1580442374555-3def8fb41738?fm=jpg&q=80&w=2400&auto=format&fit=crop",
+    tag: "Rolling Stock · Infrastructure",
+    title: "Keeping rail",
+    titleHighlight: "on the move",
+    sub: "Rolling-stock supply, maintenance and trackside infrastructure that keep the nation's rail networks safe, reliable and running.",
   },
   {
     image:
-      "https://images.unsplash.com/photo-1719553946838-1190abdeee92?fm=jpg&q=80&w=2400&auto=format&fit=crop",
-    tag: "A Strategic Partner",
-    title: "Trusted across",
-    titleHighlight: "military, railway & IT",
-    sub: "Engineering, supply and lifecycle support for mission-critical assets — backed by renowned global technology partners.",
+      "https://images.unsplash.com/photo-1506399309177-3b43e99fead2?fm=jpg&q=80&w=2400&auto=format&fit=crop",
+    tag: "Systems · Electronics",
+    title: "Powering modern",
+    titleHighlight: "operations",
+    sub: "ICT hardware, electronics engineering and lifecycle support for the digital systems that run mission-critical operations.",
   },
 ];
