@@ -159,8 +159,9 @@ export async function getSiteInfo(): Promise<SiteInfo> {
     name: company.name,
     regNo: company.regNo ?? fallbackSite.regNo,
     email: company.email ?? fallbackSite.email,
-    phoneDisplay: company.phoneDisplay ?? company.phone ?? fallbackSite.phoneDisplay,
-    phoneHref: company.phoneHref ?? fallbackSite.phoneHref,
+    // Phone numbers are managed in code (data/site.ts), not the CMS.
+    phoneDisplay: fallbackSite.phoneDisplay,
+    phoneHref: fallbackSite.phoneHref,
     address: company.address ?? fallbackSite.address,
     workshop: company.workshop ?? fallbackSite.workshop,
     tagline: company.tagline,
