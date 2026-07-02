@@ -177,13 +177,16 @@
 }
 .principals-grid.on-dark .pc-logo {
   background: #fff;
-  align-self: flex-start;
+  align-self: stretch;
+  width: 100%;
+  height: 88px;
   padding: 14px 18px;
   border-radius: 10px;
-  height: auto;
+  justify-content: center;
 }
 .principals-grid.on-dark .pc-logo img {
   max-height: 48px;
+  max-width: 100%;
 }
 .principal-card .pc-origin {
   font-family: var(--font-display);
