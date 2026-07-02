@@ -6,6 +6,8 @@ import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
 import PrincipalGrid from "@/components/PrincipalGrid";
 import ClientLogos from "@/components/ClientLogos";
+import PhotoSlider from "@/components/PhotoSlider";
+import { militaryGallery } from "@/data/military-gallery";
 import { getPrincipals, getSiteInfo, getClients } from "@/lib/wordpress";
 import { ArrowRight, CheckIcon } from "@/components/icons";
 import { briefingHref } from "@/data/site";
@@ -79,6 +81,25 @@ export default async function MilitaryPage() {
                 </ul>
               </Reveal>
             </div>
+          </div>
+        </section>
+
+        {/* Gallery */}
+        <section className="section" style={{ paddingTop: 0 }}>
+          <div className="container">
+            <div className="center-head">
+              <Reveal>
+                <span className="kicker center">In the Field</span>
+                <h2 className="section-title">Proven on the Ground</h2>
+                <p className="section-lead">
+                  Alongside Malaysia&apos;s armed forces — where the equipment we
+                  supply is put to work.
+                </p>
+              </Reveal>
+            </div>
+            <Reveal delay={100}>
+              <PhotoSlider slides={militaryGallery} />
+            </Reveal>
           </div>
         </section>
 

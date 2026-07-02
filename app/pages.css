@@ -242,6 +242,85 @@
   color: var(--brass-bright);
 }
 
+/* ---------- Photo slider (service-page galleries) ---------- */
+.pslider-frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  max-height: 640px;
+  width: 100%;
+  overflow: hidden;
+  background: var(--green-deep);
+}
+.pslider-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+.pslider-slide.active {
+  opacity: 1;
+}
+.pslider-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.pslider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 23, 45, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.pslider-arrow:hover {
+  background: var(--brass);
+  border-color: var(--brass);
+}
+.pslider-arrow.prev {
+  left: 18px;
+}
+.pslider-arrow.next {
+  right: 18px;
+}
+.pslider-count {
+  position: absolute;
+  right: 18px;
+  bottom: 14px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  color: #fff;
+  background: rgba(10, 23, 45, 0.55);
+  padding: 5px 12px;
+}
+.pslider-dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 18px;
+}
+.pslider-dots button {
+  width: 34px;
+  height: 3px;
+  border: 0;
+  padding: 0;
+  background: var(--line);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.pslider-dots button.on {
+  background: var(--brass);
+}
+
 /* ---------- Generic content ---------- */
 .lead-block {
   max-width: 760px;
