@@ -6,7 +6,8 @@ import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
 import PrincipalGrid from "@/components/PrincipalGrid";
 import ClientLogos from "@/components/ClientLogos";
-import { getPrincipals, getSiteInfo, getClients } from "@/lib/wordpress";
+import PhotoSlider from "@/components/PhotoSlider";
+import { getMilitaryGallery, getPrincipals, getSiteInfo, getClients } from "@/lib/wordpress";
 import { ArrowRight, CheckIcon } from "@/components/icons";
 import { briefingHref } from "@/data/site";
 
@@ -28,10 +29,11 @@ const points = [
 ];
 
 export default async function MilitaryPage() {
-  const [militaryPrincipals, site, { clients }] = await Promise.all([
+  const [militaryPrincipals, site, { clients }, gallerySlides] = await Promise.all([
     getPrincipals("military"),
     getSiteInfo(),
     getClients(),
+    getMilitaryGallery(),
   ]);
 
   return (
@@ -82,6 +84,24 @@ export default async function MilitaryPage() {
           </div>
         </section>
 
+        <section className="section" style={{ paddingTop: 0 }}>
+          <div className="container">
+            <div className="center-head">
+              <Reveal>
+                <span className="kicker center">In the Field</span>
+                <h2 className="section-title">Proven on the Ground</h2>
+                <p className="section-lead">
+                  Alongside Malaysia&apos;s armed forces — where the equipment we
+                  supply is put to work.
+                </p>
+              </Reveal>
+            </div>
+            <Reveal delay={100}>
+              <PhotoSlider slides={gallerySlides} />
+            </Reveal>
+          </div>
+        </section>
+
         {/* Principals */}
         <section className="section caps">
           <div className="container">
@@ -95,7 +115,7 @@ export default async function MilitaryPage() {
                 </p>
               </Reveal>
             </div>
-            <PrincipalGrid items={militaryPrincipals} />
+            <PrincipalGrid items={militaryPrincipals} layout="page" />
           </div>
         </section>
 

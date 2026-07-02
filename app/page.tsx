@@ -5,7 +5,12 @@ import Reveal from "@/components/Reveal";
 import Footer from "@/components/Footer";
 import ClientLogosSection from "@/components/ClientLogosSection";
 import PrincipalGrid from "@/components/PrincipalGrid";
-import { getHomeStats, getPrincipals, getSiteInfo } from "@/lib/wordpress";
+import {
+  getFeaturedPrincipals,
+  getHeroSlides,
+  getHomeStats,
+  getSiteInfo,
+} from "@/lib/wordpress";
 import {
   ShieldIcon,
   GlobeIcon,
@@ -115,18 +120,18 @@ const featuredCount = 8;
 /* ---------------- Page ---------------- */
 
 export default async function Home() {
-  const [stats, allPrincipals, site] = await Promise.all([
+  const [stats, featuredPrincipals, site, heroSlides] = await Promise.all([
     getHomeStats(),
-    getPrincipals(),
+    getFeaturedPrincipals(featuredCount),
     getSiteInfo(),
+    getHeroSlides(),
   ]);
-  const featuredPrincipals = allPrincipals.slice(0, featuredCount);
 
   return (
     <>
       <SiteHeader />
       <main>
-        <HeroCarousel />
+        <HeroCarousel slides={heroSlides} />
 
         {/* ABOUT / WELCOME */}
         <section className="section about" id="about">
