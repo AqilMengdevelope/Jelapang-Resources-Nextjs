@@ -4,10 +4,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "./icons";
 import type { GallerySlide } from "@/data/military-gallery";
 
-/**
- * Simple auto-advancing photo slider with arrows, dots and swipe support.
- * Used for photo galleries on service pages.
- */
 export default function PhotoSlider({
   slides,
   interval = 5000,

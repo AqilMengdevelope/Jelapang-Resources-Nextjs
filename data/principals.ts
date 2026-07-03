@@ -12,8 +12,20 @@ export type Principal = {
   logo?: string;
 };
 
+/** Bundled logo paths in /public/principals (override generic slug.png). */
+const PRINCIPAL_LOGO_FILES: Record<string, string> = {
+  "airboss-defense": "/principals/airboss-defense.svg",
+  "kent-periscopes": "/principals/kent-periscopes.svg",
+  "nencki": "/principals/nencki.svg",
+  "eickhorn": "/principals/eickhorn.jpg",
+  "hutchinson": "/principals/hutchinson.svg",
+  "mehler": "/principals/mehler.svg",
+  "cts": "/principals/cts.svg",
+};
+
 /** Logo path for a principal (stored in /public/principals). */
-export const principalLogo = (slug: string) => `/principals/${slug}.png`;
+export const principalLogo = (slug: string) =>
+  PRINCIPAL_LOGO_FILES[slug] ?? `/principals/${slug}.png`;
 
 export const principals: Principal[] = [
   /* ----------------------- MILITARY ----------------------- */
@@ -369,6 +381,22 @@ export const principals: Principal[] = [
       "Cleaning & servicing equipment",
       "Rolling-stock upkeep solutions",
       "Technical support",
+    ],
+  },
+  {
+    slug: "neuero",
+    website: "https://www.neuero-railtec.com/en/",
+    name: "NEUERO RAILTEC",
+    field: "Railway",
+    origin: "Germany",
+    tagline: "Railway workshop lifting & maintenance systems",
+    description:
+      "NEUERO RAILTEC supplies lifting systems, steel structures and workshop technology for the maintenance and repair of rail vehicles — trusted in depots across Germany, Europe and worldwide.",
+    products: [
+      "Workshop lifting systems",
+      "Rail vehicle maintenance equipment",
+      "Steel structures & bridge fabrication",
+      "Depot engineering & project delivery",
     ],
   },
 

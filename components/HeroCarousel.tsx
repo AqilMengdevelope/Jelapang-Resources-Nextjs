@@ -14,7 +14,7 @@ export default function HeroCarousel({
   const count = slides.length;
 
   const go = useCallback(
-    (n: number) => setI((p) => (n + count) % count),
+    (n: number) => setI(() => ((n % count) + count) % count),
     [count]
   );
 
@@ -22,6 +22,8 @@ export default function HeroCarousel({
     const t = setInterval(() => setI((p) => (p + 1) % count), 6500);
     return () => clearInterval(t);
   }, [count]);
+
+  if (!count) return null;
 
   return (
     <section className="hero" id="top">

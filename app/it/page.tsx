@@ -90,7 +90,7 @@ export default async function ITPage() {
                 </p>
               </Reveal>
             </div>
-            <PrincipalGrid items={itPrincipals} />
+            <PrincipalGrid items={itPrincipals} layout="page" />
           </div>
         </section>
 

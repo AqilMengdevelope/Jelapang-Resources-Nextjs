@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import ClientLogosSection from "@/components/ClientLogosSection";
 import PrincipalGrid from "@/components/PrincipalGrid";
 import {
+  getFeaturedPrincipals,
   getHeroSlides,
   getHomeStats,
   getPrincipals,
@@ -120,20 +121,22 @@ const featuredCount = 8;
 /* ---------------- Page ---------------- */
 
 export default async function Home() {
-  const [stats, allPrincipals, site, heroSlides] = await Promise.all([
+  const [stats, featuredBase, site, heroSlides] = await Promise.all([
     getHomeStats(),
-    getPrincipals(),
+    getFeaturedPrincipals(featuredCount),
     getSiteInfo(),
     getHeroSlides(),
   ]);
-  // Always feature MDH Bioquell on the home page; fill the rest in order.
-  const mdh = allPrincipals.find((p) => p.slug === "mdh-bioquell");
-  const featuredPrincipals = [
-    ...allPrincipals
-      .filter((p) => p.slug !== "mdh-bioquell")
-      .slice(0, mdh ? featuredCount - 1 : featuredCount),
-    ...(mdh ? [mdh] : []),
-  ];
+
+  // Always feature MDH Bioquell on the home page. If the CMS-configured
+  // featured set doesn't already include it, slot it in as the last card.
+  let featuredPrincipals = featuredBase;
+  if (!featuredPrincipals.some((p) => p.slug === "mdh-bioquell")) {
+    const mdh = (await getPrincipals()).find((p) => p.slug === "mdh-bioquell");
+    if (mdh) {
+      featuredPrincipals = [...featuredBase.slice(0, featuredCount - 1), mdh];
+    }
+  }
 
   return (
     <>

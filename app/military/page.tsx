@@ -7,8 +7,7 @@ import Reveal from "@/components/Reveal";
 import PrincipalGrid from "@/components/PrincipalGrid";
 import ClientLogos from "@/components/ClientLogos";
 import PhotoSlider from "@/components/PhotoSlider";
-import { militaryGallery } from "@/data/military-gallery";
-import { getPrincipals, getSiteInfo, getClients } from "@/lib/wordpress";
+import { getMilitaryGallery, getPrincipals, getSiteInfo, getClients } from "@/lib/wordpress";
 import { ArrowRight, CheckIcon } from "@/components/icons";
 import { briefingHref } from "@/data/site";
 
@@ -30,10 +29,11 @@ const points = [
 ];
 
 export default async function MilitaryPage() {
-  const [militaryPrincipals, site, { clients }] = await Promise.all([
+  const [militaryPrincipals, site, { clients }, gallerySlides] = await Promise.all([
     getPrincipals("military"),
     getSiteInfo(),
     getClients(),
+    getMilitaryGallery(),
   ]);
 
   return (
@@ -84,7 +84,6 @@ export default async function MilitaryPage() {
           </div>
         </section>
 
-        {/* Gallery */}
         <section className="section" style={{ paddingTop: 0 }}>
           <div className="container">
             <div className="center-head">
@@ -98,7 +97,7 @@ export default async function MilitaryPage() {
               </Reveal>
             </div>
             <Reveal delay={100}>
-              <PhotoSlider slides={militaryGallery} />
+              <PhotoSlider slides={gallerySlides} />
             </Reveal>
           </div>
         </section>
@@ -116,7 +115,7 @@ export default async function MilitaryPage() {
                 </p>
               </Reveal>
             </div>
-            <PrincipalGrid items={militaryPrincipals} />
+            <PrincipalGrid items={militaryPrincipals} layout="page" />
           </div>
         </section>
 

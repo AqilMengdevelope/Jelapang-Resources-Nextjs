@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type MouseEvent } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { MenuIcon, CloseIcon, ChevronDown, ArrowRight } from "./icons";
 
-import { site as fallbackSite } from "@/data/site";
+import { site as fallbackSite, briefingHref } from "@/data/site";
+import { scrollToHash } from "@/components/HashScroll";
 
 type NavItem = {
   href?: string;
@@ -25,6 +26,7 @@ const links: NavItem[] = [
       { href: "/it", label: "IT" },
     ],
   },
+  { href: "/activities", label: "Activities" },
   { href: "/contact", label: "Contact Us" },
 ];
 
@@ -38,6 +40,7 @@ export default function Header({
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
 
   const isActive = (href?: string) =>
     href ? (href === "/" ? pathname === "/" : pathname.startsWith(href)) : false;
@@ -62,6 +65,24 @@ export default function Header({
   }, [open]);
 
   const close = () => setOpen(false);
+  const goToBriefing = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    close();
+
+    const scrollDelays = [0, 50, 150, 300, 600, 1000];
+    const scheduleScroll = () => {
+      scrollDelays.forEach((ms) => window.setTimeout(scrollToHash, ms));
+    };
+
+    if (pathname === "/contact") {
+      window.history.replaceState(null, "", briefingHref);
+      scheduleScroll();
+      return;
+    }
+
+    router.push(briefingHref, { scroll: false });
+    scheduleScroll();
+  };
 
   return (
     <header
@@ -123,7 +144,12 @@ export default function Header({
         </nav>
 
         <div className="header-cta">
-          <Link href="/contact" className="btn btn-primary">
+          <Link
+            href={briefingHref}
+            scroll={false}
+            className="btn btn-primary"
+            onClick={goToBriefing}
+          >
             Request a Briefing
           </Link>
           <button
@@ -199,7 +225,12 @@ export default function Header({
         </nav>
 
         <div className="drawer-foot">
-          <Link href="/contact" className="btn btn-primary" onClick={close}>
+          <Link
+            href={briefingHref}
+            scroll={false}
+            className="btn btn-primary"
+            onClick={goToBriefing}
+          >
             Request a Briefing <ArrowRight width={18} height={18} />
           </Link>
           <a href={phoneHref} className="drawer-phone">

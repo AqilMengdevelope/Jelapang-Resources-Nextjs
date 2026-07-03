@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 
-function scrollToHash() {
+export function scrollToHash() {
   const id = window.location.hash.replace(/^#/, "");
   if (!id) return;
 
@@ -26,8 +26,14 @@ export default function HashScroll() {
 
   useEffect(() => {
     scrollToHash();
+    const timers = [0, 100, 250, 500, 800].map((ms) =>
+      window.setTimeout(scrollToHash, ms)
+    );
     window.addEventListener("hashchange", scrollToHash);
-    return () => window.removeEventListener("hashchange", scrollToHash);
+    return () => {
+      timers.forEach((id) => window.clearTimeout(id));
+      window.removeEventListener("hashchange", scrollToHash);
+    };
   }, [pathname]);
 
   return null;

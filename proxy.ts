@@ -2,12 +2,11 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 /**
- * Optional site-wide maintenance switch (dormant / OFF by default).
+ * Site-wide maintenance switch — OFF by default.
  *
- * The home page itself now renders the maintenance screen directly (see
- * `app/page.tsx`), so no hosting configuration is required to show it. This
- * proxy is kept only as an optional way to take EVERY route into maintenance
- * at once: set `MAINTENANCE_MODE=true` in your hosting dashboard to enable it.
+ * Set `MAINTENANCE_MODE=true` in `.env.local` (or hosting env) to serve the
+ * maintenance page on every route. Any other value, or leaving it unset, keeps
+ * the full site online. Preview the page anytime at `/maintenance`.
  */
 export function proxy(request: NextRequest) {
   const maintenance = process.env.MAINTENANCE_MODE === "true";
