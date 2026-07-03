@@ -654,11 +654,22 @@
   filter: grayscale(0.2);
 }
 
+/* Soft-tinted section background (e.g. home projects preview) */
+.section.section-soft {
+  background: var(--bg-soft);
+}
+
 /* ---------- Activities ---------- */
 .activities-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 28px;
+}
+/* Home preview: force a single row of four on wide screens */
+@media (min-width: 1080px) {
+  .activities-grid.activities-grid--preview {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 .activity-card {
   display: flex;

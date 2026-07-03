@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import ClientLogosSection from "@/components/ClientLogosSection";
 import PrincipalGrid from "@/components/PrincipalGrid";
 import {
+  getActivities,
   getFeaturedPrincipals,
   getHeroSlides,
   getHomeStats,
@@ -121,12 +122,15 @@ const featuredCount = 8;
 /* ---------------- Page ---------------- */
 
 export default async function Home() {
-  const [stats, featuredBase, site, heroSlides] = await Promise.all([
-    getHomeStats(),
-    getFeaturedPrincipals(featuredCount),
-    getSiteInfo(),
-    getHeroSlides(),
-  ]);
+  const [stats, featuredBase, site, heroSlides, allActivities] =
+    await Promise.all([
+      getHomeStats(),
+      getFeaturedPrincipals(featuredCount),
+      getSiteInfo(),
+      getHeroSlides(),
+      getActivities(),
+    ]);
+  const featuredActivities = allActivities.slice(0, 4);
 
   // Always feature MDH Bioquell on the home page. If the CMS-configured
   // featured set doesn't already include it, slot it in as the last card.
@@ -281,6 +285,60 @@ export default async function Home() {
             </div>
           </div>
         </section>
+
+        {/* PROJECTS PREVIEW */}
+        {featuredActivities.length > 0 && (
+          <section className="section section-soft" id="projects">
+            <div className="container">
+              <div className="caps-head">
+                <Reveal>
+                  <span className="kicker">Our Work</span>
+                  <h2 className="section-title">Recent Projects</h2>
+                </Reveal>
+                <Reveal delay={120}>
+                  <p className="section-lead">
+                    A look at recent field activities — depot systems,
+                    rolling-stock maintenance and infrastructure delivered
+                    on site.
+                  </p>
+                </Reveal>
+              </div>
+
+              <div className="activities-grid activities-grid--preview">
+                {featuredActivities.map((activity, index) => (
+                  <Reveal key={activity.slug} delay={index * 80}>
+                    <Link
+                      href={`/activities/${activity.slug}`}
+                      className="activity-card"
+                    >
+                      <div className="activity-card-media">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={activity.featuredImage}
+                          alt={activity.title}
+                          loading="lazy"
+                        />
+                      </div>
+                      <div className="activity-card-body">
+                        <h3>{activity.title}</h3>
+                        <p>{activity.excerpt}</p>
+                        <span className="activity-card-link">
+                          View gallery <ArrowRight width={16} height={16} />
+                        </span>
+                      </div>
+                    </Link>
+                  </Reveal>
+                ))}
+              </div>
+
+              <div style={{ textAlign: "center", marginTop: 44 }}>
+                <Link href="/activities" className="btn btn-green">
+                  View All Projects <ArrowRight width={18} height={18} />
+                </Link>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* PRINCIPALS + CLIENTS */}
         <section className="section partners" id="partners">
