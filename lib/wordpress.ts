@@ -8,7 +8,11 @@ import {
   type Principal,
 } from "@/data/principals";
 import { site as fallbackSite } from "@/data/site";
-import { defaultHeroSlides, type HeroSlide } from "@/data/hero";
+import {
+  defaultHeroSlides,
+  heroImageReplacements,
+  type HeroSlide,
+} from "@/data/hero";
 import { militaryGallery as fallbackMilitaryGallery, type GallerySlide } from "@/data/military-gallery";
 import {
   clientLogo,
@@ -359,13 +363,18 @@ export async function getFeaturedPrincipals(limit = 8): Promise<Principal[]> {
   return all.slice(0, limit);
 }
 
+function replaceHeroImage(url: string): string {
+  const hit = heroImageReplacements.find((r) => url.includes(r.match));
+  return hit ? hit.replace : url;
+}
+
 export async function getHeroSlides(): Promise<HeroSlide[]> {
   const data = await wpFetch<{ slides: WpHeroSlide[] }>("/jelapang/v1/hero");
 
   const slides = (data?.slides ?? [])
     .filter((s) => s.image) // an image is required for a usable slide
     .map((s) => ({
-      image: s.image as string,
+      image: replaceHeroImage(s.image as string),
       tag: s.tag ?? "",
       title: s.title ?? "",
       titleHighlight: s.titleHighlight || undefined,

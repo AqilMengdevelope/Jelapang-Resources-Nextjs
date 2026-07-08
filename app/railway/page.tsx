@@ -40,7 +40,7 @@ export default async function RailwayPage() {
           kicker="Our Services"
           title="Railway"
           subtitle="Engineering, supply and maintenance solutions that keep rail networks safe, reliable and moving."
-          image="https://images.unsplash.com/photo-1580442374555-3def8fb41738?fm=jpg&q=80&w=2000&auto=format&fit=crop"
+          image="https://cms.jelapangresources.com/wp-content/uploads/2026/07/IMG_9756-15.jpg"
           crumbs={[{ label: "Our Services" }, { label: "Railway" }]}
         />
 

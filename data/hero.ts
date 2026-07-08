@@ -9,6 +9,20 @@ export type HeroSlide = {
 };
 
 /**
+ * Replace stale hero images the CMS still serves, matched by substring.
+ * Applied over the CMS-authoritative hero so image swaps take effect in
+ * code without needing a CMS update.
+ */
+export const heroImageReplacements: { match: string; replace: string }[] = [
+  {
+    // Old railway stock photo → real railway project photo (mrt-niteq).
+    match: "photo-1580442374555",
+    replace:
+      "https://cms.jelapangresources.com/wp-content/uploads/2026/07/IMG_2956-16.jpg",
+  },
+];
+
+/**
  * Default hero slides. Used as the fallback when the WordPress
  * `jelapang/v1/hero` endpoint returns nothing (or is unreachable).
  */
@@ -23,7 +37,7 @@ export const defaultHeroSlides: HeroSlide[] = [
   },
   {
     image:
-      "https://images.unsplash.com/photo-1580442374555-3def8fb41738?fm=jpg&q=80&w=2400&auto=format&fit=crop",
+      "https://cms.jelapangresources.com/wp-content/uploads/2026/07/IMG_2956-16.jpg",
     tag: "Rolling Stock · Infrastructure",
     title: "Keeping rail",
     titleHighlight: "on the move",

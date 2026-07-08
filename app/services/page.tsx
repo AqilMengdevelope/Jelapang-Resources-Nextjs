@@ -38,7 +38,7 @@ const services = [
     title: "Railway",
     tag: "Rolling Stock & Infrastructure",
     image:
-      "https://images.unsplash.com/photo-1580442374555-3def8fb41738?fm=jpg&q=80&w=1600&auto=format&fit=crop",
+      "https://cms.jelapangresources.com/wp-content/uploads/2026/07/IMG_9449-1.jpg",
     desc: "Engineering, supply and maintenance that keep rail networks safe and moving — from rolling stock components to depot equipment and trackside infrastructure.",
     points: [
       "Rolling stock spare parts",
