@@ -4,6 +4,8 @@ export type Principal = {
   slug: string;
   name: string;
   field: Field;
+  /** Additional sectors this principal should also appear under. */
+  alsoIn?: Field[];
   origin: string;
   tagline: string;
   description: string;
@@ -356,6 +358,7 @@ export const principals: Principal[] = [
     website: "https://www.cenzin.com.pl",
     name: "CENZIN (PGZ)",
     field: "Railway",
+    alsoIn: ["Military"],
     origin: "Poland",
     tagline: "Defence & rail supply — PGZ Group",
     description:
@@ -419,9 +422,12 @@ export const principals: Principal[] = [
   },
 ];
 
-export const militaryPrincipals = principals.filter((p) => p.field === "Military");
-export const railwayPrincipals = principals.filter((p) => p.field === "Railway");
-export const itPrincipals = principals.filter((p) => p.field === "IT");
+const inSector = (p: Principal, sector: Field) =>
+  p.field === sector || (p.alsoIn?.includes(sector) ?? false);
+
+export const militaryPrincipals = principals.filter((p) => inSector(p, "Military"));
+export const railwayPrincipals = principals.filter((p) => inSector(p, "Railway"));
+export const itPrincipals = principals.filter((p) => inSector(p, "IT"));
 
 export const getPrincipal = (slug: string) =>
   principals.find((p) => p.slug === slug);

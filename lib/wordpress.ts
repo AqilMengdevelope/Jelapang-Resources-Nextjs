@@ -21,7 +21,9 @@ import {
   activitiesHeroFallback,
   activitiesHeroFile,
   activitiesHeroSlug,
+  activityTitleOverrides,
   fallbackActivities,
+  hiddenActivitySlugs,
   type Activity,
 } from "@/data/activities";
 import { getServerWordPressApiUrl } from "@/lib/config";
@@ -235,7 +237,9 @@ function mapActivity(activity: WpActivity): Activity {
 
   return {
     id: activity.id,
-    title: decodeHtmlEntities(activity.title),
+    title:
+      activityTitleOverrides[activity.slug] ??
+      decodeHtmlEntities(activity.title),
     slug: activity.slug,
     excerpt: decodeHtmlEntities(activity.excerpt),
     content: activity.content,
@@ -390,6 +394,8 @@ export async function getPageBySlug(slug: string): Promise<WpPage | null> {
   return wpFetch<WpPage>(`/jelapang/v1/pages/${slug}`);
 }
 
+const isHiddenActivity = (slug: string) => hiddenActivitySlugs.includes(slug);
+
 export async function getActivities(category?: string): Promise<Activity[]> {
   const path = category
     ? `/jelapang/v1/activities?category=${encodeURIComponent(category)}`
@@ -398,19 +404,22 @@ export async function getActivities(category?: string): Promise<Activity[]> {
   const data = await wpFetch<{ activities: WpActivity[] }>(path);
 
   if (data?.activities?.length) {
-    return dedupeBySlug(data.activities.map(mapActivity)).sort(
-      (a, b) => a.order - b.order
-    );
+    return dedupeBySlug(data.activities.map(mapActivity))
+      .filter((activity) => !isHiddenActivity(activity.slug))
+      .sort((a, b) => a.order - b.order);
   }
 
-  return category
+  const fallback = category
     ? fallbackActivities.filter((activity) =>
         activity.categories.some((item) => item.slug === category)
       )
     : fallbackActivities;
+  return fallback.filter((activity) => !isHiddenActivity(activity.slug));
 }
 
 export async function getActivityBySlug(slug: string): Promise<Activity | null> {
+  if (isHiddenActivity(slug)) return null;
+
   const data = await wpFetch<WpActivity>(`/jelapang/v1/activities/${slug}`);
 
   if (data?.slug) {

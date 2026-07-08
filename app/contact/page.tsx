@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
 import ContactForm from "@/components/ContactForm";
 import { PinIcon, PhoneIcon, MailIcon, LayersIcon, CheckIcon } from "@/components/icons";
-import { getContactSpotlightActivity, getSiteInfo } from "@/lib/wordpress";
+import { getSiteInfo } from "@/lib/wordpress";
 
 export const metadata: Metadata = {
   title: "Contact Us — Jelapang Resources",
@@ -15,10 +14,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ContactPage() {
-  const [site, spotlight] = await Promise.all([
-    getSiteInfo(),
-    getContactSpotlightActivity(),
-  ]);
+  const site = await getSiteInfo();
 
   return (
     <>
@@ -44,23 +40,6 @@ export default async function ContactPage() {
             </Reveal>
 
             <div className="contact-split">
-              {spotlight?.featuredImage && (
-                <Reveal className="contact-spotlight">
-                  <Link href={`/activities/${spotlight.slug}`} className="contact-spotlight-link">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={spotlight.featuredImage}
-                      alt={spotlight.title}
-                      loading="eager"
-                    />
-                    <span className="contact-spotlight-caption">
-                      <span className="kicker">Latest Activity</span>
-                      <strong>{spotlight.title}</strong>
-                    </span>
-                  </Link>
-                </Reveal>
-              )}
-
               <div className="contact-details">
                 <ul className="contact-list">
                   <Reveal as="li" className="contact-item" delay={60}>

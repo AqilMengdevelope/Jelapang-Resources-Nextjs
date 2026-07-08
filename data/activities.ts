@@ -133,19 +133,6 @@ const ELECTRIC_MINI_SHUNTER_FILES = [
   "WhatsApp Image 2024-04-02 at 13.41.25.jpeg",
 ] as const;
 
-const FENCING_FILES = [
-  "fencing.PNG",
-  "WhatsApp Image 2024-04-04 at 14.12.17.jpeg",
-  "WhatsApp Image 2024-04-04 at 14.12.20 (1).jpeg",
-] as const;
-
-const G_CLAMP_FILES = [
-  "WhatsApp Image 2024-04-04 at 14.12.19 (2).jpeg",
-  "WhatsApp Image 2024-04-04 at 14.12.19.jpeg",
-  "WhatsApp Image 2024-04-04 at 14.12.20.jpeg",
-  "WhatsApp Image 2024-04-04 at 14.12.21.jpeg",
-] as const;
-
 const LOAD_GAUGE_FILES = [
   "WhatsApp Image 2024-04-04 at 14.16.47.jpeg",
   "WhatsApp Image 2024-04-04 at 14.16.48.jpeg",
@@ -216,7 +203,7 @@ export const fallbackActivities: Activity[] = [
   ),
   activityEntry(
     5,
-    "Train Wash Plan ATWP",
+    "Automatic Train Wash Plant (ATWP)",
     "train-wash-plan-atwp",
     "Train wash plant design, supply and installation for ATWP depot operations.",
     TRAIN_WASH_ATWP_FILES,
@@ -229,22 +216,6 @@ export const fallbackActivities: Activity[] = [
     "Electric mini shunter supply and commissioning for depot shunting and rolling-stock positioning.",
     ELECTRIC_MINI_SHUNTER_FILES,
     5
-  ),
-  activityEntry(
-    7,
-    "Fencing",
-    "fencing",
-    "Perimeter and depot fencing supply and installation for rail infrastructure protection.",
-    FENCING_FILES,
-    6
-  ),
-  activityEntry(
-    8,
-    "G-Clamp",
-    "g-clamp",
-    "G-clamp rail maintenance tools supplied for track and rolling-stock workshop programmes.",
-    G_CLAMP_FILES,
-    7
   ),
   activityEntry(
     9,
@@ -287,6 +258,17 @@ export const fallbackActivities: Activity[] = [
     12
   ),
 ];
+
+/**
+ * Activity content overrides applied on top of whatever the CMS returns
+ * (the CMS is authoritative, so these keep the frontend in sync with edits
+ * made in code without needing a CMS update).
+ */
+export const hiddenActivitySlugs: readonly string[] = ["fencing", "g-clamp"];
+
+export const activityTitleOverrides: Record<string, string> = {
+  "train-wash-plan-atwp": "Automatic Train Wash Plant (ATWP)",
+};
 
 export const contactSpotlightSlug = "mrt-niteq";
 
