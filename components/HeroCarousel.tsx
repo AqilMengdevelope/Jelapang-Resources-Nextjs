@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, ChevronLeft, ChevronRight } from "./icons";
@@ -31,9 +32,17 @@ export default function HeroCarousel({
         <div
           key={idx}
           className={`hero-slide ${idx === i ? "active" : ""}`}
-          style={{ backgroundImage: `url(${s.image})` }}
           aria-hidden={idx !== i}
-        />
+        >
+          <Image
+            src={s.image}
+            alt=""
+            fill
+            priority={idx === 0}
+            sizes="100vw"
+            className="hero-slide-image"
+          />
+        </div>
       ))}
 
       <div className="container hero-content">

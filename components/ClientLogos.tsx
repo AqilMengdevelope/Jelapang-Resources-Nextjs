@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { fallbackClients, type TrustedClient } from "@/data/clients";
 
 type Props = {
@@ -14,8 +15,12 @@ export default function ClientLogos({ clients = fallbackClients }: Props) {
           </div>
         ) : (
           <div className="client-logo" key={client.slug} title={client.name}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={client.logo ?? `/clients/${client.slug}.png`} alt={client.name} />
+            <Image
+              src={client.logo ?? `/clients/${client.slug}.png`}
+              alt={client.name}
+              width={160}
+              height={72}
+            />
           </div>
         )
       )}

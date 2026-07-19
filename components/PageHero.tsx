@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 type Crumb = { label: string; href?: string };
@@ -16,7 +17,17 @@ export default function PageHero({
   crumbs?: Crumb[];
 }) {
   return (
-    <section className="page-hero" style={{ backgroundImage: `url(${image})` }}>
+    <section className="page-hero">
+      {image && (
+        <Image
+          src={image}
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="page-hero-image"
+        />
+      )}
       <div className="container page-hero-inner">
         <nav className="breadcrumb" aria-label="Breadcrumb">
           <Link href="/">Home</Link>

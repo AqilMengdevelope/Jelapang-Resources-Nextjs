@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
 import Footer from "@/components/Footer";
@@ -46,11 +47,12 @@ export default async function ActivitiesPage() {
                   <Reveal key={activity.slug} delay={index * 80}>
                     <Link href={`/activities/${activity.slug}`} className="activity-card">
                       <div className="activity-card-media">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
+                        <Image
                           src={activity.featuredImage}
                           alt={activity.title}
-                          loading={index < 2 ? "eager" : "lazy"}
+                          fill
+                          priority={index < 2}
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         />
                       </div>
                       <div className="activity-card-body">

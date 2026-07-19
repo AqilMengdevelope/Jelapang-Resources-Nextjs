@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "./icons";
 import type { GallerySlide } from "@/data/military-gallery";
@@ -45,8 +46,13 @@ export default function PhotoSlider({
             className={`pslider-slide ${idx === i ? "active" : ""}`}
             aria-hidden={idx !== i}
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={s.image} alt={s.alt} loading={idx === 0 ? "eager" : "lazy"} />
+            <Image
+              src={s.image}
+              alt={s.alt}
+              fill
+              priority={idx === 0}
+              sizes="100vw"
+            />
           </div>
         ))}
 

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
 import Footer from "@/components/Footer";
@@ -182,11 +183,11 @@ export default async function RailwayPage() {
                       className="activity-card"
                     >
                       <div className="activity-card-media">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
+                        <Image
                           src={activity.featuredImage}
                           alt={activity.title}
-                          loading="lazy"
+                          fill
+                          sizes="(max-width: 768px) 100vw, 33vw"
                         />
                       </div>
                       <div className="activity-card-body">

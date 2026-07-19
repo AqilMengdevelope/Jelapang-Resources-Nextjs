@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Reveal from "./Reveal";
 import { ExternalIcon } from "./icons";
 import { principalLogo, type Field, type Principal } from "@/data/principals";
@@ -36,11 +37,12 @@ export default function PrincipalGrid({
               <span className="pc-sector">{fieldLabel(p.field)}</span>
             )}
             <span className="pc-logo">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src={p.logo || principalLogo(p.slug)}
                 alt={`${p.name} logo`}
-                loading={layout === "page" ? "eager" : "lazy"}
+                width={170}
+                height={68}
+                priority={layout === "page"}
                 decoding="async"
               />
             </span>
