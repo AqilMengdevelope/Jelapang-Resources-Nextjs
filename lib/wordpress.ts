@@ -178,10 +178,10 @@ function dedupeBySlug<T extends { slug: string }>(items: T[]): T[] {
   });
 }
 
-async function wpFetch<T>(path: string, revalidate = 60): Promise<T | null> {
+async function wpFetch<T>(path: string): Promise<T | null> {
   try {
     const response = await fetch(`${WP_API_URL}${path}`, {
-      next: { revalidate },
+      cache: "no-store",
     });
 
     if (!response.ok) {
