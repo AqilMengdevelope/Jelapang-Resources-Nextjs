@@ -119,7 +119,7 @@ export const principals: Principal[] = [
     origin: "Germany",
     tagline: "CBRN decontamination & field systems",
     description:
-      "Kärcher Futuretech develops and manufactures specialised systems for military, civil-defence and disaster-relief operations — providing mobile, efficient solutions for CBRN protection, water supply, catering and field-camp systems.",
+      "Kärcher Futuretech develops and manufactures specialised systems for military, civil-defence and disaster-relief operations, providing mobile, efficient solutions for CBRN protection, water supply, catering and field-camp systems.",
     products: [
       "CBRN decontamination systems",
       "Mobile water treatment",
@@ -231,7 +231,7 @@ export const principals: Principal[] = [
     origin: "Canada",
     tagline: "CBRN personal protection",
     description:
-      "AirBoss Defense designs and manufactures CBRN personal-protective equipment and survivability solutions — including respirators, gloves, boots and protective systems for military forces and first responders.",
+      "AirBoss Defense designs and manufactures CBRN personal-protective equipment and survivability solutions, including respirators, gloves, boots and protective systems for military forces and first responders.",
     products: [
       "CBRN respirators & masks",
       "Protective gloves & footwear",
@@ -360,7 +360,7 @@ export const principals: Principal[] = [
     field: "Railway",
     alsoIn: ["Military"],
     origin: "Poland",
-    tagline: "Defence & rail supply — PGZ Group",
+    tagline: "Defence & rail supply, PGZ Group",
     description:
       "CENZIN, part of the Polish Armaments Group (PGZ), is an established export-import company supplying defence and railway equipment and integrated solutions to government and industrial customers.",
     products: [
@@ -394,7 +394,7 @@ export const principals: Principal[] = [
     origin: "Germany",
     tagline: "Railway workshop lifting & maintenance systems",
     description:
-      "NEUERO RAILTEC supplies lifting systems, steel structures and workshop technology for the maintenance and repair of rail vehicles — trusted in depots across Germany, Europe and worldwide.",
+      "NEUERO RAILTEC supplies lifting systems, steel structures and workshop technology for the maintenance and repair of rail vehicles, trusted in depots across Germany, Europe and worldwide.",
     products: [
       "Workshop lifting systems",
       "Rail vehicle maintenance equipment",

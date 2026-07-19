@@ -9,7 +9,7 @@ import { briefingHref } from "@/data/site";
 import { getSiteInfo } from "@/lib/wordpress";
 
 export const metadata: Metadata = {
-  title: "Our Services — Jelapang Resources",
+  title: "Our Services, Jelapang Resources",
   description:
     "Three core sectors, one accountable partner. Jelapang Resources delivers supply, integration and lifecycle support across Military, Railway and IT.",
 };
@@ -22,7 +22,7 @@ const services = [
     tag: "Defence & Security",
     image:
       "https://images.unsplash.com/photo-1579912437766-7896df6d3cd3?fm=jpg&q=80&w=1600&auto=format&fit=crop",
-    desc: "Our heartland. Trusted supply of arms, ammunition and protective systems to the Malaysian Armed Forces, Police and enforcement agencies — backed by world-class OEM partners.",
+    desc: "Our heartland. Trusted supply of arms, ammunition and protective systems to the Malaysian Armed Forces, Police and enforcement agencies, backed by world-class OEM partners.",
     points: [
       "Small arms & sniper ammunition",
       "CBRNE detection & filtration",
@@ -39,7 +39,7 @@ const services = [
     tag: "Rolling Stock & Infrastructure",
     image:
       "https://cms.jelapangresources.com/wp-content/uploads/2026/07/IMG_9449-1.jpg",
-    desc: "Engineering, supply and maintenance that keep rail networks safe and moving — from rolling stock components to depot equipment and trackside infrastructure.",
+    desc: "Engineering, supply and maintenance that keep rail networks safe and moving, from rolling stock components to depot equipment and trackside infrastructure.",
     points: [
       "Rolling stock spare parts",
       "Maintenance, repair & overhaul",
@@ -56,7 +56,7 @@ const services = [
     tag: "Systems & Electronics",
     image:
       "https://images.unsplash.com/photo-1506399309177-3b43e99fead2?fm=jpg&q=80&w=1600&auto=format&fit=crop",
-    desc: "Technology supply and electronics engineering — integrating, repairing and sustaining the digital and electronic systems that run modern operations.",
+    desc: "Technology supply and electronics engineering, integrating, repairing and sustaining the digital and electronic systems that run modern operations.",
     points: [
       "ICT hardware supply & integration",
       "Electronic equipment repair",
@@ -78,7 +78,7 @@ export default async function ServicesPage() {
         <PageHero
           kicker="Our Services"
           title="Products & Services"
-          subtitle="Three core sectors, one accountable partner — delivering supply, integration and lifecycle support where reliability is non-negotiable."
+          subtitle="Three core sectors, one accountable partner, delivering supply, integration and lifecycle support where reliability is non-negotiable."
           image="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?fm=jpg&q=80&w=2000&auto=format&fit=crop"
           crumbs={[{ label: "Our Services" }]}
         />

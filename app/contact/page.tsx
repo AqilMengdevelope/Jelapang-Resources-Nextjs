@@ -8,9 +8,9 @@ import { PinIcon, PhoneIcon, MailIcon, LayersIcon, CheckIcon } from "@/component
 import { getSiteInfo } from "@/lib/wordpress";
 
 export const metadata: Metadata = {
-  title: "Contact Us — Jelapang Resources",
+  title: "Contact Us, Jelapang Resources",
   description:
-    "Get in touch with Jelapang Resources Sdn. Bhd. — Kuala Lumpur, Malaysia. Email info@jelapangresources.com or call +603-2704 8591 or +603-2704 8592.",
+    "Get in touch with Jelapang Resources Sdn. Bhd., Kuala Lumpur, Malaysia. Email info@jelapangresources.com or call +603-2704 8591 or +603-2704 8592.",
 };
 
 export default async function ContactPage() {
@@ -34,8 +34,7 @@ export default async function ContactPage() {
               <span className="kicker">Get in Touch</span>
               <h2 className="section-title">Reach our technical team</h2>
               <p className="section-lead">
-                Project enquiries, capability briefings and partnership discussions —
-                connect with us in Kuala Lumpur or Shah Alam.
+                Project enquiries, capability briefings and partnership discussions, connect with us in Kuala Lumpur or Shah Alam.
               </p>
             </Reveal>
 

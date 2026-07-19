@@ -10,9 +10,9 @@ import { ArrowRight, CheckIcon } from "@/components/icons";
 import { briefingHref } from "@/data/site";
 
 export const metadata: Metadata = {
-  title: "IT & Electronics — Jelapang Resources",
+  title: "IT & Electronics, Jelapang Resources",
   description:
-    "Technology supply and electronics engineering — ICT hardware integration, electronic equipment repair, PCB fabrication, detection and optronic systems with full lifecycle support.",
+    "Technology supply and electronics engineering, ICT hardware integration, electronic equipment repair, PCB fabrication, detection and optronic systems with full lifecycle support.",
 };
 
 const points = [
@@ -52,14 +52,14 @@ export default async function ITPage() {
                 </h2>
                 <p style={{ color: "var(--ink-2)", fontSize: 17, marginTop: 18 }}>
                   Jelapang Resources delivers technology supply and electronics
-                  engineering — integrating ICT hardware, repairing electronic
+                  engineering, integrating ICT hardware, repairing electronic
                   and electrical equipment, and sustaining the systems that keep
                   organisations operational.
                 </p>
                 <p style={{ color: "var(--ink-2)", fontSize: 17, marginTop: 16 }}>
                   Our engineering heritage in PCB fabrication, optronics and
                   detection systems lets us support specialised, mission-critical
-                  electronics across the full lifecycle — from supply and
+                  electronics across the full lifecycle, from supply and
                   integration to repair, refurbishment and technical support.
                 </p>
               </Reveal>

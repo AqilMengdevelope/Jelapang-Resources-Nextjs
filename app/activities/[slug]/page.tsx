@@ -19,11 +19,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const activity = await getActivityBySlug(slug);
 
   if (!activity) {
-    return { title: "Activity — Jelapang Resources" };
+    return { title: "Activity, Jelapang Resources" };
   }
 
   return {
-    title: `${activity.title} — Activities — Jelapang Resources`,
+    title: `${activity.title}, Activities, Jelapang Resources`,
     description: activity.excerpt,
   };
 }

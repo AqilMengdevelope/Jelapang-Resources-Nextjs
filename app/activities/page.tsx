@@ -8,7 +8,7 @@ import { getActivities, resolveActivitiesHeroImage } from "@/lib/wordpress";
 import { ArrowRight } from "@/components/icons";
 
 export const metadata: Metadata = {
-  title: "Activities — Jelapang Resources",
+  title: "Activities, Jelapang Resources",
   description:
     "Field activities and project delivery across railway depot systems, rolling-stock maintenance and infrastructure support.",
 };

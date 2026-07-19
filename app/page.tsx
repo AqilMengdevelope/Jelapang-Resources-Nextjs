@@ -34,7 +34,7 @@ const capabilities = [
     tag: "Defence & Security",
     image:
       "https://images.unsplash.com/photo-1579912437766-7896df6d3cd3?fm=jpg&q=80&w=1600&auto=format&fit=crop",
-    desc: "Our heartland. Trusted supply of arms, ammunition and protective systems to the Malaysian Armed Forces, Police and enforcement agencies — backed by world-class OEM partners.",
+    desc: "Our heartland. Trusted supply of arms, ammunition and protective systems to the Malaysian Armed Forces, Police and enforcement agencies, backed by world-class OEM partners.",
     points: [
       "Small arms & sniper ammunition",
       "CBRNE detection & filtration",
@@ -52,7 +52,7 @@ const capabilities = [
     tag: "Rolling Stock & Infrastructure",
     image:
       "https://cms.jelapangresources.com/wp-content/uploads/2026/07/IMG_9445-1.jpg",
-    desc: "Engineering, supply and maintenance that keep rail networks safe and moving — from rolling stock components to trackside steel infrastructure.",
+    desc: "Engineering, supply and maintenance that keep rail networks safe and moving, from rolling stock components to trackside steel infrastructure.",
     points: [
       "Rolling stock spare parts",
       "Maintenance, repair & overhaul",
@@ -70,7 +70,7 @@ const capabilities = [
     tag: "Systems & Electronics",
     image:
       "https://images.unsplash.com/photo-1506399309177-3b43e99fead2?fm=jpg&q=80&w=1600&auto=format&fit=crop",
-    desc: "Technology supply and electronics engineering — integrating, repairing and sustaining the digital and electronic systems that run modern operations.",
+    desc: "Technology supply and electronics engineering, integrating, repairing and sustaining the digital and electronic systems that run modern operations.",
     points: [
       "ICT hardware supply & integration",
       "Electronic equipment repair",
@@ -91,17 +91,17 @@ const whyUs = [
   {
     icon: GlobeIcon,
     title: "World-Class Partners",
-    body: "Direct access to leading global OEMs across Europe, Asia and North America — proven, certified technology into Malaysia.",
+    body: "Direct access to leading global OEMs across Europe, Asia and North America, proven, certified technology into Malaysia.",
   },
   {
     icon: ShieldIcon,
     title: "Proven Delivery",
-    body: "A portfolio of completed contracts for the Armed Forces, Police and enforcement agencies — on spec, on time.",
+    body: "A portfolio of completed contracts for the Armed Forces, Police and enforcement agencies, on spec, on time.",
   },
   {
     icon: LayersIcon,
     title: "End-to-End Engineering",
-    body: "From supply and integration to maintenance, repair and overhaul — one accountable partner across the lifecycle.",
+    body: "From supply and integration to maintenance, repair and overhaul, one accountable partner across the lifecycle.",
   },
   {
     icon: TargetIcon,
@@ -115,22 +115,14 @@ const whyUs = [
   },
 ];
 
-// Curated home "Our Global Principals" grid — a mix of defence, railway
-// and IT principals (10 total).
+// Curated home "Our Global Principals" grid: a mix of defence, railway
+// and IT principals (5 total, shown 3 top / 2 bottom).
 const homeFeaturedSlugs = [
-  // Defence
-  "swiss-p",
-  "mehler",
-  "blucher",
-  "karcher-futuretech",
-  "bruker",
-  "mdh-bioquell",
-  // Railway
-  "nencki",
-  "aquafrisch",
-  "cenzin-pgz",
-  // IT
-  "oconnors",
+  "mehler", // Defence
+  "aquafrisch", // Railway
+  "oconnors", // IT
+  "blucher", // Defence
+  "cenzin-pgz", // Railway
 ];
 
 /* ---------------- Page ---------------- */
@@ -233,7 +225,7 @@ export default async function Home() {
               </Reveal>
               <Reveal delay={120}>
                 <p className="section-lead">
-                  Three core sectors, one accountable partner — delivering
+                  Three core sectors, one accountable partner, delivering
                   supply, integration and lifecycle support where reliability is
                   non-negotiable.
                 </p>
@@ -302,12 +294,12 @@ export default async function Home() {
               </h2>
               <p className="section-lead on-dark" style={{ margin: "20px auto 0" }}>
                 We bring the world&apos;s leading defence and engineering
-                manufacturers to Malaysia — proven, certified technology trusted
+                manufacturers to Malaysia, proven, certified technology trusted
                 by armed forces worldwide.
               </p>
             </Reveal>
 
-            <PrincipalGrid items={featuredPrincipals} dark />
+            <PrincipalGrid items={featuredPrincipals} dark showField />
 
             <div style={{ textAlign: "center", marginTop: 36 }}>
               <Link href="/services" className="btn btn-primary">

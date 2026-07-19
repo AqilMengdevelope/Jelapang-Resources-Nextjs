@@ -145,19 +145,27 @@ interface WpActivity {
 
 const WP_API_URL = getServerWordPressApiUrl();
 
-function decodeHtmlEntities(value: string): string {
-  if (!value.includes("&")) return value;
+// Remove em-dashes from copy, matching the house style (kept out of all
+// user-facing text). Collapses surrounding whitespace into a comma.
+function stripEmDashes(value: string): string {
+  return value.replace(/[ \t\r\n]*—[ \t\r\n]*/g, ", ");
+}
 
-  return value
-    .replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number(code)))
-    .replace(/&#x([0-9a-f]+);/gi, (_, hex) =>
-      String.fromCharCode(parseInt(hex, 16))
-    )
-    .replace(/&amp;/g, "&")
-    .replace(/&apos;/g, "'")
-    .replace(/&quot;/g, '"')
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">");
+function decodeHtmlEntities(value: string): string {
+  const decoded = value.includes("&")
+    ? value
+        .replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number(code)))
+        .replace(/&#x([0-9a-f]+);/gi, (_, hex) =>
+          String.fromCharCode(parseInt(hex, 16))
+        )
+        .replace(/&amp;/g, "&")
+        .replace(/&apos;/g, "'")
+        .replace(/&quot;/g, '"')
+        .replace(/&lt;/g, "<")
+        .replace(/&gt;/g, ">")
+    : value;
+
+  return stripEmDashes(decoded);
 }
 
 function dedupeBySlug<T extends { slug: string }>(items: T[]): T[] {
@@ -292,15 +300,15 @@ export async function getSiteInfo(): Promise<SiteInfo> {
   }
 
   return {
-    name: company.name,
+    name: stripEmDashes(company.name),
     regNo: company.regNo ?? fallbackSite.regNo,
     email: company.email ?? fallbackSite.email,
     // Phone numbers are managed in code (data/site.ts), not the CMS.
     phoneDisplay: fallbackSite.phoneDisplay,
     phoneHref: fallbackSite.phoneHref,
-    address: company.address ?? fallbackSite.address,
-    workshop: company.workshop ?? fallbackSite.workshop,
-    tagline: company.tagline,
+    address: stripEmDashes(company.address ?? fallbackSite.address),
+    workshop: stripEmDashes(company.workshop ?? fallbackSite.workshop),
+    tagline: company.tagline ? stripEmDashes(company.tagline) : undefined,
     hours: company.hours,
   };
 }
@@ -375,10 +383,10 @@ export async function getHeroSlides(): Promise<HeroSlide[]> {
     .filter((s) => s.image) // an image is required for a usable slide
     .map((s) => ({
       image: replaceHeroImage(s.image as string),
-      tag: s.tag ?? "",
-      title: s.title ?? "",
-      titleHighlight: s.titleHighlight || undefined,
-      sub: s.sub ?? "",
+      tag: stripEmDashes(s.tag ?? ""),
+      title: stripEmDashes(s.title ?? ""),
+      titleHighlight: s.titleHighlight ? stripEmDashes(s.titleHighlight) : undefined,
+      sub: stripEmDashes(s.sub ?? ""),
     }));
 
   return slides.length ? slides : defaultHeroSlides;

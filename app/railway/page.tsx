@@ -10,9 +10,9 @@ import { ArrowRight, CheckIcon } from "@/components/icons";
 import { briefingHref } from "@/data/site";
 
 export const metadata: Metadata = {
-  title: "Railway — Jelapang Resources",
+  title: "Railway, Jelapang Resources",
   description:
-    "Engineering, supply and maintenance that keep rail networks safe and moving — rolling stock components, depot equipment, track maintenance and re-railing solutions.",
+    "Engineering, supply and maintenance that keep rail networks safe and moving, rolling stock components, depot equipment, track maintenance and re-railing solutions.",
 };
 
 const points = [
@@ -56,7 +56,7 @@ export default async function RailwayPage() {
                 </h2>
                 <p style={{ color: "var(--ink-2)", fontSize: 17, marginTop: 18 }}>
                   Jelapang Resources supplies and supports the systems that keep
-                  rail operations safe and efficient — from rolling stock spare
+                  rail operations safe and efficient, from rolling stock spare
                   parts and depot maintenance equipment to track-maintenance
                   machinery and re-railing solutions.
                 </p>
@@ -120,8 +120,7 @@ export default async function RailwayPage() {
                   <h3>Prasarana Malaysia Berhad</h3>
                   <p>
                     Malaysia&apos;s national integrated public transport corporation,
-                    operating urban rail and bus networks across the Klang Valley
-                    — including LRT, MRT, Monorail and BRT lines serving millions
+                    operating urban rail and bus networks across the Klang Valley, including LRT, MRT, Monorail and BRT lines serving millions
                     of daily commuters.
                   </p>
                 </div>
@@ -168,7 +167,7 @@ export default async function RailwayPage() {
                 </Reveal>
                 <Reveal delay={120}>
                   <p className="section-lead">
-                    A look at recent field activities — depot systems,
+                    A look at recent field activities, depot systems,
                     rolling-stock maintenance and infrastructure delivered
                     on site.
                   </p>

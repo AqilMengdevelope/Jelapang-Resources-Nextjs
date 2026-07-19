@@ -65,7 +65,7 @@ export default async function Footer() {
             © {new Date().getFullYear()} {site.name} ({site.regNo}). All rights
             reserved.
           </span>
-          <span>Military · Railway · IT — Kuala Lumpur, Malaysia</span>
+          <span>Military · Railway · IT, Kuala Lumpur, Malaysia</span>
         </div>
       </div>
     </footer>

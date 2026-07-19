@@ -29,7 +29,7 @@ export default function MaintenanceScreen() {
 
         <p className="mnt-sub">
           Our website is currently undergoing planned maintenance to bring you an
-          even better experience. Our team is on it — everything will be back
+          even better experience. Our team is on it, everything will be back
           online shortly. Thank you for your patience.
         </p>
 

@@ -11,7 +11,7 @@ import { ArrowRight, CheckIcon } from "@/components/icons";
 import { briefingHref } from "@/data/site";
 
 export const metadata: Metadata = {
-  title: "Military & Defence — Jelapang Resources",
+  title: "Military & Defence, Jelapang Resources",
   description:
     "Trusted supply of arms, ammunition, CBRNE detection, ballistic protection and vehicle systems to the Malaysian Armed Forces, Police and enforcement agencies.",
 };
@@ -41,7 +41,7 @@ export default async function MilitaryPage() {
         <PageHero
           kicker="Our Services"
           title="Military & Defence"
-          subtitle="Our heartland — supplying world-class arms, ammunition and protective systems to Malaysia's armed forces and enforcement agencies."
+          subtitle="Our heartland, supplying world-class arms, ammunition and protective systems to Malaysia's armed forces and enforcement agencies."
           image="https://cms.jelapangresources.com/wp-content/uploads/2026/07/IMG_8551.jpeg"
           crumbs={[{ label: "Our Services" }, { label: "Military" }]}
         />
@@ -59,7 +59,7 @@ export default async function MilitaryPage() {
                   and protective systems to the Malaysian Armed Forces, Royal
                   Malaysian Police and enforcement agencies. Backed by
                   world-class OEM partners, we deliver certified, proven
-                  technology — from small-calibre and sniper ammunition to CBRNE
+                  technology, from small-calibre and sniper ammunition to CBRNE
                   detection, ballistic protection and specialised vehicles.
                 </p>
                 <p style={{ color: "var(--ink-2)", fontSize: 17, marginTop: 16 }}>

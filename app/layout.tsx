@@ -18,7 +18,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Jelapang Resources — Military, Railway & IT Engineering Solutions",
+  title: "Jelapang Resources, Military, Railway & IT Engineering Solutions",
   description:
     "Jelapang Resources Sdn. Bhd. is a Malaysian Bumiputera-owned engineering and supply specialist delivering world-class technologies across Military, Railway and IT for government and industry.",
   keywords: [
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     "military equipment supply Malaysia",
   ],
   openGraph: {
-    title: "Jelapang Resources — Military, Railway & IT Engineering Solutions",
+    title: "Jelapang Resources, Military, Railway & IT Engineering Solutions",
     description:
       "World-class technologies and technical services across Military, Railway and IT for Malaysia's government and industrial sectors.",
     type: "website",

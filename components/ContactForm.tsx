@@ -140,7 +140,7 @@ export default function ContactForm() {
           value={fields.sector}
           onChange={set("sector")}
         >
-          <option value="">— Select a sector —</option>
+          <option value="">, Select a sector, </option>
           <option value="Military">Military &amp; Defence</option>
           <option value="Railway">Railway &amp; Rail Infrastructure</option>
           <option value="IT">IT &amp; Electronics</option>

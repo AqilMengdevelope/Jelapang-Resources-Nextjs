@@ -15,7 +15,7 @@ import {
 } from "@/components/icons";
 
 export const metadata: Metadata = {
-  title: "About Us — Jelapang Resources",
+  title: "About Us, Jelapang Resources",
   description:
     "Established in 2021, Jelapang Resources Sdn. Bhd. is a Malaysian Bumiputera-owned engineering and supply specialist bringing world-class Military, Railway and IT technology into the local market.",
 };

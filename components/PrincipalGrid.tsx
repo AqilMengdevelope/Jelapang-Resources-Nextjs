@@ -1,16 +1,22 @@
 import Reveal from "./Reveal";
 import { ExternalIcon } from "./icons";
-import { principalLogo, type Principal } from "@/data/principals";
+import { principalLogo, type Field, type Principal } from "@/data/principals";
+
+/** Industry label shown on the card when `showField` is set. */
+const fieldLabel = (field: Field) => (field === "Military" ? "Defence" : field);
 
 export default function PrincipalGrid({
   items,
   dark = false,
   layout = "default",
+  showField = false,
 }: {
   items: Principal[];
   dark?: boolean;
   /** Larger logo area for service pages (e.g. /military). */
   layout?: "default" | "page";
+  /** Show each principal's industry (Defence / Railway / IT) on the card. */
+  showField?: boolean;
 }) {
   return (
     <div
@@ -26,6 +32,9 @@ export default function PrincipalGrid({
             rel="noopener noreferrer"
             style={{ display: "flex", flexDirection: "column", height: "100%" }}
           >
+            {showField && (
+              <span className="pc-sector">{fieldLabel(p.field)}</span>
+            )}
             <span className="pc-logo">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
