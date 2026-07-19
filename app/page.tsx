@@ -3,7 +3,6 @@ import SiteHeader from "@/components/SiteHeader";
 import HeroCarousel from "@/components/HeroCarousel";
 import Reveal from "@/components/Reveal";
 import Footer from "@/components/Footer";
-import ClientLogosSection from "@/components/ClientLogosSection";
 import PrincipalGrid from "@/components/PrincipalGrid";
 import {
   getActivities,
@@ -362,8 +361,6 @@ export default async function Home() {
                 Explore Our Services <ArrowRight width={18} height={18} />
               </Link>
             </div>
-
-            <ClientLogosSection style={{ marginTop: 64 }} />
           </div>
         </section>
 
