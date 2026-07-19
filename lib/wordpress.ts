@@ -181,7 +181,7 @@ function dedupeBySlug<T extends { slug: string }>(items: T[]): T[] {
 async function wpFetch<T>(path: string): Promise<T | null> {
   try {
     const response = await fetch(`${WP_API_URL}${path}`, {
-      cache: "no-store",
+      next: { revalidate: 300, tags: ["wordpress"] },
     });
 
     if (!response.ok) {
