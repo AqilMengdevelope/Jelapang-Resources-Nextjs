@@ -40,6 +40,10 @@ export default async function ProjectDetailPage({ params }: Props) {
     redirect(`/activities/${project.slug}`);
   }
 
+  if (slug !== project.slug) {
+    redirect(`/projects/${project.slug}`);
+  }
+
   const category = project.categories[0];
   const slides =
     project.gallery.length > 0

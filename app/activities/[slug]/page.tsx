@@ -40,6 +40,11 @@ export default async function ActivityDetailPage({ params }: Props) {
     redirect(`/projects/${activity.slug}`);
   }
 
+  // Collapse WP duplicate URLs (...-2) onto the canonical activity slug.
+  if (slug !== activity.slug) {
+    redirect(`/activities/${activity.slug}`);
+  }
+
   const category = activity.categories[0];
   const slides =
     activity.gallery.length > 0

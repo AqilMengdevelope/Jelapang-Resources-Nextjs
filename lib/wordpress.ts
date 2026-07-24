@@ -247,7 +247,10 @@ function mapClient(client: WpClient): TrustedClient {
 }
 
 function mapActivity(activity: WpActivity): Activity {
-  const fallback = fallbackActivities.find((item) => item.slug === activity.slug);
+  const canonicalSlug = resolveCanonicalActivitySlug(activity.slug);
+  const fallback =
+    fallbackActivities.find((item) => item.slug === activity.slug) ??
+    fallbackActivities.find((item) => item.slug === canonicalSlug);
   const gallery = (activity.gallery ?? [])
     .filter((slide) => slide.image)
     .map((slide) => ({
@@ -258,9 +261,10 @@ function mapActivity(activity: WpActivity): Activity {
   return {
     id: activity.id,
     title:
+      activityTitleOverrides[canonicalSlug] ??
       activityTitleOverrides[activity.slug] ??
       decodeHtmlEntities(activity.title),
-    slug: activity.slug,
+    slug: canonicalSlug,
     excerpt: decodeHtmlEntities(activity.excerpt),
     content: activity.content,
     featuredImage:
@@ -269,7 +273,7 @@ function mapActivity(activity: WpActivity): Activity {
       fallback?.featuredImage ||
       "",
     gallery: gallery.length ? gallery : (fallback?.gallery ?? []),
-    order: activity.order ?? 0,
+    order: activity.order ?? fallback?.order ?? 0,
     categories: (activity.categories ?? fallback?.categories ?? []).map((category) => ({
       id: category.id,
       name: decodeHtmlEntities(category.name),
@@ -278,8 +282,34 @@ function mapActivity(activity: WpActivity): Activity {
     kind:
       activity.kind === "activity" || activity.kind === "project"
         ? activity.kind
-        : (fallback?.kind ?? resolveWorkKind(activity.slug)),
+        : (fallback?.kind ?? resolveWorkKind(canonicalSlug)),
   };
+}
+
+/**
+ * WordPress appends -2, -3… when a slug already exists.
+ * Do not strip 4-digit years (e.g. sidex-2025).
+ */
+function resolveCanonicalActivitySlug(
+  slug: string,
+  knownSlugs?: Iterable<string>
+): string {
+  const match = slug.match(/^(.*)-(\d+)$/);
+  if (!match) return slug;
+
+  const base = match[1];
+  const suffix = Number(match[2]);
+  if (!Number.isFinite(suffix) || suffix >= 1000) return slug;
+
+  const known = knownSlugs
+    ? new Set(knownSlugs)
+    : new Set(fallbackActivities.map((item) => item.slug));
+
+  return known.has(base) ? base : slug;
+}
+
+function isHiddenActivity(slug: string): boolean {
+  return hiddenActivitySlugs.includes(slug);
 }
 
 export async function getClients(): Promise<ClientsSection> {
@@ -423,8 +453,6 @@ export async function getPageBySlug(slug: string): Promise<WpPage | null> {
   return wpFetch<WpPage>(`/jelapang/v1/pages/${slug}`);
 }
 
-const isHiddenActivity = (slug: string) => hiddenActivitySlugs.includes(slug);
-
 export async function getActivities(category?: string): Promise<Activity[]> {
   const path = category
     ? `/jelapang/v1/activities?category=${encodeURIComponent(category)}`
@@ -433,6 +461,8 @@ export async function getActivities(category?: string): Promise<Activity[]> {
   const data = await wpFetch<{ activities: WpActivity[] }>(path);
 
   if (data?.activities?.length) {
+    // mapActivity collapses WP duplicate slugs (-2, -3) onto the canonical slug,
+    // then dedupeBySlug keeps a single card per activity.
     const fromCms = dedupeBySlug(data.activities.map(mapActivity)).filter(
       (activity) => !isHiddenActivity(activity.slug)
     );
@@ -467,16 +497,32 @@ export async function getWorkItems(kind: WorkKind): Promise<Activity[]> {
 export async function getActivityBySlug(slug: string): Promise<Activity | null> {
   if (isHiddenActivity(slug)) return null;
 
-  const data = await wpFetch<WpActivity>(`/jelapang/v1/activities/${slug}`);
+  const canonicalSlug = resolveCanonicalActivitySlug(slug);
 
-  if (data?.slug) {
-    return mapActivity(data);
+  // Prefer the canonical slug so WP "-2" duplicates resolve to the real entry.
+  for (const candidate of Array.from(new Set([canonicalSlug, slug]))) {
+    if (isHiddenActivity(candidate)) continue;
+
+    const data = await wpFetch<WpActivity>(
+      `/jelapang/v1/activities/${candidate}`
+    );
+
+    if (data?.slug) {
+      return mapActivity(data);
+    }
+
+    const fallback = fallbackActivities.find(
+      (activity) => activity.slug === candidate
+    );
+    if (fallback) {
+      return {
+        ...fallback,
+        kind: fallback.kind ?? resolveWorkKind(fallback.slug),
+      };
+    }
   }
 
-  const fallback = fallbackActivities.find((activity) => activity.slug === slug);
-  return fallback
-    ? { ...fallback, kind: fallback.kind ?? resolveWorkKind(fallback.slug) }
-    : null;
+  return null;
 }
 
 export async function getContactSpotlightActivity(): Promise<Activity | null> {
