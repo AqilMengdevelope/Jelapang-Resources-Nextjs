@@ -12,38 +12,72 @@ export default function HeroCarousel({
   slides?: HeroSlide[];
 }) {
   const [i, setI] = useState(0);
+  const [mounted, setMounted] = useState<Set<number>>(() => new Set([0]));
   const count = slides.length;
 
   const go = useCallback(
-    (n: number) => setI(() => ((n % count) + count) % count),
+    (n: number) => {
+      const next = ((n % count) + count) % count;
+      setMounted((prev) => {
+        const copy = new Set(prev);
+        copy.add(next);
+        // Prefetch neighbour for smoother next click / autoplay
+        copy.add((next + 1) % count);
+        return copy;
+      });
+      setI(next);
+    },
     [count]
   );
 
   useEffect(() => {
-    const t = setInterval(() => setI((p) => (p + 1) % count), 6500);
+    const t = setInterval(() => go(i + 1), 6500);
     return () => clearInterval(t);
+  }, [count, go, i]);
+
+  // Prefetch slide 2 shortly after first paint so autoplay is ready
+  useEffect(() => {
+    if (count < 2) return;
+    const t = setTimeout(() => {
+      setMounted((prev) => {
+        const copy = new Set(prev);
+        copy.add(1);
+        return copy;
+      });
+    }, 1200);
+    return () => clearTimeout(t);
   }, [count]);
 
   if (!count) return null;
 
   return (
     <section className="hero" id="top">
-      {slides.map((s, idx) => (
-        <div
-          key={idx}
-          className={`hero-slide ${idx === i ? "active" : ""}`}
-          aria-hidden={idx !== i}
-        >
-          <Image
-            src={s.image}
-            alt=""
-            fill
-            priority={idx === 0}
-            sizes="100vw"
-            className="hero-slide-image"
+      {slides.map((s, idx) =>
+        mounted.has(idx) ? (
+          <div
+            key={idx}
+            className={`hero-slide ${idx === i ? "active" : ""}`}
+            aria-hidden={idx !== i}
+          >
+            <Image
+              src={s.image}
+              alt=""
+              fill
+              priority={idx === 0}
+              quality={75}
+              sizes="100vw"
+              className="hero-slide-image"
+            />
+          </div>
+        ) : (
+          <div
+            key={idx}
+            className="hero-slide"
+            aria-hidden
+            style={{ display: "none" }}
           />
-        </div>
-      ))}
+        )
+      )}
 
       <div className="container hero-content">
         <span className="hero-flag">
@@ -77,7 +111,7 @@ export default function HeroCarousel({
                 key={idx}
                 className={idx === i ? "on" : ""}
                 aria-label={`Go to slide ${idx + 1}`}
-                onClick={() => setI(idx)}
+                onClick={() => go(idx)}
               />
             ))}
           </div>

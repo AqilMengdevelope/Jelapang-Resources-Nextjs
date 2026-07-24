@@ -4,6 +4,7 @@ import HeroCarousel from "@/components/HeroCarousel";
 import Reveal from "@/components/Reveal";
 import Footer from "@/components/Footer";
 import PrincipalGrid from "@/components/PrincipalGrid";
+import CapMedia from "@/components/CapMedia";
 import {
   getHeroSlides,
   getHomeStats,
@@ -234,12 +235,7 @@ export default async function Home() {
 
             {capabilities.map((cap, idx) => (
               <Reveal key={cap.id} id={cap.id} className="cap-row" delay={idx * 60}>
-                <div
-                  className="cap-img"
-                  style={{ backgroundImage: `url(${cap.image})` }}
-                >
-                  <span className="cap-imgtag">{cap.tag}</span>
-                </div>
+                <CapMedia src={cap.image} alt={cap.title} tag={cap.tag} />
                 <div className="cap-body">
                   <span className="cap-no">SECTOR {cap.no}</span>
                   <h3>{cap.title}</h3>

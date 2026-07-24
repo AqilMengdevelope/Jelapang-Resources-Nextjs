@@ -22,17 +22,24 @@ import {
 } from "@/data/clients";
 import {
   contactSpotlightSlug,
-  activitiesHeroFallback,
-  activitiesHeroFile,
-  activitiesHeroSlug,
   activityTitleOverrides,
+  eventsHeroFallback,
+  eventsHeroFile,
+  eventsHeroSlug,
   fallbackActivities,
   hiddenActivitySlugs,
+  projectsHeroFallback,
+  projectsHeroFile,
+  projectsHeroSlug,
+  resolveWorkKind,
+  workItemHref,
   type Activity,
+  type WorkKind,
 } from "@/data/activities";
 import { getServerWordPressApiUrl } from "@/lib/config";
 
-export type { Field, Principal, TrustedClient, HeroSlide, GallerySlide, Activity };
+export type { Field, Principal, TrustedClient, HeroSlide, GallerySlide, Activity, WorkKind };
+export { workItemHref };
 
 export type ClientsSection = {
   heading: string;
@@ -140,6 +147,7 @@ interface WpActivity {
   featuredImage?: string;
   gallery?: WpGallerySlide[];
   order?: number;
+  kind?: WorkKind;
   categories?: WpActivityCategory[];
 }
 
@@ -267,6 +275,10 @@ function mapActivity(activity: WpActivity): Activity {
       name: decodeHtmlEntities(category.name),
       slug: category.slug,
     })),
+    kind:
+      activity.kind === "activity" || activity.kind === "project"
+        ? activity.kind
+        : (fallback?.kind ?? resolveWorkKind(activity.slug)),
   };
 }
 
@@ -421,9 +433,20 @@ export async function getActivities(category?: string): Promise<Activity[]> {
   const data = await wpFetch<{ activities: WpActivity[] }>(path);
 
   if (data?.activities?.length) {
-    return dedupeBySlug(data.activities.map(mapActivity))
-      .filter((activity) => !isHiddenActivity(activity.slug))
-      .sort((a, b) => a.order - b.order);
+    const fromCms = dedupeBySlug(data.activities.map(mapActivity)).filter(
+      (activity) => !isHiddenActivity(activity.slug)
+    );
+    const cmsSlugs = new Set(fromCms.map((activity) => activity.slug));
+    // Append activities defined in code that the CMS doesn't return yet,
+    // so new local entries appear without waiting for a cache purge.
+    const codeOnly = fallbackActivities.filter(
+      (activity) =>
+        !cmsSlugs.has(activity.slug) &&
+        !isHiddenActivity(activity.slug) &&
+        (!category ||
+          activity.categories.some((item) => item.slug === category))
+    );
+    return [...fromCms, ...codeOnly].sort((a, b) => b.order - a.order);
   }
 
   const fallback = category
@@ -431,7 +454,14 @@ export async function getActivities(category?: string): Promise<Activity[]> {
         activity.categories.some((item) => item.slug === category)
       )
     : fallbackActivities;
-  return fallback.filter((activity) => !isHiddenActivity(activity.slug));
+  return fallback
+    .filter((activity) => !isHiddenActivity(activity.slug))
+    .sort((a, b) => b.order - a.order);
+}
+
+export async function getWorkItems(kind: WorkKind): Promise<Activity[]> {
+  const items = await getActivities();
+  return items.filter((item) => item.kind === kind);
 }
 
 export async function getActivityBySlug(slug: string): Promise<Activity | null> {
@@ -443,7 +473,10 @@ export async function getActivityBySlug(slug: string): Promise<Activity | null> 
     return mapActivity(data);
   }
 
-  return fallbackActivities.find((activity) => activity.slug === slug) ?? null;
+  const fallback = fallbackActivities.find((activity) => activity.slug === slug);
+  return fallback
+    ? { ...fallback, kind: fallback.kind ?? resolveWorkKind(fallback.slug) }
+    : null;
 }
 
 export async function getContactSpotlightActivity(): Promise<Activity | null> {
@@ -453,9 +486,14 @@ export async function getContactSpotlightActivity(): Promise<Activity | null> {
   return getActivityBySlug(slug);
 }
 
-export function resolveActivitiesHeroImage(activities: Activity[]): string {
-  const activity = activities.find((item) => item.slug === activitiesHeroSlug);
-  const heroNeedle = activitiesHeroFile.replace(/\.[^.]+$/, "").toLowerCase();
+function resolveHeroImage(
+  items: Activity[],
+  heroSlug: string,
+  heroFile: string,
+  heroFallback: string
+): string {
+  const activity = items.find((item) => item.slug === heroSlug);
+  const heroNeedle = heroFile.replace(/\.[^.]+$/, "").toLowerCase();
 
   const fromGallery = activity?.gallery.find((slide) =>
     slide.image.toLowerCase().includes(heroNeedle)
@@ -465,7 +503,29 @@ export function resolveActivitiesHeroImage(activities: Activity[]): string {
     return fromGallery.image;
   }
 
-  return activitiesHeroFallback;
+  if (activity?.featuredImage) {
+    return activity.featuredImage;
+  }
+
+  return heroFallback;
+}
+
+export function resolveProjectsHeroImage(items: Activity[]): string {
+  return resolveHeroImage(
+    items,
+    projectsHeroSlug,
+    projectsHeroFile,
+    projectsHeroFallback
+  );
+}
+
+export function resolveActivitiesHeroImage(items: Activity[]): string {
+  return resolveHeroImage(
+    items,
+    eventsHeroSlug,
+    eventsHeroFile,
+    eventsHeroFallback
+  );
 }
 
 export { principalLogo };

@@ -47,11 +47,21 @@ export default function PhotoSlider({
             aria-hidden={idx !== i}
           >
             <Image
+              className="pslider-bg"
+              src={s.image}
+              alt=""
+              fill
+              aria-hidden
+              priority={idx === 0}
+              sizes="(max-width: 1280px) 100vw, 1240px"
+            />
+            <Image
+              className="pslider-fg"
               src={s.image}
               alt={s.alt}
               fill
               priority={idx === 0}
-              sizes="100vw"
+              sizes="(max-width: 1280px) 100vw, 1240px"
             />
           </div>
         ))}

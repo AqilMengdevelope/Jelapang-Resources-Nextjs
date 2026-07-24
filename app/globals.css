@@ -14,11 +14,9 @@
   justify-content: center;
   gap: 28px;
   background: var(--bg-darker);
-  transition: opacity 0.6s ease, visibility 0.6s ease;
-}
-.preloader-out {
-  opacity: 0;
-  visibility: hidden;
+  /* Hold briefly, then fade — runs from first paint, no JS wait */
+  animation: preloader-exit 1s ease forwards;
+  pointer-events: none;
 }
 .preloader-inner {
   position: relative;
@@ -62,6 +60,16 @@
 @keyframes preloader-fadein {
   from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: translateY(0);   }
+}
+@keyframes preloader-exit {
+  0%, 45% {
+    opacity: 1;
+    visibility: visible;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
 }
 
 :root {
@@ -899,14 +907,18 @@ h4 {
 .cap-img {
   position: relative;
   min-height: 380px;
-  background-size: cover;
-  background-position: center;
+  overflow: hidden;
   background-color: var(--green-deep);
+}
+.cap-img > img {
+  z-index: 0;
 }
 .cap-img::after {
   content: "";
   position: absolute;
   inset: 0;
+  z-index: 1;
+  pointer-events: none;
   background: linear-gradient(
     180deg,
     rgba(10, 23, 45, 0.1),

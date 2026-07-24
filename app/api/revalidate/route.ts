@@ -10,6 +10,7 @@ const DEFAULT_PATHS = [
   "/it",
   "/contact",
   "/activities",
+  "/projects",
 ];
 
 function normalizePath(path: unknown): string | null {

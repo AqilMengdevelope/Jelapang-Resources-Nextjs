@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import SiteHeader from "@/components/SiteHeader";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
 import PhotoSlider from "@/components/PhotoSlider";
-import { getActivities, getActivityBySlug } from "@/lib/wordpress";
+import { getActivityBySlug, getWorkItems } from "@/lib/wordpress";
 
 type Props = { params: Promise<{ slug: string }> };
 
 export async function generateStaticParams() {
-  const activities = await getActivities();
+  const activities = await getWorkItems("activity");
   return activities.map((activity) => ({ slug: activity.slug }));
 }
 
@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const activity = await getActivityBySlug(slug);
 
-  if (!activity) {
+  if (!activity || activity.kind !== "activity") {
     return { title: "Activity, Jelapang Resources" };
   }
 
@@ -34,6 +34,10 @@ export default async function ActivityDetailPage({ params }: Props) {
 
   if (!activity) {
     notFound();
+  }
+
+  if (activity.kind !== "activity") {
+    redirect(`/projects/${activity.slug}`);
   }
 
   const category = activity.categories[0];

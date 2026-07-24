@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
 import PrincipalGrid from "@/components/PrincipalGrid";
-import { getActivities, getPrincipals, getSiteInfo } from "@/lib/wordpress";
+import WorkCardMedia from "@/components/WorkCardMedia";
+import { getWorkItems, getPrincipals, getSiteInfo, workItemHref } from "@/lib/wordpress";
 import { ArrowRight, CheckIcon } from "@/components/icons";
 import { briefingHref } from "@/data/site";
 
@@ -28,12 +28,12 @@ const points = [
 ];
 
 export default async function RailwayPage() {
-  const [railwayPrincipals, site, allActivities] = await Promise.all([
+  const [railwayPrincipals, site, allProjects] = await Promise.all([
     getPrincipals("railway"),
     getSiteInfo(),
-    getActivities(),
+    getWorkItems("project"),
   ]);
-  const featuredActivities = allActivities.slice(0, 4);
+  const featuredActivities = allProjects.slice(0, 4);
 
   return (
     <>
@@ -179,17 +179,14 @@ export default async function RailwayPage() {
                 {featuredActivities.map((activity, index) => (
                   <Reveal key={activity.slug} delay={index * 80}>
                     <Link
-                      href={`/activities/${activity.slug}`}
+                      href={workItemHref(activity)}
                       className="activity-card"
                     >
-                      <div className="activity-card-media">
-                        <Image
-                          src={activity.featuredImage}
-                          alt={activity.title}
-                          fill
-                          sizes="(max-width: 768px) 100vw, 33vw"
-                        />
-                      </div>
+                      <WorkCardMedia
+                        src={activity.featuredImage}
+                        alt={activity.title}
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                      />
                       <div className="activity-card-body">
                         <h3>{activity.title}</h3>
                         <p>{activity.excerpt}</p>
@@ -203,7 +200,7 @@ export default async function RailwayPage() {
               </div>
 
               <div style={{ textAlign: "center", marginTop: 44 }}>
-                <Link href="/activities" className="btn btn-green">
+                <Link href="/projects" className="btn btn-green">
                   View All Projects <ArrowRight width={18} height={18} />
                 </Link>
               </div>

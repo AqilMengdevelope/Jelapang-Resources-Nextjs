@@ -4,6 +4,7 @@ import SiteHeader from "@/components/SiteHeader";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
+import CapMedia from "@/components/CapMedia";
 import { ArrowRight, CheckIcon } from "@/components/icons";
 import { briefingHref } from "@/data/site";
 import { getSiteInfo } from "@/lib/wordpress";
@@ -87,12 +88,7 @@ export default async function ServicesPage() {
           <div className="container">
             {services.map((s, idx) => (
               <Reveal key={s.title} id={s.href.slice(1)} className="cap-row" delay={idx * 60}>
-                <div
-                  className="cap-img"
-                  style={{ backgroundImage: `url(${s.image})` }}
-                >
-                  <span className="cap-imgtag">{s.tag}</span>
-                </div>
+                <CapMedia src={s.image} alt={s.title} tag={s.tag} />
                 <div className="cap-body">
                   <span className="cap-no">SECTOR {s.no}</span>
                   <h3>{s.title}</h3>

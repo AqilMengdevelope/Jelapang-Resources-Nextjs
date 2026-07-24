@@ -6,6 +6,8 @@ export type ActivityCategory = {
   slug: string;
 };
 
+export type WorkKind = "project" | "activity";
+
 export type Activity = {
   id: number;
   title: string;
@@ -16,6 +18,7 @@ export type Activity = {
   gallery: GallerySlide[];
   order: number;
   categories: ActivityCategory[];
+  kind: WorkKind;
 };
 
 function activityImagePath(slug: string, file: string): string {
@@ -39,7 +42,8 @@ function activityEntry(
   slug: string,
   excerpt: string,
   files: readonly string[],
-  order: number
+  order: number,
+  kind: WorkKind = "project"
 ): Activity {
   return {
     id,
@@ -50,6 +54,7 @@ function activityEntry(
     gallery: activityGallery(slug, files, title),
     order,
     categories: [{ id, name: title, slug }],
+    kind,
   };
 }
 
@@ -168,6 +173,129 @@ const TRAIN_WASH_PLANT_FILES = [
   "WhatsApp Image 2024-04-02 at 13.48.19.jpeg",
 ] as const;
 
+const RAIL_DAMPER_KJ_FILES = [
+  "01.jpg",
+  "02.jpg",
+  "03.jpg",
+  "04.jpg",
+  "05.jpg",
+  "06.jpg",
+  "07.jpg",
+  "08.jpg",
+  "09.jpg",
+  "10.jpg",
+  "11.jpg",
+  "12.jpg",
+  "13.jpg",
+  "14.jpg",
+  "15.jpg",
+  "16.jpg",
+  "17.jpg",
+  "18.jpg",
+  "19.jpg",
+  "20.jpg",
+  "21.jpg",
+] as const;
+
+const ESSCOM_TRAINING_FILES = [
+  "01.jpg",
+  "02.jpg",
+  "03.jpg",
+  "04.jpg",
+  "05.jpg",
+  "06.jpg",
+  "07.jpg",
+  "08.jpg",
+  "09.jpg",
+  "10.jpg",
+  "11.jpg",
+  "12.jpg",
+  "13.jpg",
+  "14.jpg",
+  "15.jpg",
+  "16.jpg",
+  "17.jpg",
+] as const;
+
+const SIDEX_2025_FILES = [
+  "01.jpg",
+  "02.jpg",
+  "03.jpg",
+  "04.jpg",
+  "05.jpg",
+  "06.jpg",
+  "07.jpg",
+  "08.jpg",
+] as const;
+
+const BANGKOK_2025_FILES = [
+  "01.jpg",
+  "02.jpg",
+  "03.jpg",
+  "04.jpg",
+  "05.jpg",
+  "06.jpg",
+] as const;
+
+const EUROSATORY_2026_FILES = [
+  "01.jpg",
+  "02.jpg",
+  "03.jpg",
+  "04.jpg",
+  "05.jpg",
+  "06.jpg",
+] as const;
+
+const DSA_2026_FILES = [
+  "01.jpg",
+  "02.jpg",
+  "03.jpg",
+  "04.jpg",
+  "05.jpg",
+  "06.jpg",
+  "07.jpg",
+  "08.jpg",
+  "09.jpg",
+  "10.jpg",
+] as const;
+
+const FIRING_TEST_GOV_FILES = [
+  "01.jpg",
+  "02.jpg",
+  "03.jpg",
+  "04.jpg",
+  "05.jpg",
+  "06.jpg",
+  "07.jpg",
+  "08.jpg",
+  "09.jpg",
+] as const;
+
+const PRODUCT_TESTING_ESSCOM_LAHAD_DATU_FILES = [
+  "01.jpg",
+  "02.jpg",
+  "03.jpg",
+  "04.jpg",
+  "05.jpg",
+  "06.jpg",
+  "07.jpg",
+  "08.jpg",
+  "09.jpg",
+  "10.jpg",
+  "11.jpg",
+  "12.jpg",
+  "13.jpg",
+  "14.jpg",
+  "15.jpg",
+  "16.jpg",
+  "17.jpg",
+  "18.jpg",
+  "19.jpg",
+  "20.jpg",
+  "21.jpg",
+  "22.jpg",
+] as const;
+
 export const fallbackActivities: Activity[] = [
   activityEntry(
     1,
@@ -257,6 +385,77 @@ export const fallbackActivities: Activity[] = [
     TRAIN_WASH_PLANT_FILES,
     12
   ),
+  activityEntry(
+    14,
+    "Supply and Install Rail Damper for Kelana Jaya Line",
+    "rail-damper-kelana-jaya-line",
+    "Supply and installation of rail dampers for the Kelana Jaya Line, supporting track performance and ride quality.",
+    RAIL_DAMPER_KJ_FILES,
+    13
+  ),
+  activityEntry(
+    15,
+    "Penghantaran dan training head to toe esscom",
+    "penghantaran-training-esscom",
+    "Delivery and head-to-toe training for ESSCOM equipment and operational readiness.",
+    ESSCOM_TRAINING_FILES,
+    14,
+    "activity"
+  ),
+  activityEntry(
+    16,
+    "Singapore international disaster & emergency management expo SIDEX 2025",
+    "sidex-2025",
+    "Jelapang presence at SIDEX 2025 in Singapore — international disaster and emergency management expo.",
+    SIDEX_2025_FILES,
+    15,
+    "activity"
+  ),
+  activityEntry(
+    17,
+    "Defence security and service Bangkok 2025",
+    "defence-security-bangkok-2025",
+    "Participation at Defence Security and Service Bangkok 2025, engaging defence and security partners in the region.",
+    BANGKOK_2025_FILES,
+    16,
+    "activity"
+  ),
+  activityEntry(
+    18,
+    "Eurosatory Paris 2026",
+    "eurosatory-paris-2026",
+    "Jelapang at Eurosatory Paris 2026 — global defence and security exhibition engagement.",
+    EUROSATORY_2026_FILES,
+    17,
+    "activity"
+  ),
+  activityEntry(
+    19,
+    "Defence Service Asia 2026 - Mitec Malaysia",
+    "defence-service-asia-2026",
+    "Defence Services Asia 2026 at MITEC Malaysia — showcasing capabilities with industry and defence stakeholders.",
+    DSA_2026_FILES,
+    18,
+    "activity"
+  ),
+  activityEntry(
+    20,
+    "Firing test with Government Officers",
+    "firing-test-government-officers",
+    "Live firing test session conducted with government officers to validate system performance and operational readiness.",
+    FIRING_TEST_GOV_FILES,
+    19,
+    "activity"
+  ),
+  activityEntry(
+    21,
+    "Product testing with Esscom at Lahad Datu",
+    "product-testing-esscom-lahad-datu",
+    "On-site product testing with ESSCOM at Lahad Datu to verify field performance and deployment readiness.",
+    PRODUCT_TESTING_ESSCOM_LAHAD_DATU_FILES,
+    20,
+    "activity"
+  ),
 ];
 
 /**
@@ -266,17 +465,48 @@ export const fallbackActivities: Activity[] = [
  */
 export const hiddenActivitySlugs: readonly string[] = ["fencing", "g-clamp"];
 
+/** Event / exhibition / training engagements shown under Activities. */
+export const activityKindSlugs: readonly string[] = [
+  "penghantaran-training-esscom",
+  "sidex-2025",
+  "defence-security-bangkok-2025",
+  "eurosatory-paris-2026",
+  "defence-service-asia-2026",
+  "firing-test-government-officers",
+  "product-testing-esscom-lahad-datu",
+];
+
+export function resolveWorkKind(slug: string): WorkKind {
+  return activityKindSlugs.includes(slug) ? "activity" : "project";
+}
+
+export function workItemHref(item: Pick<Activity, "slug" | "kind">): string {
+  return item.kind === "project"
+    ? `/projects/${item.slug}`
+    : `/activities/${item.slug}`;
+}
+
 export const activityTitleOverrides: Record<string, string> = {
   "train-wash-plan-atwp": "Automatic Train Wash Plant (ATWP)",
 };
 
 export const contactSpotlightSlug = "mrt-niteq";
 
-export const activitiesHeroSlug = "lr2-kj-line";
+export const projectsHeroSlug = "lr2-kj-line";
+export const projectsHeroFile = "IMG_3686.JPG";
+export const projectsHeroFallback = activityImagePath(
+  projectsHeroSlug,
+  projectsHeroFile
+);
 
-export const activitiesHeroFile = "IMG_3686.JPG";
+/** @deprecated Use projectsHero* — kept for existing imports during split. */
+export const activitiesHeroSlug = projectsHeroSlug;
+export const activitiesHeroFile = projectsHeroFile;
+export const activitiesHeroFallback = projectsHeroFallback;
 
-export const activitiesHeroFallback = activityImagePath(
-  activitiesHeroSlug,
-  activitiesHeroFile
+export const eventsHeroSlug = "eurosatory-paris-2026";
+export const eventsHeroFile = "01.jpg";
+export const eventsHeroFallback = activityImagePath(
+  eventsHeroSlug,
+  eventsHeroFile
 );

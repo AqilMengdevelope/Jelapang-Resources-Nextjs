@@ -1,21 +1,19 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
-import { getActivities, resolveActivitiesHeroImage } from "@/lib/wordpress";
-import { ArrowRight } from "@/components/icons";
+import WorkCardGrid from "@/components/WorkCardGrid";
+import { getWorkItems, resolveActivitiesHeroImage } from "@/lib/wordpress";
 
 export const metadata: Metadata = {
   title: "Activities, Jelapang Resources",
   description:
-    "Field activities and project delivery across railway depot systems, rolling-stock maintenance and infrastructure support.",
+    "Exhibitions, training and field engagement activities across defence, security and emergency management.",
 };
 
 export default async function ActivitiesPage() {
-  const activities = await getActivities();
+  const activities = await getWorkItems("activity");
   const heroImage = resolveActivitiesHeroImage(activities);
 
   return (
@@ -25,7 +23,7 @@ export default async function ActivitiesPage() {
         <PageHero
           kicker="Our Work"
           title="Activities"
-          subtitle="On-site project delivery, depot systems and workshop installations documented from the field."
+          subtitle="Exhibitions, training programmes and partner engagements documented from the field."
           image={heroImage}
           crumbs={[{ label: "Activities" }]}
         />
@@ -33,40 +31,15 @@ export default async function ActivitiesPage() {
         <section className="section">
           <div className="container">
             <Reveal className="lead-block" style={{ maxWidth: 720, marginBottom: 48 }}>
-              <span className="kicker">Project Gallery</span>
-              <h2 className="section-title">Recent field activities</h2>
+              <span className="kicker">Activity Gallery</span>
+              <h2 className="section-title">Recent activities</h2>
               <p style={{ color: "var(--ink-2)", fontSize: 17, marginTop: 18 }}>
-                Browse documented project work across railway and infrastructure programmes.
-                Each category collects photos from delivery, installation and commissioning on site.
+                Browse documented exhibitions, training and engagement work with defence,
+                security and emergency-management partners.
               </p>
             </Reveal>
 
-            <div className="activities-grid">
-              {activities.map((activity, index) => {
-                return (
-                  <Reveal key={activity.slug} delay={index * 80}>
-                    <Link href={`/activities/${activity.slug}`} className="activity-card">
-                      <div className="activity-card-media">
-                        <Image
-                          src={activity.featuredImage}
-                          alt={activity.title}
-                          fill
-                          priority={index < 2}
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        />
-                      </div>
-                      <div className="activity-card-body">
-                        <h3>{activity.title}</h3>
-                        <p>{activity.excerpt}</p>
-                        <span className="activity-card-link">
-                          View gallery <ArrowRight width={16} height={16} />
-                        </span>
-                      </div>
-                    </Link>
-                  </Reveal>
-                );
-              })}
-            </div>
+            <WorkCardGrid items={activities} />
           </div>
         </section>
 

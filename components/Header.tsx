@@ -27,6 +27,7 @@ const links: NavItem[] = [
     ],
   },
   { href: "/activities", label: "Activities" },
+  { href: "/projects", label: "Projects" },
   { href: "/contact", label: "Contact Us" },
 ];
 
