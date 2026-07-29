@@ -23,6 +23,7 @@ import {
 import {
   contactSpotlightSlug,
   activityTitleOverrides,
+  activitySlugRedirects,
   eventsHeroFallback,
   eventsHeroFile,
   eventsHeroSlug,
@@ -495,6 +496,11 @@ export async function getWorkItems(kind: WorkKind): Promise<Activity[]> {
 }
 
 export async function getActivityBySlug(slug: string): Promise<Activity | null> {
+  const redirectedSlug = activitySlugRedirects[slug];
+  if (redirectedSlug) {
+    return getActivityBySlug(redirectedSlug);
+  }
+
   if (isHiddenActivity(slug)) return null;
 
   const canonicalSlug = resolveCanonicalActivitySlug(slug);

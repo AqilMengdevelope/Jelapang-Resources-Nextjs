@@ -1,6 +1,25 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [
+      {
+        source: "/projects/train-wash-plant",
+        destination: "/projects/train-wash-plan-atwp",
+        permanent: true,
+      },
+      {
+        source: "/activities/defence-service-asia-2026",
+        destination: "/activities/defence-service-asia-2024",
+        permanent: true,
+      },
+      {
+        source: "/projects/defence-service-asia-2026",
+        destination: "/activities/defence-service-asia-2024",
+        permanent: true,
+      },
+    ];
+  },
   images: {
     // Local WordPress (Docker) serves media from localhost:8080
     dangerouslyAllowLocalIP: true,

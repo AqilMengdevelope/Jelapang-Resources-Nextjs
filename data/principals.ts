@@ -23,6 +23,7 @@ const PRINCIPAL_LOGO_FILES: Record<string, string> = {
   "hutchinson": "/principals/hutchinson.svg",
   "mehler": "/principals/mehler.svg",
   "cts": "/principals/cts.svg",
+  "masters-of-gloves": "/principals/masters-of-gloves.png",
 };
 
 /** Logo path for a principal (stored in /public/principals). */
@@ -269,6 +270,22 @@ export const principals: Principal[] = [
       "Bio-decontamination chambers",
       "CBRN containment solutions",
       "Facility & equipment sterilisation",
+    ],
+  },
+  {
+    slug: "masters-of-gloves",
+    website: "https://moggloves.com/",
+    name: "Masters of Gloves (MoG)",
+    field: "Military",
+    origin: "Belgium",
+    tagline: "Tactical gloves for armed forces & first responders",
+    description:
+      "Masters of Gloves (MoG) designs and manufactures tactical gloves for armed forces, law enforcement, security, firefighters and rescue teams. Products are co-created with end users to combine protection, dexterity and comfort for demanding operational environments.",
+    products: [
+      "Combat & tactical gloves",
+      "Cut & needle-resistant gloves",
+      "Flame-resistant gloves",
+      "Roping, rescue & cold-weather gloves",
     ],
   },
 

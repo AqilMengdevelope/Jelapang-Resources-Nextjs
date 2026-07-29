@@ -30,6 +30,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProjectDetailPage({ params }: Props) {
   const { slug } = await params;
+
+  if (slug === "train-wash-plant") {
+    redirect("/projects/train-wash-plan-atwp");
+  }
+
   const project = await getActivityBySlug(slug);
 
   if (!project) {

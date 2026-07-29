@@ -25,14 +25,40 @@ function activityImagePath(slug: string, file: string): string {
   return `/activities/${slug}/${encodeURIComponent(file)}`;
 }
 
+/** Per-image SEO alt overrides keyed by slug. */
+const activityAltOverrides: Record<string, string[]> = {
+  "penghantaran-training-esscom": [
+    "ESSCOM personnel reviewing tactical equipment during Jelapang Resources head-to-toe training at Lahad Datu",
+    "ESSCOM officer fitting Mehler Protection ballistic vest during equipment training session",
+    "Military and ESSCOM officers inspecting tactical helmets and body armour at training briefing",
+    "ESSCOM officer adjusting ballistic vest straps during hands-on equipment familiarisation",
+    "ESSCOM and military personnel examining tactical gear including helmets and plate carriers",
+    "ESSCOM officer demonstrating ballistic vest fitting to military and police trainees",
+    "ESSCOM and police officers during tactical equipment fitting and briefing session",
+    "ESSCOM officer inspecting ballistic helmet features during Jelapang equipment training",
+    "Military, ESSCOM and police personnel handling tactical body armour and protective equipment",
+    "ESSCOM officers seated with tactical helmets and body armour during training break",
+    "Group of ESSCOM, military and police officers reviewing equipment during outdoor training session",
+    "ESSCOM personnel examining ballistic helmet with accessory rails during equipment demo",
+    "ESSCOM and military officers inspecting tactical plate carriers and protective vests",
+    "ESSCOM officer with tactical helmet at outdoor firing range during Jelapang product demonstration",
+    "ESSCOM officer holding ballistic helmet at equipment handover session",
+    "Military and ESSCOM personnel reviewing tactical body armour on display table",
+    "Group photo of ESSCOM, military and police officers with Jelapang tactical equipment after training",
+  ],
+};
+
 function activityGallery(
   slug: string,
   files: readonly string[],
   altPrefix: string
 ): GallerySlide[] {
+  const overrides = activityAltOverrides[slug];
   return files.map((file, index) => ({
     image: activityImagePath(slug, file),
-    alt: `${altPrefix} photo ${index + 1}`,
+    alt:
+      overrides?.[index] ??
+      `${altPrefix} – Jelapang Resources gallery image ${index + 1}`,
   }));
 }
 
@@ -163,16 +189,6 @@ const STOP_MARKER_FILES = [
   "WhatsApp Image 2024-04-04 at 14.04.46.jpeg",
 ] as const;
 
-const TRAIN_WASH_PLANT_FILES = [
-  "WhatsApp Image 2024-04-02 at 13.45.02 (4).jpeg",
-  "WhatsApp Image 2024-04-02 at 13.45.02 (5).jpeg",
-  "WhatsApp Image 2024-04-02 at 13.47.47 (1).jpeg",
-  "WhatsApp Image 2024-04-02 at 13.47.47 (2).jpeg",
-  "WhatsApp Image 2024-04-02 at 13.47.47 (3).jpeg",
-  "WhatsApp Image 2024-04-02 at 13.47.47.jpeg",
-  "WhatsApp Image 2024-04-02 at 13.48.19.jpeg",
-] as const;
-
 const RAIL_DAMPER_KJ_FILES = [
   "01.jpg",
   "02.jpg",
@@ -246,7 +262,7 @@ const EUROSATORY_2026_FILES = [
   "06.jpg",
 ] as const;
 
-const DSA_2026_FILES = [
+const DSA_2024_FILES = [
   "01.jpg",
   "02.jpg",
   "03.jpg",
@@ -378,14 +394,6 @@ export const fallbackActivities: Activity[] = [
     11
   ),
   activityEntry(
-    13,
-    "Train Wash Plant",
-    "train-wash-plant",
-    "Train wash plant equipment supply, installation and commissioning for depot fleet cleaning.",
-    TRAIN_WASH_PLANT_FILES,
-    12
-  ),
-  activityEntry(
     14,
     "Supply and Install Rail Damper for Kelana Jaya Line",
     "rail-damper-kelana-jaya-line",
@@ -394,12 +402,21 @@ export const fallbackActivities: Activity[] = [
     13
   ),
   activityEntry(
+    19,
+    "Defence Service Asia 2024 - Mitec Malaysia",
+    "defence-service-asia-2024",
+    "Defence Services Asia 2024 at MITEC Malaysia — showcasing capabilities with industry and defence stakeholders.",
+    DSA_2024_FILES,
+    14,
+    "activity"
+  ),
+  activityEntry(
     15,
     "Penghantaran dan training head to toe esscom",
     "penghantaran-training-esscom",
     "Delivery and head-to-toe training for ESSCOM equipment and operational readiness.",
     ESSCOM_TRAINING_FILES,
-    14,
+    15,
     "activity"
   ),
   activityEntry(
@@ -408,7 +425,7 @@ export const fallbackActivities: Activity[] = [
     "sidex-2025",
     "Jelapang presence at SIDEX 2025 in Singapore — international disaster and emergency management expo.",
     SIDEX_2025_FILES,
-    15,
+    16,
     "activity"
   ),
   activityEntry(
@@ -417,7 +434,7 @@ export const fallbackActivities: Activity[] = [
     "defence-security-bangkok-2025",
     "Participation at Defence Security and Service Bangkok 2025, engaging defence and security partners in the region.",
     BANGKOK_2025_FILES,
-    16,
+    17,
     "activity"
   ),
   activityEntry(
@@ -426,15 +443,6 @@ export const fallbackActivities: Activity[] = [
     "eurosatory-paris-2026",
     "Jelapang at Eurosatory Paris 2026 — global defence and security exhibition engagement.",
     EUROSATORY_2026_FILES,
-    17,
-    "activity"
-  ),
-  activityEntry(
-    19,
-    "Defence Service Asia 2026 - Mitec Malaysia",
-    "defence-service-asia-2026",
-    "Defence Services Asia 2026 at MITEC Malaysia — showcasing capabilities with industry and defence stakeholders.",
-    DSA_2026_FILES,
     18,
     "activity"
   ),
@@ -463,7 +471,18 @@ export const fallbackActivities: Activity[] = [
  * (the CMS is authoritative, so these keep the frontend in sync with edits
  * made in code without needing a CMS update).
  */
-export const hiddenActivitySlugs: readonly string[] = ["fencing", "g-clamp"];
+export const hiddenActivitySlugs: readonly string[] = [
+  "fencing",
+  "g-clamp",
+  // Duplicate of Automatic Train Wash Plant (ATWP)
+  "train-wash-plant",
+];
+
+/** Old project/activity slugs that should permanently redirect. */
+export const activitySlugRedirects: Record<string, string> = {
+  "train-wash-plant": "train-wash-plan-atwp",
+  "defence-service-asia-2026": "defence-service-asia-2024",
+};
 
 /** Event / exhibition / training engagements shown under Activities. */
 export const activityKindSlugs: readonly string[] = [
@@ -471,7 +490,7 @@ export const activityKindSlugs: readonly string[] = [
   "sidex-2025",
   "defence-security-bangkok-2025",
   "eurosatory-paris-2026",
-  "defence-service-asia-2026",
+  "defence-service-asia-2024",
   "firing-test-government-officers",
   "product-testing-esscom-lahad-datu",
 ];
@@ -488,6 +507,8 @@ export function workItemHref(item: Pick<Activity, "slug" | "kind">): string {
 
 export const activityTitleOverrides: Record<string, string> = {
   "train-wash-plan-atwp": "Automatic Train Wash Plant (ATWP)",
+  "penghantaran-training-esscom":
+    "ESSCOM Tactical Equipment Delivery & Head-to-Toe Training",
 };
 
 export const contactSpotlightSlug = "mrt-niteq";
