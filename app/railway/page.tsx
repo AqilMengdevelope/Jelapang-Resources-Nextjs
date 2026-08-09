@@ -6,7 +6,9 @@ import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
 import PrincipalGrid from "@/components/PrincipalGrid";
 import WorkCardMedia from "@/components/WorkCardMedia";
-import { getWorkItems, getPrincipals, getSiteInfo, workItemHref } from "@/lib/wordpress";
+import TrustedClientsSection from "@/components/TrustedClientsSection";
+import { getWorkItems, getPrincipals, getSiteInfo, getClients, workItemHref } from "@/lib/wordpress";
+import { railwayClientLogo } from "@/data/clients";
 import { ArrowRight, CheckIcon } from "@/components/icons";
 import { briefingHref } from "@/data/site";
 
@@ -28,11 +30,13 @@ const points = [
 ];
 
 export default async function RailwayPage() {
-  const [railwayPrincipals, site, allProjects] = await Promise.all([
-    getPrincipals("railway"),
-    getSiteInfo(),
-    getWorkItems("project"),
-  ]);
+  const [railwayPrincipals, site, allProjects, { clients: railwayClients }] =
+    await Promise.all([
+      getPrincipals("railway"),
+      getSiteInfo(),
+      getWorkItems("project"),
+      getClients("railway"),
+    ]);
   const featuredActivities = allProjects.slice(0, 4);
 
   return (
@@ -97,65 +101,13 @@ export default async function RailwayPage() {
           </div>
         </section>
 
-        {/* Current Customers */}
-        <section className="section rail-customers">
-          <div className="container">
-            <Reveal className="rail-customers-head">
-              <span className="kicker">Trusted By</span>
-              <h2 className="section-title">Current Customers</h2>
-              <p>
-                Proud to support Malaysia&apos;s leading rail operators and
-                transit authorities with proven engineering and supply solutions.
-              </p>
-            </Reveal>
-
-            {/* Featured: Prasarana */}
-            <Reveal>
-              <div className="rail-featured">
-                <div className="rail-featured-logo">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/railway-customers/prasarana.png" alt="Prasarana" />
-                </div>
-                <div className="rail-featured-body">
-                  <span className="rail-featured-tag">Primary Operator</span>
-                  <h3>Prasarana Malaysia Berhad</h3>
-                  <p>
-                    Malaysia&apos;s national integrated public transport corporation,
-                    operating urban rail and bus networks across the Klang Valley, including LRT, MRT, Monorail and BRT lines serving millions
-                    of daily commuters.
-                  </p>
-                </div>
-              </div>
-            </Reveal>
-
-            {/* Other customers */}
-            <div className="rail-cust-grid">
-              {[
-                { slug: "lrt3",       name: "LRT 3",        type: "Light Rapid Transit Line 3",  site: "https://lrt3.com.my" },
-                { slug: "kl-monorail",name: "KL Monorail",  type: "Kuala Lumpur Urban Monorail", site: "https://myrapid.com.my" },
-                { slug: "klia-ekspres",name: "KLIA Ekspres", type: "Express Rail Link to KLIA",   site: "https://kliaekspres.com" },
-                { slug: "rapid-rail", name: "Rapid Rail",   type: "Urban Rail Operations",       site: "https://rapidrail.com.my" },
-                { slug: "mrt-corp",   name: "MRT Corp",     type: "Mass Rapid Transit Corp.",    site: "https://mrt.com.my" },
-              ].map((c, idx) => (
-                <Reveal key={c.slug} delay={idx * 70}>
-                  <a
-                    href={c.site}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="rail-cust-card"
-                  >
-                    <div className="rail-cust-logo">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={`/railway-customers/${c.slug}.png`} alt={c.name} />
-                    </div>
-                    <span className="rail-cust-name">{c.name}</span>
-                    <span className="rail-cust-type">{c.type}</span>
-                  </a>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
+        <TrustedClientsSection
+          kicker="Trusted By"
+          title="Current Customers"
+          description="Proud to support Malaysia's leading rail operators and transit authorities with proven engineering and supply solutions."
+          clients={railwayClients}
+          logoFallback={railwayClientLogo}
+        />
 
         {/* Recent Projects */}
         {featuredActivities.length > 0 && (

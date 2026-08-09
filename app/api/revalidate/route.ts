@@ -42,7 +42,7 @@ export async function POST(request: Request) {
     : [];
   const paths = Array.from(new Set([...DEFAULT_PATHS, ...requestedPaths]));
 
-  revalidateTag("wordpress", "max");
+  revalidateTag("wordpress", { expire: 0 });
   paths.forEach((path) => revalidatePath(path));
 
   return NextResponse.json({ revalidated: true, paths });

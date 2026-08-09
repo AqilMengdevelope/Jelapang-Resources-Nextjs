@@ -9,7 +9,7 @@ export default async function ClientLogosSection({
   className?: string;
   style?: React.CSSProperties;
 }) {
-  const { heading, clients } = await getClients();
+  const { heading, clients } = await getClients("military");
 
   return (
     <Reveal className={className} style={style}>

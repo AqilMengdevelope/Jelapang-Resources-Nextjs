@@ -16,8 +16,11 @@ import {
 import { militaryGallery as fallbackMilitaryGallery, type GallerySlide } from "@/data/military-gallery";
 import {
   clientLogo,
+  railwayClientLogo,
   clientsSectionHeading,
+  railwayClientsSectionHeading,
   fallbackClients,
+  fallbackRailwayClients,
   type TrustedClient,
 } from "@/data/clients";
 import {
@@ -91,10 +94,16 @@ interface WpClient {
   order: number;
   type: "logo" | "badge";
   badgeText: string;
+  field?: string;
+  description?: string;
+  website?: string;
+  featured?: boolean;
+  featuredLabel?: string;
 }
 
 interface WpClientsResponse {
   heading: string;
+  sector?: string;
   clients: WpClient[];
 }
 
@@ -238,12 +247,30 @@ function mapPrincipal(partner: WpPrincipal): Principal {
 }
 
 function mapClient(client: WpClient): TrustedClient {
+  const field =
+    client.field === "Railway"
+      ? "Railway"
+      : client.field === "Military"
+        ? "Military"
+        : client.field;
+  const localLogo =
+    field === "Railway" ? railwayClientLogo(client.slug) : clientLogo(client.slug);
+
   return {
     slug: client.slug,
     name: decodeHtmlEntities(client.name),
     type: client.type === "badge" ? "badge" : "logo",
     badgeText: client.badgeText || undefined,
-    logo: client.logo || (client.type === "logo" ? clientLogo(client.slug) : undefined),
+    logo: client.logo || (client.type === "logo" ? localLogo : undefined),
+    field,
+    description: client.description
+      ? decodeHtmlEntities(client.description)
+      : undefined,
+    website: client.website || undefined,
+    featured: Boolean(client.featured),
+    featuredLabel: client.featuredLabel
+      ? decodeHtmlEntities(client.featuredLabel)
+      : undefined,
   };
 }
 
@@ -274,7 +301,7 @@ function mapActivity(activity: WpActivity): Activity {
       fallback?.featuredImage ||
       "",
     gallery: gallery.length ? gallery : (fallback?.gallery ?? []),
-    order: activity.order ?? fallback?.order ?? 0,
+    order: fallback?.order ?? activity.order ?? 0,
     categories: (activity.categories ?? fallback?.categories ?? []).map((category) => ({
       id: category.id,
       name: decodeHtmlEntities(category.name),
@@ -313,24 +340,30 @@ function isHiddenActivity(slug: string): boolean {
   return hiddenActivitySlugs.includes(slug);
 }
 
-export async function getClients(): Promise<ClientsSection> {
-  const data = await wpFetch<WpClientsResponse>("/jelapang/v1/clients");
+export async function getClients(
+  sector?: "military" | "railway"
+): Promise<ClientsSection> {
+  const path = sector
+    ? `/jelapang/v1/clients?sector=${encodeURIComponent(sector)}`
+    : "/jelapang/v1/clients";
+  const data = await wpFetch<WpClientsResponse>(path);
+  const fallback =
+    sector === "railway" ? fallbackRailwayClients : fallbackClients;
+  const fallbackHeading =
+    sector === "railway"
+      ? railwayClientsSectionHeading
+      : clientsSectionHeading;
 
   if (data?.clients?.length) {
-    const fromCms = dedupeBySlug(data.clients.map(mapClient));
-    const cmsSlugs = new Set(fromCms.map((c) => c.slug));
-    // Append clients defined in code that the CMS doesn't return yet,
-    // so new additions appear without needing a CMS update.
-    const codeOnly = fallbackClients.filter((c) => !cmsSlugs.has(c.slug));
     return {
-      heading: data.heading || clientsSectionHeading,
-      clients: [...fromCms, ...codeOnly],
+      heading: data.heading || fallbackHeading,
+      clients: dedupeBySlug(data.clients.map(mapClient)),
     };
   }
 
   return {
-    heading: clientsSectionHeading,
-    clients: fallbackClients,
+    heading: fallbackHeading,
+    clients: fallback,
   };
 }
 
@@ -394,7 +427,7 @@ export async function getPrincipals(sector?: string): Promise<Principal[]> {
   return localFallback;
 }
 
-export async function getFeaturedPrincipals(limit = 8): Promise<Principal[]> {
+export async function getFeaturedPrincipals(limit?: number): Promise<Principal[]> {
   const [all, settings] = await Promise.all([
     getPrincipals(),
     wpFetch<WpSettings>("/jelapang/v1/settings"),
@@ -407,11 +440,11 @@ export async function getFeaturedPrincipals(limit = 8): Promise<Principal[]> {
       .map((slug) => bySlug.get(slug))
       .filter((p): p is Principal => Boolean(p));
     if (featured.length) {
-      return featured.slice(0, limit);
+      return typeof limit === "number" ? featured.slice(0, limit) : featured;
     }
   }
 
-  return all.slice(0, limit);
+  return typeof limit === "number" ? all.slice(0, limit) : all;
 }
 
 function replaceHeroImage(url: string): string {

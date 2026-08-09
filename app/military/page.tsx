@@ -5,8 +5,9 @@ import Footer from "@/components/Footer";
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
 import PrincipalGrid from "@/components/PrincipalGrid";
-import ClientLogos from "@/components/ClientLogos";
+import TrustedClientsSection from "@/components/TrustedClientsSection";
 import { getPrincipals, getSiteInfo, getClients } from "@/lib/wordpress";
+import { clientLogo } from "@/data/clients";
 import { ArrowRight, CheckIcon } from "@/components/icons";
 import { briefingHref } from "@/data/site";
 
@@ -31,7 +32,7 @@ export default async function MilitaryPage() {
   const [militaryPrincipals, site, { clients }] = await Promise.all([
     getPrincipals("military"),
     getSiteInfo(),
-    getClients(),
+    getClients("military"),
   ]);
 
   return (
@@ -99,20 +100,13 @@ export default async function MilitaryPage() {
           </div>
         </section>
 
-        {/* Clients */}
-        <section className="section partners">
-          <div className="container">
-            <Reveal className="partners-head">
-              <span className="kicker center">Track Record</span>
-              <h2 className="section-title on-dark">Trusted by the Forces</h2>
-              <p className="section-lead on-dark" style={{ margin: "20px auto 0" }}>
-                Delivering completed contracts for Malaysia&apos;s defence and
-                enforcement community.
-              </p>
-            </Reveal>
-            <ClientLogos clients={clients} />
-          </div>
-        </section>
+        <TrustedClientsSection
+          kicker="Track Record"
+          title="Trusted by the Forces"
+          description="Delivering completed contracts for Malaysia's defence and enforcement community."
+          clients={clients}
+          logoFallback={clientLogo}
+        />
 
         {/* CTA */}
         <section className="section cta">

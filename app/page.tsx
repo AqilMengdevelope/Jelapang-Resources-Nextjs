@@ -6,11 +6,10 @@ import Footer from "@/components/Footer";
 import PrincipalGrid from "@/components/PrincipalGrid";
 import CapMedia from "@/components/CapMedia";
 import {
+  getFeaturedPrincipals,
   getHeroSlides,
   getHomeStats,
-  getPrincipals,
   getSiteInfo,
-  type Principal,
 } from "@/lib/wordpress";
 import {
   ShieldIcon,
@@ -116,30 +115,15 @@ const whyUs = [
   },
 ];
 
-// Curated home "Our Global Principals" grid: a mix of defence, railway
-// and IT principals (5 total, shown 3 top / 2 bottom).
-const homeFeaturedSlugs = [
-  "mehler", // Defence
-  "aquafrisch", // Railway
-  "oconnors", // IT
-  "blucher", // Defence
-  "cenzin-pgz", // Railway
-];
-
 /* ---------------- Page ---------------- */
 
 export default async function Home() {
-  const [stats, allPrincipals, site, heroSlides] = await Promise.all([
+  const [stats, featuredPrincipals, site, heroSlides] = await Promise.all([
     getHomeStats(),
-    getPrincipals(),
+    getFeaturedPrincipals(),
     getSiteInfo(),
     getHeroSlides(),
   ]);
-
-  const bySlug = new Map(allPrincipals.map((p) => [p.slug, p]));
-  const featuredPrincipals = homeFeaturedSlugs
-    .map((slug) => bySlug.get(slug))
-    .filter((p): p is Principal => Boolean(p));
 
   return (
     <>
