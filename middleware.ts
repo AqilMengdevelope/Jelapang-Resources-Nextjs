@@ -7,8 +7,10 @@ import type { NextRequest } from "next/server";
  * Set `MAINTENANCE_MODE=true` in `.env.local` (or hosting env) to serve the
  * maintenance page on every route. Any other value, or leaving it unset, keeps
  * the full site online. Preview the page anytime at `/maintenance`.
+ *
+ * Implemented as Edge Middleware so Cloudflare OpenNext can bundle it.
  */
-export function proxy(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const maintenance = process.env.MAINTENANCE_MODE === "true";
   const { pathname } = request.nextUrl;
 

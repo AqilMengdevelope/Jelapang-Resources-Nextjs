@@ -1,11 +1,11 @@
 import Image from "next/image";
-import { fallbackClients, type TrustedClient } from "@/data/clients";
+import type { TrustedClient } from "@/data/clients";
 
 type Props = {
   clients?: TrustedClient[];
 };
 
-export default function ClientLogos({ clients = fallbackClients }: Props) {
+export default function ClientLogos({ clients = [] }: Props) {
   return (
     <div className="client-logos">
       {clients.map((client) =>

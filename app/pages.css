@@ -68,6 +68,13 @@
   color: rgba(255, 255, 255, 0.86);
   font-size: clamp(16px, 1.6vw, 19px);
   max-width: 60ch;
+  text-align: justify;
+  text-align-last: left;
+  text-justify: inter-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphenate-limit-chars: 8 3 4;
+  overflow-wrap: break-word;
 }
 .breadcrumb {
   display: flex;
@@ -416,6 +423,13 @@
   color: var(--ink-2);
   font-size: 17px;
   margin-top: 18px;
+  text-align: justify;
+  text-align-last: left;
+  text-justify: inter-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphenate-limit-chars: 8 3 4;
+  overflow-wrap: break-word;
 }
 .service-intro {
   display: grid;
@@ -457,6 +471,13 @@
   color: var(--ink-2);
   font-size: 17px;
   line-height: 1.7;
+  text-align: justify;
+  text-align-last: left;
+  text-justify: inter-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphenate-limit-chars: 8 3 4;
+  overflow-wrap: break-word;
 }
 .detail-products {
   list-style: none;
@@ -708,6 +729,39 @@
   background: var(--bg-soft);
 }
 
+.work-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 0 36px;
+}
+.work-filter {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 12.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 9px 16px;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.work-filter:hover {
+  border-color: var(--brass);
+  color: var(--green);
+}
+.work-filter.is-active {
+  background: var(--green);
+  color: #fff;
+  border-color: var(--green);
+}
+.work-filters-empty {
+  color: var(--ink-2);
+  font-size: 16px;
+}
+
 /* ---------- Activities ---------- */
 .activities-grid {
   display: grid;
@@ -761,11 +815,16 @@
   color: var(--green-deep);
   margin-bottom: 10px;
 }
-.activity-card-body p {
+.activity-card-body p,
+.activity-card-body p.is-justified {
   color: var(--ink-2);
   font-size: 15.5px;
   line-height: 1.65;
   flex: 1;
+  text-align: left !important;
+  text-align-last: left;
+  text-wrap: pretty;
+  hyphens: none;
 }
 .activity-card-link {
   display: inline-flex;
@@ -784,6 +843,15 @@
   color: var(--ink-2);
   font-size: 17px;
   line-height: 1.75;
+}
+.activity-content p {
+  text-align: justify;
+  text-align-last: left;
+  text-justify: inter-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphenate-limit-chars: 8 3 4;
+  overflow-wrap: break-word;
 }
 .activity-content p + p {
   margin-top: 16px;
@@ -1170,5 +1238,24 @@
   .client-logo,
   .client-badge {
     height: 92px;
+  }
+}
+
+p.is-justified,
+.page-hero-sub.is-justified {
+  text-align: justify;
+  text-align-last: left;
+}
+
+@media (max-width: 700px) {
+  .section-lead,
+  .lead-block p,
+  .cap-body p,
+  .detail-body p,
+  .page-hero-sub,
+  .activity-content p {
+    text-align: left;
+    text-align-last: auto;
+    hyphens: none;
   }
 }

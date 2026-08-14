@@ -3,7 +3,7 @@ import SiteHeader from "@/components/SiteHeader";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
-import WorkCardGrid from "@/components/WorkCardGrid";
+import WorkFilterGrid from "@/components/WorkFilterGrid";
 import { getWorkItems, resolveProjectsHeroImage } from "@/lib/wordpress";
 
 export const metadata: Metadata = {
@@ -39,7 +39,7 @@ export default async function ProjectsPage() {
               </p>
             </Reveal>
 
-            <WorkCardGrid items={projects} />
+            <WorkFilterGrid items={projects} />
           </div>
         </section>
 

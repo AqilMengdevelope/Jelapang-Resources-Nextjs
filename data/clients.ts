@@ -138,4 +138,13 @@ export const fallbackRailwayClients: TrustedClient[] = [
     website: "https://www.prasarana.com.my",
     logo: "/railway-customers/prasarana.png",
   },
+  {
+    slug: "ktmb",
+    name: "KTMB",
+    type: "logo",
+    field: "Railway",
+    description: "Keretapi Tanah Melayu Berhad, Malaysia's national railway operator",
+    website: "https://www.ktmb.com.my",
+    logo: "/railway-customers/ktmb.png",
+  },
 ];

@@ -193,6 +193,13 @@ h4 {
   color: var(--ink-2);
   font-size: 17px;
   max-width: 60ch;
+  text-align: justify;
+  text-align-last: left;
+  text-justify: inter-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphenate-limit-chars: 8 3 4;
+  overflow-wrap: break-word;
 }
 .section-lead.on-dark {
   color: var(--on-dark-2);
@@ -822,6 +829,8 @@ h4 {
   margin-top: 10px;
   color: var(--ink-2);
   font-size: 15.5px;
+  text-align: left;
+  text-wrap: pretty;
 }
 .about-copy .section-lead {
   max-width: none;
@@ -961,6 +970,13 @@ h4 {
   margin-top: 16px;
   color: var(--ink-2);
   font-size: 16px;
+  text-align: justify;
+  text-align-last: left;
+  text-justify: inter-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphenate-limit-chars: 8 3 4;
+  overflow-wrap: break-word;
 }
 .cap-points {
   list-style: none;
@@ -1040,6 +1056,8 @@ h4 {
   margin-top: 12px;
   color: var(--ink-2);
   font-size: 15px;
+  text-align: left;
+  text-wrap: pretty;
 }
 
 /* ============================================================
@@ -1155,6 +1173,8 @@ h4 {
   color: rgba(255, 255, 255, 0.85);
   font-size: 17px;
   max-width: 46ch;
+  text-align: left;
+  text-wrap: pretty;
 }
 .cta-actions {
   display: flex;

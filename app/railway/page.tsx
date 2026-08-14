@@ -5,9 +5,9 @@ import Footer from "@/components/Footer";
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
 import PrincipalGrid from "@/components/PrincipalGrid";
-import WorkCardMedia from "@/components/WorkCardMedia";
+import WorkFilterGrid from "@/components/WorkFilterGrid";
 import TrustedClientsSection from "@/components/TrustedClientsSection";
-import { getWorkItems, getPrincipals, getSiteInfo, getClients, workItemHref } from "@/lib/wordpress";
+import { getWorkItems, getPrincipals, getSiteInfo, getClients } from "@/lib/wordpress";
 import { railwayClientLogo } from "@/data/clients";
 import { ArrowRight, CheckIcon } from "@/components/icons";
 import { briefingHref } from "@/data/site";
@@ -37,7 +37,6 @@ export default async function RailwayPage() {
       getWorkItems("project"),
       getClients("railway"),
     ]);
-  const featuredActivities = allProjects.slice(0, 4);
 
   return (
     <>
@@ -110,7 +109,7 @@ export default async function RailwayPage() {
         />
 
         {/* Recent Projects */}
-        {featuredActivities.length > 0 && (
+        {allProjects.length > 0 && (
           <section className="section section-soft" id="projects">
             <div className="container">
               <div className="caps-head">
@@ -120,42 +119,13 @@ export default async function RailwayPage() {
                 </Reveal>
                 <Reveal delay={120}>
                   <p className="section-lead">
-                    A look at recent field activities, depot systems,
-                    rolling-stock maintenance and infrastructure delivered
-                    on site.
+                    Filter by rail line to see depot systems, rolling-stock
+                    equipment and inspection work delivered on site.
                   </p>
                 </Reveal>
               </div>
 
-              <div className="activities-grid activities-grid--preview">
-                {featuredActivities.map((activity, index) => (
-                  <Reveal key={activity.slug} delay={index * 80}>
-                    <Link
-                      href={workItemHref(activity)}
-                      className="activity-card"
-                    >
-                      <WorkCardMedia
-                        src={activity.featuredImage}
-                        alt={activity.title}
-                        sizes="(max-width: 768px) 100vw, 33vw"
-                      />
-                      <div className="activity-card-body">
-                        <h3>{activity.title}</h3>
-                        <p>{activity.excerpt}</p>
-                        <span className="activity-card-link">
-                          View gallery <ArrowRight width={16} height={16} />
-                        </span>
-                      </div>
-                    </Link>
-                  </Reveal>
-                ))}
-              </div>
-
-              <div style={{ textAlign: "center", marginTop: 44 }}>
-                <Link href="/projects" className="btn btn-green">
-                  View All Projects <ArrowRight width={18} height={18} />
-                </Link>
-              </div>
+              <WorkFilterGrid items={allProjects} />
             </div>
           </section>
         )}

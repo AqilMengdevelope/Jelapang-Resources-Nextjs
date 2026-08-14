@@ -1,8 +1,4 @@
 import {
-  principals as fallbackPrincipals,
-  militaryPrincipals as fallbackMilitary,
-  railwayPrincipals as fallbackRailway,
-  itPrincipals as fallbackIT,
   principalLogo,
   type Field,
   type Principal,
@@ -19,23 +15,9 @@ import {
   railwayClientLogo,
   clientsSectionHeading,
   railwayClientsSectionHeading,
-  fallbackClients,
-  fallbackRailwayClients,
   type TrustedClient,
 } from "@/data/clients";
 import {
-  contactSpotlightSlug,
-  activityTitleOverrides,
-  activitySlugRedirects,
-  eventsHeroFallback,
-  eventsHeroFile,
-  eventsHeroSlug,
-  fallbackActivities,
-  hiddenActivitySlugs,
-  projectsHeroFallback,
-  projectsHeroFile,
-  projectsHeroSlug,
-  resolveWorkKind,
   workItemHref,
   type Activity,
   type WorkKind,
@@ -159,6 +141,7 @@ interface WpActivity {
   order?: number;
   kind?: WorkKind;
   categories?: WpActivityCategory[];
+  tags?: WpActivityCategory[];
 }
 
 const WP_API_URL = getServerWordPressApiUrl();
@@ -275,10 +258,6 @@ function mapClient(client: WpClient): TrustedClient {
 }
 
 function mapActivity(activity: WpActivity): Activity {
-  const canonicalSlug = resolveCanonicalActivitySlug(activity.slug);
-  const fallback =
-    fallbackActivities.find((item) => item.slug === activity.slug) ??
-    fallbackActivities.find((item) => item.slug === canonicalSlug);
   const gallery = (activity.gallery ?? [])
     .filter((slide) => slide.image)
     .map((slide) => ({
@@ -288,56 +267,25 @@ function mapActivity(activity: WpActivity): Activity {
 
   return {
     id: activity.id,
-    title:
-      activityTitleOverrides[canonicalSlug] ??
-      activityTitleOverrides[activity.slug] ??
-      decodeHtmlEntities(activity.title),
-    slug: canonicalSlug,
+    title: decodeHtmlEntities(activity.title),
+    slug: activity.slug,
     excerpt: decodeHtmlEntities(activity.excerpt),
     content: activity.content,
-    featuredImage:
-      activity.featuredImage ||
-      activity.gallery?.[0]?.image ||
-      fallback?.featuredImage ||
-      "",
-    gallery: gallery.length ? gallery : (fallback?.gallery ?? []),
-    order: fallback?.order ?? activity.order ?? 0,
-    categories: (activity.categories ?? fallback?.categories ?? []).map((category) => ({
+    featuredImage: activity.featuredImage || gallery[0]?.image || "",
+    gallery,
+    order: activity.order ?? 0,
+    categories: (activity.categories ?? []).map((category) => ({
       id: category.id,
       name: decodeHtmlEntities(category.name),
       slug: category.slug,
     })),
-    kind:
-      activity.kind === "activity" || activity.kind === "project"
-        ? activity.kind
-        : (fallback?.kind ?? resolveWorkKind(canonicalSlug)),
+    tags: (activity.tags ?? []).map((tag) => ({
+      id: tag.id,
+      name: decodeHtmlEntities(tag.name),
+      slug: tag.slug,
+    })),
+    kind: activity.kind === "activity" ? "activity" : "project",
   };
-}
-
-/**
- * WordPress appends -2, -3… when a slug already exists.
- * Do not strip 4-digit years (e.g. sidex-2025).
- */
-function resolveCanonicalActivitySlug(
-  slug: string,
-  knownSlugs?: Iterable<string>
-): string {
-  const match = slug.match(/^(.*)-(\d+)$/);
-  if (!match) return slug;
-
-  const base = match[1];
-  const suffix = Number(match[2]);
-  if (!Number.isFinite(suffix) || suffix >= 1000) return slug;
-
-  const known = knownSlugs
-    ? new Set(knownSlugs)
-    : new Set(fallbackActivities.map((item) => item.slug));
-
-  return known.has(base) ? base : slug;
-}
-
-function isHiddenActivity(slug: string): boolean {
-  return hiddenActivitySlugs.includes(slug);
 }
 
 export async function getClients(
@@ -347,23 +295,19 @@ export async function getClients(
     ? `/jelapang/v1/clients?sector=${encodeURIComponent(sector)}`
     : "/jelapang/v1/clients";
   const data = await wpFetch<WpClientsResponse>(path);
-  const fallback =
-    sector === "railway" ? fallbackRailwayClients : fallbackClients;
-  const fallbackHeading =
-    sector === "railway"
+  const heading =
+    data?.heading ||
+    (sector === "railway"
       ? railwayClientsSectionHeading
-      : clientsSectionHeading;
+      : clientsSectionHeading);
 
-  if (data?.clients?.length) {
-    return {
-      heading: data.heading || fallbackHeading,
-      clients: dedupeBySlug(data.clients.map(mapClient)),
-    };
+  if (!data?.clients?.length) {
+    return { heading, clients: [] };
   }
 
   return {
-    heading: fallbackHeading,
-    clients: fallback,
+    heading,
+    clients: dedupeBySlug(data.clients.map(mapClient)),
   };
 }
 
@@ -404,27 +348,13 @@ export async function getPrincipals(sector?: string): Promise<Principal[]> {
     ? `/jelapang/v1/principals?sector=${encodeURIComponent(sector)}`
     : "/jelapang/v1/principals";
 
-  const localFallback =
-    sector === "military"
-      ? fallbackMilitary
-      : sector === "railway"
-        ? fallbackRailway
-        : sector === "it"
-          ? fallbackIT
-          : fallbackPrincipals;
-
   const data = await wpFetch<{ principals: WpPrincipal[] }>(path);
 
-  if (data?.principals?.length) {
-    const fromCms = dedupeBySlug(data.principals.map(mapPrincipal));
-    const cmsSlugs = new Set(fromCms.map((p) => p.slug));
-    // Append principals defined in code that the CMS doesn't return yet,
-    // so new additions appear without needing a CMS update.
-    const codeOnly = localFallback.filter((p) => !cmsSlugs.has(p.slug));
-    return dedupeBySlug([...fromCms, ...codeOnly]);
+  if (!data?.principals?.length) {
+    return [];
   }
 
-  return localFallback;
+  return dedupeBySlug(data.principals.map(mapPrincipal));
 }
 
 export async function getFeaturedPrincipals(limit?: number): Promise<Principal[]> {
@@ -494,33 +424,13 @@ export async function getActivities(category?: string): Promise<Activity[]> {
 
   const data = await wpFetch<{ activities: WpActivity[] }>(path);
 
-  if (data?.activities?.length) {
-    // mapActivity collapses WP duplicate slugs (-2, -3) onto the canonical slug,
-    // then dedupeBySlug keeps a single card per activity.
-    const fromCms = dedupeBySlug(data.activities.map(mapActivity)).filter(
-      (activity) => !isHiddenActivity(activity.slug)
-    );
-    const cmsSlugs = new Set(fromCms.map((activity) => activity.slug));
-    // Append activities defined in code that the CMS doesn't return yet,
-    // so new local entries appear without waiting for a cache purge.
-    const codeOnly = fallbackActivities.filter(
-      (activity) =>
-        !cmsSlugs.has(activity.slug) &&
-        !isHiddenActivity(activity.slug) &&
-        (!category ||
-          activity.categories.some((item) => item.slug === category))
-    );
-    return [...fromCms, ...codeOnly].sort((a, b) => b.order - a.order);
+  if (!data?.activities?.length) {
+    return [];
   }
 
-  const fallback = category
-    ? fallbackActivities.filter((activity) =>
-        activity.categories.some((item) => item.slug === category)
-      )
-    : fallbackActivities;
-  return fallback
-    .filter((activity) => !isHiddenActivity(activity.slug))
-    .sort((a, b) => b.order - a.order);
+  return dedupeBySlug(data.activities.map(mapActivity)).sort(
+    (a, b) => b.order - a.order
+  );
 }
 
 export async function getWorkItems(kind: WorkKind): Promise<Activity[]> {
@@ -529,88 +439,36 @@ export async function getWorkItems(kind: WorkKind): Promise<Activity[]> {
 }
 
 export async function getActivityBySlug(slug: string): Promise<Activity | null> {
-  const redirectedSlug = activitySlugRedirects[slug];
-  if (redirectedSlug) {
-    return getActivityBySlug(redirectedSlug);
+  const data = await wpFetch<WpActivity>(`/jelapang/v1/activities/${slug}`);
+
+  if (!data?.slug) {
+    return null;
   }
 
-  if (isHiddenActivity(slug)) return null;
-
-  const canonicalSlug = resolveCanonicalActivitySlug(slug);
-
-  // Prefer the canonical slug so WP "-2" duplicates resolve to the real entry.
-  for (const candidate of Array.from(new Set([canonicalSlug, slug]))) {
-    if (isHiddenActivity(candidate)) continue;
-
-    const data = await wpFetch<WpActivity>(
-      `/jelapang/v1/activities/${candidate}`
-    );
-
-    if (data?.slug) {
-      return mapActivity(data);
-    }
-
-    const fallback = fallbackActivities.find(
-      (activity) => activity.slug === candidate
-    );
-    if (fallback) {
-      return {
-        ...fallback,
-        kind: fallback.kind ?? resolveWorkKind(fallback.slug),
-      };
-    }
-  }
-
-  return null;
+  return mapActivity(data);
 }
 
 export async function getContactSpotlightActivity(): Promise<Activity | null> {
   const settings = await wpFetch<WpSettings>("/jelapang/v1/settings");
-  const slug = settings?.contact?.spotlightActivitySlug || contactSpotlightSlug;
+  const slug = settings?.contact?.spotlightActivitySlug;
 
-  return getActivityBySlug(slug);
-}
-
-function resolveHeroImage(
-  items: Activity[],
-  heroSlug: string,
-  heroFile: string,
-  heroFallback: string
-): string {
-  const activity = items.find((item) => item.slug === heroSlug);
-  const heroNeedle = heroFile.replace(/\.[^.]+$/, "").toLowerCase();
-
-  const fromGallery = activity?.gallery.find((slide) =>
-    slide.image.toLowerCase().includes(heroNeedle)
-  );
-
-  if (fromGallery?.image) {
-    return fromGallery.image;
+  if (slug) {
+    const spotlight = await getActivityBySlug(slug);
+    if (spotlight) {
+      return spotlight;
+    }
   }
 
-  if (activity?.featuredImage) {
-    return activity.featuredImage;
-  }
-
-  return heroFallback;
+  const projects = await getWorkItems("project");
+  return projects[0] ?? null;
 }
 
 export function resolveProjectsHeroImage(items: Activity[]): string {
-  return resolveHeroImage(
-    items,
-    projectsHeroSlug,
-    projectsHeroFile,
-    projectsHeroFallback
-  );
+  return items.find((item) => item.featuredImage)?.featuredImage ?? "";
 }
 
 export function resolveActivitiesHeroImage(items: Activity[]): string {
-  return resolveHeroImage(
-    items,
-    eventsHeroSlug,
-    eventsHeroFile,
-    eventsHeroFallback
-  );
+  return items.find((item) => item.featuredImage)?.featuredImage ?? "";
 }
 
 export { principalLogo };

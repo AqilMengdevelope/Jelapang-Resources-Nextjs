@@ -15,6 +15,10 @@ export default function WorkCardMedia({
   /** CSS object-position, e.g. "center top" or "50% 35%" from future CMS crop. */
   position?: string;
 }) {
+  if (!src) {
+    return <div className="activity-card-media" />;
+  }
+
   return (
     <div className="activity-card-media">
       <Image

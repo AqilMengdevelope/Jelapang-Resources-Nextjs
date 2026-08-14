@@ -91,7 +91,7 @@ export default function ContactForm() {
           <input
             id="cf-name"
             type="text"
-            placeholder="Dato' Ahmad Razif"
+            placeholder="Your full name"
             value={fields.name}
             onChange={set("name")}
             required
@@ -102,7 +102,7 @@ export default function ContactForm() {
           <input
             id="cf-company"
             type="text"
-            placeholder="Ministry of Defence"
+            placeholder="Your organisation"
             value={fields.company}
             onChange={set("company")}
           />
@@ -115,7 +115,7 @@ export default function ContactForm() {
           <input
             id="cf-email"
             type="email"
-            placeholder="you@example.com"
+            placeholder="you@company.com"
             value={fields.email}
             onChange={set("email")}
             required
@@ -140,7 +140,7 @@ export default function ContactForm() {
           value={fields.sector}
           onChange={set("sector")}
         >
-          <option value="">, Select a sector, </option>
+          <option value="">Select a sector</option>
           <option value="Military">Military &amp; Defence</option>
           <option value="Railway">Railway &amp; Rail Infrastructure</option>
           <option value="IT">IT &amp; Electronics</option>
