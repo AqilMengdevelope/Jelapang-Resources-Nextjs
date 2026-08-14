@@ -11,8 +11,6 @@ import {
 } from "@/data/hero";
 import { militaryGallery as fallbackMilitaryGallery, type GallerySlide } from "@/data/military-gallery";
 import {
-  clientLogo,
-  railwayClientLogo,
   clientsSectionHeading,
   railwayClientsSectionHeading,
   type TrustedClient,
@@ -179,11 +177,17 @@ function dedupeBySlug<T extends { slug: string }>(items: T[]): T[] {
   });
 }
 
-async function wpFetch<T>(path: string): Promise<T | null> {
+async function wpFetch<T>(
+  path: string,
+  options?: { cache?: RequestCache }
+): Promise<T | null> {
   try {
-    const response = await fetch(`${WP_API_URL}${path}`, {
-      next: { revalidate: 300, tags: ["wordpress"] },
-    });
+    const response = await fetch(
+      `${WP_API_URL}${path}`,
+      options?.cache === "no-store"
+        ? { cache: "no-store" }
+        : { next: { revalidate: 300, tags: ["wordpress"] } }
+    );
 
     if (!response.ok) {
       return null;
@@ -236,15 +240,12 @@ function mapClient(client: WpClient): TrustedClient {
       : client.field === "Military"
         ? "Military"
         : client.field;
-  const localLogo =
-    field === "Railway" ? railwayClientLogo(client.slug) : clientLogo(client.slug);
-
   return {
     slug: client.slug,
     name: decodeHtmlEntities(client.name),
     type: client.type === "badge" ? "badge" : "logo",
     badgeText: client.badgeText || undefined,
-    logo: client.logo || (client.type === "logo" ? localLogo : undefined),
+    logo: client.logo || undefined,
     field,
     description: client.description
       ? decodeHtmlEntities(client.description)
@@ -294,7 +295,7 @@ export async function getClients(
   const path = sector
     ? `/jelapang/v1/clients?sector=${encodeURIComponent(sector)}`
     : "/jelapang/v1/clients";
-  const data = await wpFetch<WpClientsResponse>(path);
+  const data = await wpFetch<WpClientsResponse>(path, { cache: "no-store" });
   const heading =
     data?.heading ||
     (sector === "railway"
