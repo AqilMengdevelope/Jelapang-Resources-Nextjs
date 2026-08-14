@@ -1,6 +1,6 @@
-# Jelapang Resources — Frontend
+# jelapang-frontend
 
-Next.js 16 website for **Jelapang Resources Sdn. Bhd.** Consumes the headless WordPress API from the [jelapang-backend](https://github.com/huzairulshazmey/jelapang-backend) repo.
+Next.js 16 website for **Jelapang Resources Sdn. Bhd.** Consumes the headless WordPress API from the [jelapang-backend](https://github.com/Rakanlabs-MY/jelapang-backend) repo.
 
 ## Structure
 
@@ -18,7 +18,7 @@ jelapang-frontend/     ← push contents of this folder to GitHub
 ## Prerequisites
 
 - Node.js 20+
-- [jelapang-backend](https://github.com/huzairulshazmey/jelapang-backend) running locally (or a deployed WordPress URL)
+- [jelapang-backend](https://github.com/Rakanlabs-MY/jelapang-backend) running locally (or a deployed WordPress URL)
 
 ## Quick Start
 
@@ -37,12 +37,12 @@ Open **http://localhost:3000**
 Copy `.env.local.example` to `.env.local`:
 
 ```env
-WORDPRESS_API_URL=https://cms.jelapangresources.com/wp-json
-NEXT_PUBLIC_WORDPRESS_API_URL=https://cms.jelapangresources.com/wp-json
+WORDPRESS_API_URL=http://localhost:8080/wp-json
+NEXT_PUBLIC_WORDPRESS_API_URL=http://localhost:8080/wp-json
 ```
 
-These default to the live CMS at `cms.jelapangresources.com`. For a local
-WordPress instance, override them with `http://localhost:8080/wp-json`.
+Use `http://localhost:8080/wp-json` when `jelapang-backend` is running locally.
+For the live CMS, set both to `https://cms.jelapangresources.com/wp-json`.
 
 ## Pages
 
