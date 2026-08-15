@@ -37,7 +37,20 @@ jobs:
           fi
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
+      - name: Sync revalidate secret to Vercel
+        if: ${{ secrets.REVALIDATE_SECRET != '' }}
+        env:
+          REVALIDATE_SECRET: ${{ secrets.REVALIDATE_SECRET }}
+        run: |
+          printf '%s' "$REVALIDATE_SECRET" | vercel env add REVALIDATE_SECRET production --force --token=${{ secrets.VERCEL_TOKEN }}
+          printf '%s' "$REVALIDATE_SECRET" | vercel env add REVALIDATE_SECRET preview --force --token=${{ secrets.VERCEL_TOKEN }}
       - name: Pull Vercel environment
         run: vercel pull --yes --environment=${{ steps.target.outputs.vercel_env }} --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Inject revalidate secret for deploy
+        if: ${{ secrets.REVALIDATE_SECRET != '' }}
+        env:
+          REVALIDATE_SECRET: ${{ secrets.REVALIDATE_SECRET }}
+          VERCEL_ENV: ${{ steps.target.outputs.vercel_env }}
+        run: echo "REVALIDATE_SECRET=$REVALIDATE_SECRET" >> ".vercel/.env.${VERCEL_ENV}.local"
       - name: Deploy
         run: vercel deploy --yes ${{ steps.target.outputs.prod_flag }} --token=${{ secrets.VERCEL_TOKEN }}
