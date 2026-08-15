@@ -51,7 +51,7 @@ const capabilities = [
     title: "Railway",
     tag: "Rolling Stock & Infrastructure",
     image:
-      "https://cms.jelapangresources.com/wp-content/uploads/2026/07/IMG_9445-1.jpg",
+      "https://cms.jelapangresources.com/wp-content/uploads/2026/07/BMM350-8582-scaled.jpg",
     desc: "Engineering, supply and maintenance that keep rail networks safe and moving, from rolling stock components to trackside steel infrastructure.",
     points: [
       "Rolling stock spare parts",

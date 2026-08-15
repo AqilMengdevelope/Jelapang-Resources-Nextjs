@@ -15,10 +15,10 @@ export type HeroSlide = {
  */
 export const heroImageReplacements: { match: string; replace: string }[] = [
   {
-    // Old railway stock photo → real railway project photo (mrt-niteq).
+    // Old railway stock photo → real railway project photo.
     match: "photo-1580442374555",
     replace:
-      "https://cms.jelapangresources.com/wp-content/uploads/2026/07/IMG_2956-16.jpg",
+      "https://cms.jelapangresources.com/wp-content/uploads/2026/07/BMM350-8582-scaled.jpg",
   },
 ];
 
@@ -37,7 +37,7 @@ export const defaultHeroSlides: HeroSlide[] = [
   },
   {
     image:
-      "https://cms.jelapangresources.com/wp-content/uploads/2026/07/IMG_2956-16.jpg",
+      "https://cms.jelapangresources.com/wp-content/uploads/2026/07/BMM350-8582-scaled.jpg",
     tag: "Rolling Stock · Infrastructure",
     title: "Keeping rail",
     titleHighlight: "on the move",
