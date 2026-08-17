@@ -179,6 +179,17 @@ function dedupeBySlug<T extends { slug: string }>(items: T[]): T[] {
   });
 }
 
+/**
+ * How long a CMS response may be reused before Next refetches it.
+ *
+ * This is only a backstop: WordPress calls /api/revalidate on save, which
+ * clears the "wordpress" tag immediately. In development it is disabled
+ * entirely so CMS edits show up on the next reload rather than up to five
+ * minutes later.
+ */
+const CMS_REVALIDATE_SECONDS = 60;
+const CMS_CACHE_DISABLED = process.env.NODE_ENV === "development";
+
 async function wpFetch<T>(
   path: string,
   options?: { cache?: RequestCache }
@@ -186,9 +197,9 @@ async function wpFetch<T>(
   try {
     const response = await fetch(
       `${WP_API_URL}${path}`,
-      options?.cache === "no-store"
+      options?.cache === "no-store" || CMS_CACHE_DISABLED
         ? { cache: "no-store" }
-        : { next: { revalidate: 300, tags: ["wordpress"] } }
+        : { next: { revalidate: CMS_REVALIDATE_SECONDS, tags: ["wordpress"] } }
     );
 
     if (!response.ok) {
