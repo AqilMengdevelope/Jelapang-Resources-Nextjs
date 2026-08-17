@@ -734,6 +734,14 @@ h4 {
   color: rgba(255, 255, 255, 0.88);
   font-size: clamp(16px, 1.6vw, 19px);
   max-width: 52ch;
+  /* Matches .page-hero-sub on the inner page heroes. */
+  text-align: justify;
+  text-align-last: left;
+  text-justify: inter-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphenate-limit-chars: 8 3 4;
+  overflow-wrap: break-word;
 }
 .hero-actions {
   margin-top: 38px;
