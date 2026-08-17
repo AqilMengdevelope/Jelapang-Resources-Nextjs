@@ -6,7 +6,7 @@ import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
 import PhotoSlider from "@/components/PhotoSlider";
 import { getActivityBySlug, getWorkItems } from "@/lib/wordpress";
-import { detailSlidesWithCaptions } from "@/lib/gallery";
+import { detailSlides } from "@/lib/gallery";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -51,7 +51,7 @@ export default async function ProjectDetailPage({ params }: Props) {
   }
 
   const category = project.categories[0];
-  const slides = await detailSlidesWithCaptions(project);
+  const slides = detailSlides(project);
 
   return (
     <>

@@ -121,13 +121,7 @@ interface WpGallerySlide {
   image?: string;
   alt?: string;
   caption?: string;
-}
-
-interface WpMediaItem {
-  slug: string;
-  source_url: string;
-  caption?: { rendered?: string };
-  description?: { rendered?: string };
+  description?: string;
 }
 
 interface WpActivityCategory {
@@ -275,6 +269,9 @@ function mapActivity(activity: WpActivity): Activity {
       // gallery image without alt text.
       alt: decodeHtmlEntities(slide.alt || activity.title),
       caption: slide.caption ? decodeHtmlEntities(slide.caption) : undefined,
+      description: slide.description
+        ? decodeHtmlEntities(slide.description)
+        : undefined,
     }));
 
   return {
@@ -481,84 +478,6 @@ export function resolveProjectsHeroImage(items: Activity[]): string {
 
 export function resolveActivitiesHeroImage(items: Activity[]): string {
   return items.find((item) => item.featuredImage)?.featuredImage ?? "";
-}
-
-/**
- * WordPress derives an attachment slug from its filename, so
- * ".../2026/07/01.jpg" resolves to the attachment slug "01".
- */
-function attachmentSlugFromUrl(url: string): string | null {
-  const file = url.split("/").pop()?.split("?")[0];
-  if (!file) return null;
-
-  const base = file.replace(/\.[a-z0-9]+$/i, "");
-  return base ? base.toLowerCase() : null;
-}
-
-/** WordPress renders these fields as HTML; the overlay wants plain text. */
-function plainText(html: string | undefined): string {
-  if (!html) return "";
-  return decodeHtmlEntities(
-    html
-      .replace(/<br\s*\/?>/gi, " ")
-      .replace(/<\/p>\s*<p[^>]*>/gi, " ")
-      .replace(/<[^>]*>/g, "")
-  )
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-/**
- * Fill in slide captions and descriptions from the WordPress media library.
- *
- * The `jelapang/v1` endpoints do not expose attachment captions, so these
- * are read from core's `/wp/v2/media` in a single batched request. Slides
- * that already carry a caption (should the backend start sending one) are
- * left untouched, and any lookup failure just leaves them unset.
- */
-export async function withGalleryCaptions(
-  slides: GallerySlide[]
-): Promise<GallerySlide[]> {
-  const pending = slides.filter((slide) => !slide.caption && slide.image);
-  if (pending.length === 0) return slides;
-
-  const slugs = [
-    ...new Set(
-      pending
-        .map((slide) => attachmentSlugFromUrl(slide.image))
-        .filter((slug): slug is string => Boolean(slug))
-    ),
-  ];
-  if (slugs.length === 0) return slides;
-
-  const query = slugs.map((slug) => `slug[]=${encodeURIComponent(slug)}`).join("&");
-  const media = await wpFetch<WpMediaItem[]>(
-    `/wp/v2/media?${query}&per_page=100&_fields=slug,source_url,caption,description`
-  );
-  if (!Array.isArray(media)) return slides;
-
-  // Key by source_url so attachments sharing a slug base cannot cross-match.
-  const metaByUrl = new Map<string, { caption: string; description: string }>();
-  for (const item of media) {
-    if (!item.source_url) continue;
-    const caption = plainText(item.caption?.rendered);
-    const description = plainText(item.description?.rendered);
-    if (caption || description) {
-      metaByUrl.set(item.source_url, { caption, description });
-    }
-  }
-  if (metaByUrl.size === 0) return slides;
-
-  return slides.map((slide) => {
-    const meta = metaByUrl.get(slide.image);
-    if (!meta) return slide;
-
-    return {
-      ...slide,
-      caption: slide.caption || meta.caption || undefined,
-      description: slide.description || meta.description || undefined,
-    };
-  });
 }
 
 export { principalLogo };

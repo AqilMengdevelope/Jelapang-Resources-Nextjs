@@ -1,5 +1,4 @@
 import type { Activity, GallerySlide } from "@/lib/wordpress";
-import { withGalleryCaptions } from "@/lib/wordpress";
 
 /**
  * Cap on gallery images shown on an individual project or activity page,
@@ -11,6 +10,9 @@ export const MAX_GALLERY_IMAGES = 3;
 /**
  * Slides for a detail page: the CMS gallery when present, otherwise the
  * featured image as a single slide, capped at MAX_GALLERY_IMAGES.
+ *
+ * Captions and descriptions arrive on the slides themselves, straight from
+ * the `jelapang/v1` payload.
  */
 export function detailSlides(item: Activity): GallerySlide[] {
   const slides =
@@ -21,14 +23,4 @@ export function detailSlides(item: Activity): GallerySlide[] {
         : [];
 
   return slides.slice(0, MAX_GALLERY_IMAGES);
-}
-
-/**
- * As detailSlides, with WordPress media-library captions resolved. Captions
- * are only looked up for the slides that survive the cap.
- */
-export function detailSlidesWithCaptions(
-  item: Activity
-): Promise<GallerySlide[]> {
-  return withGalleryCaptions(detailSlides(item));
 }
