@@ -1,6 +1,8 @@
 export type GallerySlide = {
   image: string;
   alt: string;
+  /** Caption from the WordPress media library, shown under the slider. */
+  caption?: string;
 };
 
 /** Photo slider on the Military page. */

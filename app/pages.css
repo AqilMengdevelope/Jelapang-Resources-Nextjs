@@ -415,6 +415,21 @@
   background: var(--brass);
 }
 
+/* <figure> wrapper: drop the UA default margin. */
+.pslider {
+  margin: 0;
+}
+.pslider-caption {
+  margin: 14px auto 0;
+  max-width: 70ch;
+  text-align: center;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--ink-2);
+  /* Hold one line of height so mixed galleries do not shift on advance. */
+  min-height: 1.6em;
+}
+
 /* ---------- Generic content ---------- */
 .lead-block {
   max-width: 760px;
@@ -729,37 +744,126 @@
   background: var(--bg-soft);
 }
 
-.work-filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+.work-filter-shell {
   margin: 0 0 36px;
 }
+
+/* Edge-fade scroller so the rail degrades gracefully on narrow screens. */
+.work-filters-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 12px,
+    #000 calc(100% - 12px),
+    transparent 100%
+  );
+}
+.work-filters-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.work-filters {
+  position: relative;
+  display: inline-flex;
+  gap: 2px;
+  padding: 4px;
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+}
+
+/* Sliding block that sits behind the active filter. */
+.work-filter-marker {
+  position: absolute;
+  top: 4px;
+  left: 0;
+  bottom: 4px;
+  border-radius: 2px;
+  background: var(--green);
+  box-shadow: inset 0 -2px 0 var(--brass);
+  transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    width 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+/* Skip the opening slide-in from x=0 on first paint. */
+.work-filter-marker[data-ready="false"] {
+  opacity: 0;
+  transition: none;
+}
+
 .work-filter {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
   font-family: var(--font-display);
   font-weight: 600;
   font-size: 12.5px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   padding: 9px 16px;
-  border: 1px solid var(--line);
-  background: #fff;
+  border: 0;
+  border-radius: 2px;
+  background: none;
   color: var(--ink-2);
   cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  white-space: nowrap;
+  transition: color 0.2s ease;
 }
 .work-filter:hover {
-  border-color: var(--brass);
   color: var(--green);
 }
-.work-filter.is-active {
-  background: var(--green);
-  color: #fff;
-  border-color: var(--green);
+.work-filter:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 2px;
 }
+.work-filter.is-active,
+.work-filter.is-active:hover {
+  color: #fff;
+}
+
+.work-filter-count {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  padding: 1px 6px;
+  border-radius: 2px;
+  background: rgba(28, 78, 138, 0.09);
+  color: var(--ink-3);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.work-filter:hover .work-filter-count {
+  color: var(--green);
+}
+.work-filter.is-active .work-filter-count {
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+}
+
+.work-filter-status {
+  margin: 16px 0 0;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
 .work-filters-empty {
   color: var(--ink-2);
   font-size: 16px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .work-filter-marker {
+    transition: none;
+  }
 }
 
 /* ---------- Activities ---------- */

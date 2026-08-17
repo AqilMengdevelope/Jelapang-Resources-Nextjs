@@ -15,6 +15,9 @@ export default function PhotoSlider({
   const [i, setI] = useState(0);
   const count = slides.length;
   const touchX = useRef<number | null>(null);
+  // Reserve the caption line whenever any slide has one, so advancing
+  // through a mixed gallery does not shift the layout.
+  const hasCaptions = slides.some((s) => s.caption);
 
   const go = useCallback(
     (n: number) => setI(((n % count) + count) % count),
@@ -29,7 +32,7 @@ export default function PhotoSlider({
   if (!count) return null;
 
   return (
-    <div className="pslider">
+    <figure className="pslider">
       <div
         className="pslider-frame"
         onTouchStart={(e) => (touchX.current = e.touches[0].clientX)}
@@ -96,6 +99,12 @@ export default function PhotoSlider({
           />
         ))}
       </div>
-    </div>
+
+      {hasCaptions && (
+        <figcaption className="pslider-caption" aria-live="polite">
+          {slides[i].caption ?? ""}
+        </figcaption>
+      )}
+    </figure>
   );
 }
