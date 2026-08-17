@@ -15,9 +15,8 @@ export default function PhotoSlider({
   const [i, setI] = useState(0);
   const count = slides.length;
   const touchX = useRef<number | null>(null);
-  // Reserve the caption line whenever any slide has one, so advancing
-  // through a mixed gallery does not shift the layout.
-  const hasCaptions = slides.some((s) => s.caption);
+  const active = slides[i];
+  const hasOverlay = Boolean(active?.caption || active?.description);
 
   const go = useCallback(
     (n: number) => setI(((n % count) + count) % count),
@@ -69,6 +68,17 @@ export default function PhotoSlider({
           </div>
         ))}
 
+        {hasOverlay && (
+          <figcaption className="pslider-overlay" aria-live="polite">
+            {active.caption && (
+              <span className="pslider-overlay-caption">{active.caption}</span>
+            )}
+            {active.description && (
+              <span className="pslider-overlay-desc">{active.description}</span>
+            )}
+          </figcaption>
+        )}
+
         <button
           className="pslider-arrow prev"
           aria-label="Previous photo"
@@ -100,11 +110,6 @@ export default function PhotoSlider({
         ))}
       </div>
 
-      {hasCaptions && (
-        <figcaption className="pslider-caption" aria-live="polite">
-          {slides[i].caption ?? ""}
-        </figcaption>
-      )}
     </figure>
   );
 }

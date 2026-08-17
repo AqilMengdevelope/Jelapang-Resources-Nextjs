@@ -127,6 +127,7 @@ interface WpMediaItem {
   slug: string;
   source_url: string;
   caption?: { rendered?: string };
+  description?: { rendered?: string };
 }
 
 interface WpActivityCategory {
@@ -494,13 +495,26 @@ function attachmentSlugFromUrl(url: string): string | null {
   return base ? base.toLowerCase() : null;
 }
 
+/** WordPress renders these fields as HTML; the overlay wants plain text. */
+function plainText(html: string | undefined): string {
+  if (!html) return "";
+  return decodeHtmlEntities(
+    html
+      .replace(/<br\s*\/?>/gi, " ")
+      .replace(/<\/p>\s*<p[^>]*>/gi, " ")
+      .replace(/<[^>]*>/g, "")
+  )
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 /**
- * Fill in slide captions from the WordPress media library.
+ * Fill in slide captions and descriptions from the WordPress media library.
  *
  * The `jelapang/v1` endpoints do not expose attachment captions, so these
  * are read from core's `/wp/v2/media` in a single batched request. Slides
  * that already carry a caption (should the backend start sending one) are
- * left untouched, and any lookup failure just leaves captions unset.
+ * left untouched, and any lookup failure just leaves them unset.
  */
 export async function withGalleryCaptions(
   slides: GallerySlide[]
@@ -519,25 +533,32 @@ export async function withGalleryCaptions(
 
   const query = slugs.map((slug) => `slug[]=${encodeURIComponent(slug)}`).join("&");
   const media = await wpFetch<WpMediaItem[]>(
-    `/wp/v2/media?${query}&per_page=100&_fields=slug,source_url,caption`
+    `/wp/v2/media?${query}&per_page=100&_fields=slug,source_url,caption,description`
   );
   if (!Array.isArray(media)) return slides;
 
   // Key by source_url so attachments sharing a slug base cannot cross-match.
-  const captionByUrl = new Map<string, string>();
+  const metaByUrl = new Map<string, { caption: string; description: string }>();
   for (const item of media) {
-    const caption = item.caption?.rendered?.replace(/<[^>]*>/g, "").trim();
-    if (caption && item.source_url) {
-      captionByUrl.set(item.source_url, decodeHtmlEntities(caption));
+    if (!item.source_url) continue;
+    const caption = plainText(item.caption?.rendered);
+    const description = plainText(item.description?.rendered);
+    if (caption || description) {
+      metaByUrl.set(item.source_url, { caption, description });
     }
   }
-  if (captionByUrl.size === 0) return slides;
+  if (metaByUrl.size === 0) return slides;
 
-  return slides.map((slide) =>
-    slide.caption
-      ? slide
-      : { ...slide, caption: captionByUrl.get(slide.image) }
-  );
+  return slides.map((slide) => {
+    const meta = metaByUrl.get(slide.image);
+    if (!meta) return slide;
+
+    return {
+      ...slide,
+      caption: slide.caption || meta.caption || undefined,
+      description: slide.description || meta.description || undefined,
+    };
+  });
 }
 
 export { principalLogo };
