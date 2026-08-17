@@ -964,10 +964,14 @@
   font-size: 15.5px;
   line-height: 1.65;
   flex: 1;
-  text-align: left !important;
+  text-align: justify;
   text-align-last: left;
-  text-wrap: pretty;
-  hyphens: none;
+  text-justify: inter-word;
+  /* Cards are the narrowest prose column, so hyphenate readily. */
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphenate-limit-chars: 6 3 3;
+  overflow-wrap: break-word;
 }
 .activity-card-link {
   display: inline-flex;
@@ -1390,15 +1394,41 @@ p.is-justified,
   text-align-last: left;
 }
 
+/* Remaining prose blocks, matching the justified body copy above.
+   Deliberately excluded: headings, nav, buttons, stats, address and phone
+   lines, and the slider caption overlay, which are labels rather than
+   paragraphs and read worse when stretched. */
+.cf-aside p,
+.cf-thankyou p,
+.footer-brand p,
+.partner .pdesc {
+  text-align: justify;
+  text-align-last: left;
+  text-justify: inter-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphenate-limit-chars: 8 3 4;
+  overflow-wrap: break-word;
+}
+
+/* Narrow columns justify badly without hyphenation, so allow shorter word
+   breaks on small screens rather than dropping justification. */
 @media (max-width: 700px) {
   .section-lead,
   .lead-block p,
   .cap-body p,
   .detail-body p,
   .page-hero-sub,
-  .activity-content p {
-    text-align: left;
-    text-align-last: auto;
-    hyphens: none;
+  .activity-content p,
+  .activity-card-body p,
+  .cf-aside p,
+  .cf-thankyou p,
+  .footer-brand p,
+  .partner .pdesc {
+    text-align: justify;
+    text-align-last: left;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphenate-limit-chars: 6 3 3;
   }
 }
