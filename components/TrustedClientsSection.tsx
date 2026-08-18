@@ -88,6 +88,9 @@ export default function TrustedClientsSection({
           <p>{description}</p>
         </Reveal>
 
+        {/* Wrapper so small screens can flatten both rows into one grid,
+            see .rail-cust-wrap in pages.css. */}
+        <div className="rail-cust-wrap">
         {grid.length > 0 && (
           <div className="rail-cust-grid">
             {grid.map((client, idx) => (
@@ -116,6 +119,7 @@ export default function TrustedClientsSection({
             ))}
           </div>
         )}
+        </div>
       </div>
     </section>
   );
