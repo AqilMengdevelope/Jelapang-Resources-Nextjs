@@ -1325,8 +1325,51 @@
     text-align: center;
   }
 }
+/* Small screens: flatten the 5-up grid and the wide featured row into a
+   single 3-column grid, so the customers read 3 / 3 / 1 rather than
+   splitting into two separate blocks. display:contents lets both inner
+   containers hand their cards straight to the wrapper grid. */
+@media (max-width: 900px) {
+  .rail-cust-wrap {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .rail-cust-grid,
+  .rail-featured-row {
+    display: contents;
+  }
+  /* Wide cards become ordinary tiles once they share the grid, so match
+     the standard logo box rather than keeping the 180px featured one. */
+  .rail-featured-row--1 .rail-cust-card--wide,
+  .rail-cust-card--wide {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 14px;
+    padding: 22px 18px 20px;
+  }
+  .rail-featured-row--1 .rail-cust-card--wide .rail-cust-logo,
+  .rail-cust-card--wide .rail-cust-logo {
+    width: 100%;
+    max-width: 160px;
+    height: 120px;
+    max-height: 120px;
+    aspect-ratio: auto;
+    flex-shrink: 1;
+  }
+  .rail-featured-row--1 .rail-cust-card--wide .rail-cust-copy {
+    align-items: center;
+  }
+}
+
 @media (max-width: 600px) {
-  .rail-cust-grid { grid-template-columns: repeat(2, 1fr); }
+  .rail-cust-wrap {
+    gap: 10px;
+  }
+  .rail-cust-card {
+    padding: 14px 10px 12px;
+  }
 }
 
 /* ---------- Section helpers ---------- */
